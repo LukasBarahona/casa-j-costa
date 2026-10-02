@@ -77,6 +77,19 @@ rendimiento: motor de scroll propio, WebP, carga diferida, fuentes recortadas.
 Ajustes pedidos por el cliente (ver `qa/REVISION_V2_1.md`): presentación en tres tiempos en vez de
 historia, galería chica y en color, boletos recorribles a mano, botón de la casa junto a Cotizar.
 
+### V2.2 — 2026-10-02
+Pasada de teléfono (ver `qa/REVISION_V2_2.md`): acordeón en servicios, carrusel de menús, visor por
+deslizamiento, áreas táctiles, titular fluido. Sitio marcado como no indexable. Repositorio git local.
+
+## Publicación
+
+- El cliente lo quiere **privado, solo por link**. Recomendado: repositorio **privado** en GitHub + Vercel
+  (el repositorio es solo `web/`). GitHub Pages gratis exige repositorio público, por eso se descartó.
+- En Vercel: importar el repositorio; detecta Vite solo (build `npm run build`, salida `dist`).
+- El link de Vercel no es secreto: quien lo tenga puede entrar. No aparece en buscadores (`noindex` + `robots.txt`).
+  Protección con contraseña es de pago en Vercel.
+- Al lanzar al público: quitar `noindex` de `index.html` y borrar `public/robots.txt`.
+
 ## Pendientes del cliente
 
 1. WhatsApp real (`site.whatsapp`, hoy `56900000000`) y correo real (`site.email`).
