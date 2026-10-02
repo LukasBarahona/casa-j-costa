@@ -83,12 +83,16 @@ deslizamiento, áreas táctiles, titular fluido. Sitio marcado como no indexable
 
 ## Publicación
 
-- El cliente lo quiere **privado, solo por link**. Recomendado: repositorio **privado** en GitHub + Vercel
-  (el repositorio es solo `web/`). GitHub Pages gratis exige repositorio público, por eso se descartó.
-- En Vercel: importar el repositorio; detecta Vite solo (build `npm run build`, salida `dist`).
-- El link de Vercel no es secreto: quien lo tenga puede entrar. No aparece en buscadores (`noindex` + `robots.txt`).
-  Protección con contraseña es de pago en Vercel.
-- Al lanzar al público: quitar `noindex` de `index.html` y borrar `public/robots.txt`.
+- **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/
+- **Repositorio (público)**: https://github.com/LukasBarahona/casa-j-costa — contiene solo `web/`.
+- Publicado con **GitHub Pages** (2026-10-02). `.github/workflows/deploy.yml` construye y publica solo
+  cada vez que se sube un cambio a `main` (tarda cerca de un minuto).
+- `vite.config.ts` usa `base: './'` (rutas relativas) para que funcione en la subcarpeta `/casa-j-costa/`.
+- Para publicar un cambio: `git add -A`, `git commit -m "..."`, `git push`.
+- El sitio lleva `noindex` (no aparece en Google) mientras los datos de contacto sean de relleno.
+  Al lanzar: quitar la línea `noindex` de `index.html` y borrar `public/robots.txt`.
+- Se evaluó Vercel (útil si algún día hace falta servidor, formularios con backend o sitio con contraseña);
+  para un sitio estático público, GitHub Pages basta.
 
 ## Pendientes del cliente
 

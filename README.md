@@ -7,6 +7,8 @@ a un diseño propio: patrimonial, con curvas y la paleta #3 de la marca.
 Stack: Vite + React + TypeScript + Tailwind CSS + framer-motion.
 Decisiones, reglas y pendientes: [`00_PROYECTO.md`](00_PROYECTO.md). Revisiones: [`qa/`](qa/).
 
+**En vivo:** <https://lukasbarahona.github.io/casa-j-costa/> · se publica sola con cada `git push` a `main`.
+
 ## Cómo verla
 
 ```bash
