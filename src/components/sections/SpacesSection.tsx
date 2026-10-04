@@ -1,9 +1,8 @@
-import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import React, { lazy, Suspense, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
-import Photo from '@/components/ui/Photo';
 import Reveal from '@/components/ui/Reveal';
-import { spaces, spacesIntro, type Space, type SpaceShape } from '@/config/site';
+import type { LightboxItem } from '@/components/ui/Lightbox';
+import { spaces, spacesIntro, type Space } from '@/config/site';
 import { EASE_OUT } from '@/lib/motion';
 
 // El visor de fotos se descarga recién cuando alguien abre una.
@@ -12,102 +11,72 @@ const Lightbox = lazy(() => import('@/components/ui/Lightbox'));
 const ALL = 'Todo';
 const categories = [ALL, ...Array.from(new Set(spaces.map((space) => space.category)))];
 
-const shapeClass: Record<SpaceShape, string> = {
-  wide: 'aspect-[4/3] rounded-3xl',
-  tall: 'aspect-[4/5] rounded-3xl',
-  arch: 'aspect-[3/4] rounded-b-3xl rounded-t-full',
-};
-
 // Número de catálogo: el orden en que la pieza aparece en `spaces`.
 const catalogNumber = (space: Space) => String(spaces.indexOf(space) + 1).padStart(2, '0');
 
-/* Cuántas columnas caben: 2 en teléfonos, 3 en tablet, 4 en escritorio.
-   Fotos chicas: se ve la pieza completa y entra más catálogo por pantalla. */
-function useColumnCount(): number {
-  const getCount = () => {
-    if (typeof window === 'undefined') return 4;
-    if (window.matchMedia('(min-width: 1024px)').matches) return 4;
-    if (window.matchMedia('(min-width: 640px)').matches) return 3;
-    return 2;
-  };
-  const [count, setCount] = useState(getCount);
+const toLightboxItem = (space: Space): LightboxItem => ({
+  id: space.slug,
+  image: space.image,
+  title: space.title,
+  caption: `${space.category} · ${space.moment} — ${space.description}`,
+});
 
-  useEffect(() => {
-    const update = () => setCount(getCount());
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
-
-  return count;
-}
-
-interface SpaceCardProps {
+interface SpaceTileProps {
   space: Space;
   order: number;
   onOpen: () => void;
 }
 
-const SpaceCard: React.FC<SpaceCardProps> = ({ space, order, onOpen }) => (
-  <motion.article
-    initial={{ opacity: 0, y: 36 }}
-    whileInView={{ opacity: 1, y: 0 }}
+/* Pieza del collage: foto cuadrada con su número y nombre encima. */
+const SpaceTile: React.FC<SpaceTileProps> = ({ space, order, onOpen }) => (
+  <motion.li
+    initial={{ opacity: 0, scale: 0.94 }}
+    whileInView={{ opacity: 1, scale: 1 }}
     viewport={{ once: true, margin: '-40px' }}
-    transition={{ duration: 0.6, delay: order * 0.06, ease: EASE_OUT }}
-    className="group relative"
+    transition={{ duration: 0.5, delay: (order % 4) * 0.05, ease: EASE_OUT }}
   >
-    <div className="relative">
-      <Photo src={space.image} className={shapeClass[space.shape]} />
-      {/* Etiqueta de catálogo */}
-      <span className="absolute bottom-2.5 left-2.5 rounded-full bg-marfil/95 px-2.5 py-0.5 font-display text-xs text-ebano shadow-sm">
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group relative block aspect-square w-full overflow-hidden rounded-2xl bg-secondary text-left"
+    >
+      <img
+        src={space.image}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+      />
+      <span
+        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/75 to-transparent"
+        aria-hidden="true"
+      />
+      <span className="absolute left-2.5 top-2.5 rounded-full bg-marfil/95 px-2 py-0.5 font-display text-[11px] text-ebano">
         N.º {catalogNumber(space)}
       </span>
-      <span className="absolute bottom-2.5 right-2.5 flex h-7 w-7 items-center justify-center rounded-full bg-marfil/95 text-ebano opacity-0 transition-all duration-500 ease-out group-hover:rotate-45 group-hover:opacity-100">
-        <ArrowUpRight size={14} />
+      <span className="absolute inset-x-3 bottom-2.5 text-white">
+        <span className="display block text-base leading-tight md:text-lg">{space.title}</span>
+        <span className="mt-0.5 block text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75">
+          {space.category}
+        </span>
       </span>
-    </div>
-
-    <div className="mt-3 px-1">
-      <h3 className="display text-lg leading-tight text-foreground">
-        {/* El botón se estira sobre toda la tarjeta */}
-        <button
-          type="button"
-          onClick={onOpen}
-          className="text-left after:absolute after:inset-0 after:content-['']"
-        >
-          {space.title}
-          <span className="sr-only"> — ampliar foto</span>
-        </button>
-      </h3>
-      <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-        {space.category}
-        <span className="hidden sm:inline"> · {space.moment}</span>
-      </p>
-      <p className="mt-1.5 text-xs leading-snug text-muted-foreground">{space.description}</p>
-    </div>
-  </motion.article>
+      <span className="sr-only"> — ampliar foto</span>
+    </button>
+  </motion.li>
 );
 
-/* La casa: galería tipo catálogo de anticuario. Piezas numeradas, marcos en
-   arco y fotos chicas, siempre en color. Al tocar una, se abre en grande. */
+/* La casa: collage de fotos cuadradas, siempre en color. Cada pieza lleva su
+   número de catálogo; al tocarla se abre en grande con su descripción. */
 const SpacesSection: React.FC = () => {
   const [category, setCategory] = useState(ALL);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [lightboxRequested, setLightboxRequested] = useState(false);
-  const columnCount = useColumnCount();
 
   const filtered = useMemo(
     () => spaces.filter((space) => category === ALL || space.category === category),
     [category]
   );
-
-  // Columnas escalonadas: cada pieza va a la columna que le toca por turno.
-  const columns = useMemo(
-    () =>
-      Array.from({ length: columnCount }, (_, column) =>
-        filtered.filter((_, index) => index % columnCount === column)
-      ),
-    [filtered, columnCount]
-  );
+  const lightboxItems = useMemo(() => filtered.map(toLightboxItem), [filtered]);
 
   return (
     <section id="la-casa" className="relative overflow-x-clip py-20 md:py-28">
@@ -153,34 +122,25 @@ const SpacesSection: React.FC = () => {
           </div>
         </Reveal>
 
-        {/* Al cambiar el filtro la grilla se vuelve a montar y las piezas entran de nuevo */}
-        <div key={`${category}-${columnCount}`} className="mt-10 flex gap-4 md:gap-6 lg:gap-8">
-          {columns.map((column, columnIndex) => (
-            <div
-              key={columnIndex}
-              className={`flex min-w-0 flex-1 flex-col gap-8 md:gap-10 ${
-                columnIndex % 2 === 1 ? 'pt-10 md:pt-16' : ''
-              }`}
-            >
-              {column.map((space) => (
-                <SpaceCard
-                  key={space.slug}
-                  space={space}
-                  order={columnIndex}
-                  onOpen={() => {
-                    setLightboxRequested(true);
-                    setLightboxIndex(filtered.indexOf(space));
-                  }}
-                />
-              ))}
-            </div>
+        {/* Al cambiar el filtro el collage se vuelve a montar y las piezas entran de nuevo */}
+        <ul key={category} className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3 md:gap-3 lg:grid-cols-4">
+          {filtered.map((space, index) => (
+            <SpaceTile
+              key={space.slug}
+              space={space}
+              order={index}
+              onOpen={() => {
+                setLightboxRequested(true);
+                setLightboxIndex(index);
+              }}
+            />
           ))}
-        </div>
+        </ul>
       </div>
 
       {lightboxRequested && (
         <Suspense fallback={null}>
-          <Lightbox items={filtered} index={lightboxIndex} onIndexChange={setLightboxIndex} />
+          <Lightbox items={lightboxItems} index={lightboxIndex} onIndexChange={setLightboxIndex} />
         </Suspense>
       )}
     </section>

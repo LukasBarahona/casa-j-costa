@@ -2,10 +2,17 @@ import React, { useEffect, useRef } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import type { Space } from '@/config/site';
+export interface LightboxItem {
+  id: string;
+  image: string;
+  title: string;
+  caption: string;
+  // Línea destacada sobre el título (p. ej. la fecha del evento).
+  eyebrow?: string;
+}
 
 interface LightboxProps {
-  items: Space[];
+  items: LightboxItem[];
   // Índice de la foto abierta; null = cerrado.
   index: number | null;
   onIndexChange: (index: number | null) => void;
@@ -71,7 +78,7 @@ const Lightbox: React.FC<LightboxProps> = ({ items, index, onIndexChange }) => {
               >
                 <AnimatePresence mode="wait">
                   <motion.img
-                    key={item.slug}
+                    key={item.id}
                     src={item.image}
                     alt={item.title}
                     draggable={false}
@@ -79,17 +86,20 @@ const Lightbox: React.FC<LightboxProps> = ({ items, index, onIndexChange }) => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.25 }}
-                    className="max-h-full max-w-full rounded-[1.75rem] object-contain"
+                    className="max-h-full max-w-full rounded-2xl object-contain"
                   />
                 </AnimatePresence>
               </div>
 
               <div className="mt-4 flex w-full max-w-[1100px] items-center justify-between gap-4 text-white">
                 <div className="text-sm">
+                  {item.eyebrow && (
+                    <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-bronce-claro">
+                      {item.eyebrow}
+                    </p>
+                  )}
                   <DialogPrimitive.Title className="font-display text-xl">{item.title}</DialogPrimitive.Title>
-                  <p className="font-medium text-white/60">
-                    {item.category} · {item.moment} — {item.description}
-                  </p>
+                  <p className="font-medium text-white/60">{item.caption}</p>
                 </div>
                 <div className="flex flex-shrink-0 items-center gap-2">
                   <button type="button" aria-label="Foto anterior" onClick={() => step(-1)} className={navButton}>

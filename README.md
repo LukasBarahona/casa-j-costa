@@ -38,13 +38,15 @@ Casi todo se cambia en **un solo archivo**: [`src/config/site.ts`](src/config/si
 | Qué | Dónde |
 |---|---|
 | WhatsApp, correo, Instagram, dirección | `site` |
-| Secciones del botón de la casa | `navigation` |
+| Índice del menú de tres rayitas y del pie | `navigation` |
 | Título, bajada, datos y frase de la portada | `hero` |
 | Los tres tiempos de la presentación (qué es, fogón, antigüedades) | `presentation` |
 | Fotos y textos de la galería "La casa" | `spaces` |
-| Servicios (A, B, C, D) | `services` |
+| Servicios (A, B, C) | `services` |
 | Los tres menús | `menus` |
-| Boletos de experiencias | `experiences` |
+| Boletos de experiencias (fecha y fotos de cada evento) | `experiences` |
+| Marcas y aliados | `partners` |
+| Texto del abono de reserva | `deposit` |
 | Nombre, foto y relato del anfitrión | `host` |
 | Opciones del cotizador | `eventTypes`, `modalities` |
 | Colores, formas y animaciones nativas | `src/index.css` |
@@ -55,7 +57,7 @@ Las fotos están en `public/imagenes/`, en formato WebP. Reemplaza el archivo ma
 o guarda uno nuevo (WebP o JPG) y cambia el nombre en `src/config/site.ts`.
 
 - `01-portada.webp` — portada, horizontal, ~1920 px de ancho.
-- `anfitrion.webp` — retrato del anfitrión, vertical (3:4). **Hoy es una foto provisoria.**
+- `anfitrion.webp` — retrato del anfitrión, cuadrado. **Hoy es una foto provisoria.**
 - Las demás: ~1000–1400 px de ancho y bajo 300 KB para que la página cargue rápido.
 
 ## Pendiente antes de publicar
@@ -67,7 +69,9 @@ En `src/config/site.ts`, marcados con ⚠️:
 3. `site.instagram` — vacío (no se muestra hasta completarlo).
 4. `host.name`, `host.bio` y `public/imagenes/anfitrion.webp` — nombre, relato y retrato reales del dueño.
 5. `menus` — platos y valor por persona de cada menú.
-6. Autorización para usar las fotos donde aparecen invitados.
+6. `partners` — marcas y aliados reales (hoy la sección muestra cuadros "Próximamente").
+7. `experiences` — fecha y fotos reales de cada experiencia.
+8. Autorización para usar las fotos donde aparecen invitados.
 
 ## Cómo se envían las cotizaciones
 

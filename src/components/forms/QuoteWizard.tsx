@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Mail } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/ui/Brand';
-import { eventTypes, menus, modalities, MENU_MODALITY, quoteTerms, site } from '@/config/site';
+import { deposit, eventTypes, menus, modalities, MENU_MODALITY, OTHER_EVENT, site } from '@/config/site';
 import { formatDate, openWhatsApp, quoteWhatsAppText, todayISO, type QuoteData } from '@/lib/quote';
 
 interface QuoteWizardProps {
@@ -25,6 +25,7 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<QuoteData>({
     eventType: '',
+    eventDetail: '',
     guests: '',
     date: '',
     modality: '',
@@ -37,9 +38,13 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
   const guestsOutOfRange =
     formData.guests !== '' && (guests < site.capacity.min || guests > site.capacity.max);
 
+  const isOther = formData.eventType === OTHER_EVENT;
+  const hasName = (formData.name ?? '').trim() !== '';
+
   const canProceed = () => {
     switch (step) {
-      case 1: return formData.eventType !== '';
+      // "Otro" exige explicar qué tipo de evento es.
+      case 1: return formData.eventType !== '' && (!isOther || (formData.eventDetail ?? '').trim() !== '');
       case 2: return formData.guests !== '' && guests > 0;
       case 3: return formData.modality !== '';
       default: return true;
@@ -47,7 +52,7 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
   };
 
   const summary = [
-    { label: 'Evento', value: formData.eventType },
+    { label: 'Evento', value: isOther ? `${OTHER_EVENT}: ${formData.eventDetail}` : formData.eventType },
     { label: 'Invitados', value: `${formData.guests} personas` },
     { label: 'Fecha', value: formData.date ? formatDate(formData.date) : 'Por definir' },
     { label: 'Modalidad', value: formData.modality },
@@ -103,7 +108,13 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
                 key={type.value}
                 type="button"
                 aria-pressed={formData.eventType === type.value}
-                onClick={() => setFormData({ ...formData, eventType: type.value })}
+                onClick={() =>
+                  setFormData({
+                    ...formData,
+                    eventType: type.value,
+                    eventDetail: type.value === OTHER_EVENT ? formData.eventDetail : '',
+                  })
+                }
                 className={optionClass(formData.eventType === type.value)}
               >
                 <span className="block text-sm font-medium text-foreground">{type.value}</span>
@@ -111,6 +122,24 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
               </button>
             ))}
           </div>
+
+          {isOther && (
+            <div className="mt-4">
+              <label htmlFor="wizard-eventDetail" className="field-label">¿Qué tipo de evento es?</label>
+              <input
+                id="wizard-eventDetail"
+                value={formData.eventDetail}
+                onChange={(e) => setFormData({ ...formData, eventDetail: e.target.value })}
+                placeholder="Ej: lanzamiento de producto, graduación…"
+                maxLength={160}
+                autoFocus
+                className="field"
+              />
+              <p className="mt-1 pl-1 text-xs text-muted-foreground">
+                Cuéntanos en pocas palabras qué quieres celebrar, para orientarte mejor.
+              </p>
+            </div>
+          )}
         </div>
       )}
 
@@ -223,11 +252,17 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
               ))}
             </dl>
             <p className="text-xs text-muted-foreground mt-3 pt-3 border-t border-foreground/10">
-              Te enviamos el valor según fecha y modalidad. {quoteTerms}
+              Te enviamos el valor según fecha y modalidad.
             </p>
           </div>
 
-          <label htmlFor="wizard-name" className="field-label">Tu nombre (opcional)</label>
+          {/* Condición de reserva: destacada */}
+          <p className="mb-4 rounded-2xl bg-verde px-4 py-3 text-marfil">
+            <span className="display block text-2xl leading-none">{deposit.amount}</span>
+            <span className="mt-1 block text-sm font-medium">{deposit.detail}</span>
+          </p>
+
+          <label htmlFor="wizard-name" className="field-label">Tu nombre</label>
           <input
             id="wizard-name"
             value={formData.name}
@@ -235,8 +270,13 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
             placeholder="Para saber con quién hablamos"
             autoComplete="name"
             maxLength={100}
+            required
+            aria-invalid={!hasName}
             className="field"
           />
+          {!hasName && (
+            <p className="mt-1 pl-1 text-xs text-muted-foreground">Escribe tu nombre para enviar la cotización.</p>
+          )}
         </div>
       )}
 
@@ -254,7 +294,8 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
           <button
             type="button"
             onClick={handleWhatsApp}
-            className="pill pill-brand w-full py-3"
+            disabled={!hasName}
+            className="pill pill-brand w-full py-3 disabled:opacity-40"
           >
             <WhatsAppIcon className="w-4 h-4" />
             Enviar por WhatsApp
@@ -262,7 +303,8 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
           <button
             type="button"
             onClick={() => onContinueByEmail(formData)}
-            className="pill pill-ghost w-full py-3"
+            disabled={!hasName}
+            className="pill pill-ghost w-full py-3 disabled:opacity-40"
           >
             <Mail size={14} />
             Seguir por correo

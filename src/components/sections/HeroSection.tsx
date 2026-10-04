@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
-import Header from '@/components/layout/Header';
 import { hero, site } from '@/config/site';
 import { EASE_OUT, useMotionEnabled, useScrollProgress } from '@/lib/motion';
 
@@ -77,15 +76,13 @@ const HeroScene: React.FC = () => {
   const captionY = useTransform(progress, [0.46, 0.7], [36, 0]);
 
   return (
-    <section id="inicio" ref={ref} className="tone-ebano relative h-[190svh]">
+    <section id="inicio" ref={ref} className="tone-ebano relative h-[190svh] scroll-mt-0">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <motion.div style={{ scale: imageScale }} className="absolute inset-0 will-change-transform">
           <HeroImage />
         </motion.div>
         <HeroShade />
         <motion.div style={{ opacity: dimOpacity }} className="absolute inset-0 bg-black/45" aria-hidden="true" />
-
-        <Header onImage />
 
         {/* Nombre y presentación */}
         <motion.div
@@ -128,13 +125,12 @@ const HeroScene: React.FC = () => {
 
 /* Versión sin movimiento: mismo contenido, todo a la vista. */
 const HeroStatic: React.FC = () => (
-  <section id="inicio" className="tone-ebano relative">
+  <section id="inicio" className="tone-ebano relative scroll-mt-0">
     <div className="relative flex min-h-[100svh] flex-col">
       <div className="absolute inset-0">
         <HeroImage />
       </div>
       <HeroShade />
-      <Header onImage />
       <div className="page relative mt-auto flex flex-col gap-5 pb-10 pt-16 xl:flex-row xl:items-end xl:justify-between">
         <HeroTitle />
         <HeroIntro />

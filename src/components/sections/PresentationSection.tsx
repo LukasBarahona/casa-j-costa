@@ -33,11 +33,11 @@ function useBeatWindow(progress: MotionValue<number>, index: number, overlap = f
 
 const BeatFigure: React.FC<{ beat: PresentationBeat; className?: string }> = ({ beat, className = '' }) =>
   beat.kind === 'logo' ? (
-    <div className={`flex items-center justify-center bg-ebano ${className}`}>
-      <img src={beat.image} alt={beat.imageAlt} className="w-[72%] rounded-full" loading="lazy" />
+    <div className={`flex items-center justify-center ${className}`}>
+      <img src={beat.image} alt={beat.imageAlt} className="max-h-full w-[82%] object-contain" loading="lazy" />
     </div>
   ) : (
-    <img src={beat.image} alt={beat.imageAlt} loading="lazy" className={`object-cover ${className}`} />
+    <img src={beat.image} alt={beat.imageAlt} loading="lazy" className={`rounded-[2rem] object-cover ${className}`} />
   );
 
 const BeatImage: React.FC<{ beat: PresentationBeat; index: number; progress: MotionValue<number> }> = ({
@@ -85,7 +85,7 @@ const BeatBar: React.FC<{ index: number; progress: MotionValue<number> }> = ({ i
 };
 
 /* Presentación anclada en tres tiempos: qué es Casa J Costa, el fogón y las
-   antigüedades. El marco en arco cambia de foto y el texto se releva con el scroll. */
+   antigüedades. El logo y las fotos se relevan, igual que el texto, con el scroll. */
 const PresentationScene: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const progress = useScrollProgress(ref, ['start start', 'end end']);
@@ -94,22 +94,18 @@ const PresentationScene: React.FC = () => {
     <section
       id="casa-j-costa"
       ref={ref}
-      className="tone-bosque relative z-10 -mt-12 h-[230svh] rounded-t-sheet md:h-[260svh]"
+      className="tone-bosque relative z-10 -mt-12 h-[230svh] scroll-mt-0 rounded-t-sheet md:h-[260svh]"
     >
       <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
-        <div className="page flex min-h-0 flex-1 flex-col pb-6 pt-10 md:pb-10 md:pt-14">
+        <div className="page flex min-h-0 flex-1 flex-col pb-6 pt-20 md:pb-10 md:pt-24">
           <p className="eyebrow">01 / Casa J Costa</p>
 
           <div className="mt-6 flex min-h-0 flex-1 flex-col gap-6 md:mt-0 md:flex-row md:items-center md:gap-16 lg:gap-24">
-            {/* Marco en arco */}
-            <div className="relative mx-auto min-h-[170px] w-full max-w-[250px] flex-1 md:mx-0 md:h-[min(68svh,620px)] md:max-w-[min(42vw,460px)] md:flex-none">
-              <div className="arch absolute inset-0 overflow-hidden bg-ebano">
-                {presentation.map((beat, index) => (
-                  <BeatImage key={beat.title} beat={beat} index={index} progress={progress} />
-                ))}
-              </div>
-              {/* Filete de latón que sigue el arco */}
-              <div className="arch pointer-events-none absolute -inset-2.5 border border-accent/50" />
+            {/* Logo y fotos, sin marco */}
+            <div className="relative mx-auto min-h-[170px] w-full max-w-[280px] flex-1 md:mx-0 md:h-[min(64svh,580px)] md:max-w-[min(42vw,460px)] md:flex-none">
+              {presentation.map((beat, index) => (
+                <BeatImage key={beat.title} beat={beat} index={index} progress={progress} />
+              ))}
             </div>
 
             {/* Texto de cada tiempo */}
@@ -133,13 +129,13 @@ const PresentationScene: React.FC = () => {
 
 /* Versión sin movimiento: los tres tiempos, uno junto al otro. */
 const PresentationStatic: React.FC = () => (
-  <section id="casa-j-costa" className="tone-bosque relative z-10 rounded-t-sheet py-20">
+  <section id="casa-j-costa" className="tone-bosque relative z-10 rounded-t-sheet py-24">
     <div className="page">
       <p className="eyebrow">01 / Casa J Costa</p>
       <div className="mt-10 grid gap-12 sm:grid-cols-3">
         {presentation.map((beat, index) => (
           <Reveal key={beat.title}>
-            <div className="arch aspect-[3/4] w-full max-w-[280px] overflow-hidden bg-ebano">
+            <div className="aspect-[4/5] w-full max-w-[280px]">
               <BeatFigure beat={beat} className="h-full w-full" />
             </div>
             <p className="mt-6 font-display text-lg text-accent">{String(index + 1).padStart(2, '0')}</p>

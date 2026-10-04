@@ -141,8 +141,9 @@
     text-wrap: balance;
   }
 
+  /* Los saltos del índice dejan libre el alto del encabezado fijo */
   section[id] {
-    scroll-margin-top: 24px;
+    scroll-margin-top: 5rem;
   }
 
   ::selection {
@@ -223,16 +224,9 @@
     display: none;
   }
 
-  /* Formas */
+  /* Carta de menú: arco arriba, esquinas suaves abajo */
   .arch {
     border-radius: 999px 999px 2rem 2rem;
-  }
-
-  /* Grano de papel fotográfico: mosaico PNG diminuto (más barato de dibujar
-     que un filtro de ruido). */
-  .grain {
-    background-image: url("./grano.png");
-    background-size: 128px 128px;
   }
 
   /* Boleto antiguo: muescas a los lados. Son círculos del color del fondo
@@ -290,11 +284,7 @@
 /* ── Animaciones nativas ligadas al scroll ────────────────────────────────
    Corren en el compositor del navegador, fuera del hilo de JavaScript:
    no compiten con el scroll. Son decorativas, así que donde el navegador no
-   las soporta simplemente no ocurren (o giran solas, en el caso del sello). */
-
-@keyframes seal-spin {
-  to { transform: rotate(1080deg); }
-}
+   las soporta simplemente no ocurren. */
 
 @keyframes parallax-y {
   from { transform: translateY(-6%); }
@@ -306,22 +296,12 @@
   to { transform: scaleX(1); }
 }
 
-/* Sin soporte: el sello gira solo, muy lento. */
-.seal-spin {
-  animation: seal-spin 240s linear infinite;
-}
-
 .scroll-bar {
   display: none;
   transform-origin: left;
 }
 
 @supports (animation-timeline: scroll()) {
-  .seal-spin {
-    animation: seal-spin linear both;
-    animation-timeline: scroll(root block);
-  }
-
   /* Solo en pantallas anchas: en teléfonos cada foto en movimiento es una
      capa más para una GPU con poca memoria. */
   @media (min-width: 768px) {
@@ -344,7 +324,6 @@
   }
 
   .focus-in,
-  .seal-spin,
   .parallax-y {
     animation: none;
   }

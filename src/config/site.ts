@@ -31,18 +31,19 @@ export const site = {
   city: 'Chicureo, Colina',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=-33.3048625,-70.6710228',
 
-  capacity: { min: 40, max: 120 },
+  capacity: { min: 20, max: 150 },
 };
 
-// Secciones a las que lleva el botón de la casa (encabezado) y el pie.
+// Índice de la página: lo muestran el menú del encabezado (tres rayitas) y el pie.
 export const navigation = [
   { label: 'Inicio', section: 'inicio' },
   { label: 'Casa J Costa', section: 'casa-j-costa' },
   { label: 'La casa', section: 'la-casa' },
   { label: 'Formas de celebrar', section: 'servicios' },
+  { label: 'El anfitrión', section: 'anfitrion' },
   { label: 'Menús', section: 'menus' },
   { label: 'Experiencias', section: 'experiencias' },
-  { label: 'Anfitrión', section: 'anfitrion' },
+  { label: 'Alianzas', section: 'alianzas' },
   { label: 'Cotiza', section: 'cotizar' },
 ];
 
@@ -50,10 +51,10 @@ export const navigation = [
 
 export const hero = {
   title: ['Casa J Costa', 'Centro de eventos'],
-  subtitle: 'Una casa con historia en Chicureo, para celebrar de 40 a 120 personas.',
+  subtitle: `Una casa con historia en Chicureo, para celebrar de ${site.capacity.min} a ${site.capacity.max} personas.`,
   image: img('01-portada.webp'),
   imageAlt: 'Cocina de madera de Casa J Costa, con mesón central y ventanales al jardín',
-  facts: ['Chicureo, Colina', '40 a 120 personas', 'Cocina propia'],
+  facts: ['Chicureo, Colina', `${site.capacity.min} a ${site.capacity.max} personas`, 'Cocina propia'],
   // Frase que aparece cuando la foto ocupa toda la pantalla.
   caption: ['Lo antiguo y lo contemporáneo', 'conviven en la misma casa.'],
 };
@@ -65,14 +66,14 @@ export interface PresentationBeat {
   text: string;
   image: string;
   imageAlt: string;
-  // 'logo': se muestra completo y centrado. 'photo': llena el marco.
+  // 'logo': se muestra completo y centrado. 'photo': foto sin marco.
   kind: 'logo' | 'photo';
 }
 
 export const presentation: PresentationBeat[] = [
   {
     title: 'Casa J Costa.',
-    text: 'Un centro de eventos en Chicureo que reúne recinto, gastronomía y experiencias, para celebrar de 40 a 120 personas.',
+    text: `Un centro de eventos en Chicureo que reúne recinto, gastronomía y experiencias, para celebrar de ${site.capacity.min} a ${site.capacity.max} personas.`,
     image: `${import.meta.env.BASE_URL}logo-casa-j-costa.webp`,
     imageAlt: 'Logotipo de Casa J Costa, centro de eventos',
     kind: 'logo',
@@ -93,11 +94,9 @@ export const presentation: PresentationBeat[] = [
   },
 ];
 
-/* ── 02 La casa (galería tipo catálogo) ──────────────────────────────────── */
+/* ── 02 La casa (collage de fotos cuadradas) ─────────────────────────────── */
 
 export type SpaceCategory = 'Espacios' | 'Gastronomía' | 'Objetos';
-// Forma del marco: horizontal, vertical o arco.
-export type SpaceShape = 'wide' | 'tall' | 'arch';
 
 export interface Space {
   slug: string;
@@ -106,7 +105,6 @@ export interface Space {
   category: SpaceCategory;
   moment: 'De día' | 'De noche';
   description: string;
-  shape: SpaceShape;
 }
 
 export const spacesIntro = ['Madera, objetos antiguos', 'y un patio bajo los árboles.'];
@@ -119,7 +117,6 @@ export const spaces: Space[] = [
     category: 'Espacios',
     moment: 'De noche',
     description: 'Guirnaldas de luces entre los árboles.',
-    shape: 'wide',
   },
   {
     slug: 'objetos-con-historia',
@@ -128,7 +125,6 @@ export const spaces: Space[] = [
     category: 'Objetos',
     moment: 'De día',
     description: 'Balanzas y pesas que ya estaban en la casa.',
-    shape: 'arch',
   },
   {
     slug: 'mesa-del-jardin',
@@ -137,7 +133,6 @@ export const spaces: Space[] = [
     category: 'Espacios',
     moment: 'De día',
     description: 'Sombra, pasto y mesa larga.',
-    shape: 'tall',
   },
   {
     slug: 'mesa-de-la-casa',
@@ -146,7 +141,6 @@ export const spaces: Space[] = [
     category: 'Gastronomía',
     moment: 'De día',
     description: 'Cocina propia, servida en greda y madera.',
-    shape: 'wide',
   },
   {
     slug: 'cortadora-de-fiambre',
@@ -155,7 +149,6 @@ export const spaces: Space[] = [
     category: 'Objetos',
     moment: 'De día',
     description: 'Ya estaba en la casa. No se compró para decorar.',
-    shape: 'tall',
   },
   {
     slug: 'vino-y-quesos',
@@ -164,7 +157,6 @@ export const spaces: Space[] = [
     category: 'Gastronomía',
     moment: 'De noche',
     description: 'La tabla de la casa al caer la tarde.',
-    shape: 'arch',
   },
   {
     slug: 'mesas-en-el-jardin',
@@ -173,7 +165,6 @@ export const spaces: Space[] = [
     category: 'Espacios',
     moment: 'De día',
     description: 'El recinto montado y listo para recibir.',
-    shape: 'tall',
   },
   {
     slug: 'fuego',
@@ -182,16 +173,8 @@ export const spaces: Space[] = [
     category: 'Gastronomía',
     moment: 'De día',
     description: 'Carne a las brasas en la parrilla de la casa.',
-    shape: 'wide',
   },
 ];
-
-/* ── Capacidad (la balanza) ──────────────────────────────────────────────── */
-
-export const capacityCopy = {
-  title: ['La medida', 'la pones tú.'],
-  text: 'Desde una celebración de 40 hasta la casa completa con 120 personas. Eventos sociales, privados y de empresa.',
-};
 
 /* ── 03 Formas de celebrar ───────────────────────────────────────────────── */
 
@@ -226,14 +209,6 @@ export const services: Service[] = [
   },
   {
     letter: 'C',
-    title: 'Experiencias Casa J Costa',
-    shortDescription: 'Catas, cenas y encuentros con cupos limitados.',
-    fullDescription:
-      'Producimos nuestros propios encuentros: catas, cenas con chefs invitados, noches patrimoniales y cenas secretas cuyo concepto se revela en la mesa.',
-    image: img('04-cocina-propia.webp'),
-  },
-  {
-    letter: 'D',
     title: 'A tu medida',
     shortDescription: 'Eventos sociales, privados y de empresa.',
     fullDescription:
@@ -242,7 +217,7 @@ export const services: Service[] = [
   },
 ];
 
-/* ── 04 Menús del Evento Integral ────────────────────────────────────────── */
+/* ── 05 Menús del Evento Integral ────────────────────────────────────────── */
 
 export interface Menu {
   // Nombre que viaja en la cotización.
@@ -285,24 +260,84 @@ export const menus: Menu[] = [
   },
 ];
 
-/* ── Experiencias (boletos) ──────────────────────────────────────────────── */
+/* ── 06 Experiencias (boletos) ───────────────────────────────────────────── */
+
+export interface Experience {
+  name: string;
+  description: string;
+  // Fecha del evento, tal como se quiere mostrar (p. ej. "Sábado 14 de noviembre de 2026").
+  // Vacío = se muestra "Fecha por confirmar".
+  date: string;
+  // Fotos del evento: se muestran al tocar el boleto.
+  photos: string[];
+}
 
 export const experiencesTitle = 'Experiencias con cupos limitados';
 
-export const experiences = [
-  { name: 'Cata', description: 'Vinos y sabores locales acompañados por expertos.' },
-  { name: 'Colecciones', description: 'Antigüedades y objetos únicos, con sus historias.' },
-  { name: 'Patrimonial', description: 'Gastronomía, historia e identidad de la casa.' },
-  { name: 'Gourmet', description: 'Menús especiales junto a chefs invitados.' },
-  { name: 'Secreta', description: 'Una cena cuyo concepto se revela en la mesa.' },
-  { name: 'Invitada', description: 'Exhibición y venta de productos locales.' },
+/* ⚠️ PENDIENTE — fecha real de cada experiencia y fotos de ese evento.
+   Las fotos de abajo son provisorias (material general de la casa). */
+export const experiences: Experience[] = [
+  {
+    name: 'Cata',
+    description: 'Vinos y sabores locales acompañados por expertos.',
+    date: '',
+    photos: [img('05-vino-y-quesos.webp'), img('03-mesa-de-la-casa.webp'), img('04-cocina-propia.webp')],
+  },
+  {
+    name: 'Colecciones',
+    description: 'Antigüedades y objetos únicos, con sus historias.',
+    date: '',
+    photos: [img('07-objetos-con-historia.webp'), img('12-cortadora.webp')],
+  },
+  {
+    name: 'Patrimonial',
+    description: 'Gastronomía, historia e identidad de la casa.',
+    date: '',
+    photos: [img('01-portada.webp'), img('07-objetos-con-historia.webp'), img('02-patio-noche.webp')],
+  },
+  {
+    name: 'Gourmet',
+    description: 'Menús especiales junto a chefs invitados.',
+    date: '',
+    photos: [img('04-cocina-propia.webp'), img('11-fuego.webp'), img('03-mesa-de-la-casa.webp')],
+  },
+  {
+    name: 'Secreta',
+    description: 'Una cena cuyo concepto se revela en la mesa.',
+    date: '',
+    photos: [img('02-patio-noche.webp'), img('05-vino-y-quesos.webp')],
+  },
+  {
+    name: 'Invitada',
+    description: 'Exhibición y venta de productos locales.',
+    date: '',
+    photos: [img('03-mesa-de-la-casa.webp'), img('09-mesa-del-jardin.webp')],
+  },
 ];
 
-/* ── 05 El anfitrión ─────────────────────────────────────────────────────── */
+/* ── 07 Alianzas ─────────────────────────────────────────────────────────── */
+
+export interface Partner {
+  name: string;
+  // Logo en `public/imagenes/` (vacío = se muestra el nombre en texto).
+  logo: string;
+}
+
+export const alliancesIntro = ['Con quién', 'hemos trabajado.'];
+export const alliancesLead = 'Marcas, productores y personas que han sido parte de la casa.';
+
+/* ⚠️ PENDIENTE — marcas y aliados reales. Mientras la lista esté vacía, la
+   sección muestra espacios reservados en vez de inventar nombres.
+   Ejemplo: { name: 'Viña Ejemplo', logo: img('aliado-vina-ejemplo.webp') } */
+export const partners: Partner[] = [];
+// Cuántos espacios reservados mostrar mientras no haya aliados cargados.
+export const partnerPlaceholders = 6;
+
+/* ── 04 El anfitrión ─────────────────────────────────────────────────────── */
 
 export const host = {
   /* ⚠️ PENDIENTE — nombre, foto y relato reales del dueño.
-     Foto: reemplazar `public/imagenes/anfitrion.webp` (vertical, proporción 3:4). */
+     Foto: reemplazar `public/imagenes/anfitrion.webp` (cuadrada). */
   name: '',
   role: 'Anfitrión de Casa J Costa',
   image: img('anfitrion.webp'),
@@ -317,13 +352,16 @@ export const host = {
   ],
 };
 
-/* ── 06 Cotización ───────────────────────────────────────────────────────── */
+/* ── 08 Cotización ───────────────────────────────────────────────────────── */
+
+// Opción que pide explicar el tipo de evento.
+export const OTHER_EVENT = 'Otro';
 
 export const eventTypes = [
   { value: 'Matrimonio', description: 'La fiesta, de principio a fin' },
   { value: 'Celebración familiar', description: 'Cumpleaños, aniversarios, bautizos' },
   { value: 'Evento de empresa', description: 'Almuerzos, cierres de año, jornadas' },
-  { value: 'Otro', description: 'Cuéntanos qué tienes en mente' },
+  { value: OTHER_EVENT, description: 'Cuéntanos qué tipo de evento es' },
 ];
 
 // Modalidad que se cotiza con uno de los menús.
@@ -335,4 +373,5 @@ export const modalities = [
   { value: 'Aún no lo sé', description: 'Prefiero que me orienten' },
 ];
 
-export const quoteTerms = 'La fecha se reserva con un 50% de abono.';
+// Condición de reserva: se muestra destacada, es lo primero que hay que saber.
+export const deposit = { amount: '50% de abono', detail: 'para reservar tu fecha' };

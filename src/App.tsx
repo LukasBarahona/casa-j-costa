@@ -2,13 +2,14 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { Toaster } from 'sonner';
 import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 import HeroSection from '@/components/sections/HeroSection';
 import PresentationSection from '@/components/sections/PresentationSection';
 import SpacesSection from '@/components/sections/SpacesSection';
-import CapacitySection from '@/components/sections/CapacitySection';
 import ServicesSection from '@/components/sections/ServicesSection';
 import MenusSection from '@/components/sections/MenusSection';
 import ExperiencesSection from '@/components/sections/ExperiencesSection';
+import AlliancesSection from '@/components/sections/AlliancesSection';
 import HostSection from '@/components/sections/HostSection';
 import QuoteSection from '@/components/sections/QuoteSection';
 import ScrollProgress from '@/components/ui/ScrollProgress';
@@ -49,6 +50,7 @@ const Page = () => {
   return (
     <>
       <ScrollProgress />
+      <Header />
 
       {/* La página pasa por encima del pie y, con su borde curvo, lo revela al llegar al final.
           Nota: sin `overflow: hidden` aquí; rompería las escenas ancladas (sticky). */}
@@ -57,11 +59,11 @@ const Page = () => {
         <PresentationSection />
         <div className="tone-marfil relative z-20 -mt-12 rounded-b-sheet rounded-t-sheet">
           <SpacesSection />
-          <CapacitySection />
           <ServicesSection />
+          <HostSection />
           <MenusSection />
           <ExperiencesSection />
-          <HostSection />
+          <AlliancesSection />
           <QuoteSection />
         </div>
       </main>

@@ -12,7 +12,7 @@ OBJETIVO   Que el visitante entienda la casa y cotice su fecha · acción princi
 DIRECCIÓN  Base: plantilla "RAUM Studio" (Lovable), evolucionada a premium/patrimonial ·
            paleta #3 + verdes derivados · Fraunces (titulares) + Inter · sobrio, cálido ·
            movimiento medio: 2 escenas ancladas y varias ligadas al scroll.
-CAPÍTULOS  Portada ★ · 01 Casa J Costa ★ (qué es · fogón · antigüedades) · 02 La casa · Capacidad (balanza) · 03 Formas de celebrar ·
+CAPÍTULOS  (vigente: ver V2.3) Portada ★ · 01 Casa J Costa ★ · 02 La casa · Capacidad (balanza) · 03 Formas de celebrar ·
            04 Menús · Experiencias · 05 El anfitrión · 06 Cotiza · Pie
 MATERIAL   Textos: redactados desde los documentos del cliente (modelo de negocio, grilla IG) ·
            fotos reales del cliente (Imagenes_Web, Fotos_Semana1_IG), provisorias hasta el recambio.
@@ -47,8 +47,9 @@ src/config/site.ts        Contenido editable (contacto, textos, fotos, servicios
 src/lib/scroll-engine.ts  Motor de scroll: mide una vez, un solo listener
 src/lib/motion.ts         useScrollProgress, useMotionEnabled
 src/lib/quote.ts          Validación y armado de mensajes de cotización
-src/components/sections/  Hero · Presentation · Spaces · Capacity · Services · Menus · Experiences · Host · Quote
-src/components/ui/        Seal · Photo · Reveal · NavMenu · CommandMenu · Lightbox · WhatsAppButton …
+src/components/sections/  Hero · Presentation · Spaces · Services · Host · Menus · Experiences · Alliances · Quote
+                          (orden de la página en `src/App.tsx`)
+src/components/ui/        Photo · Reveal · NavMenu · CommandMenu · Lightbox · WhatsAppButton …
 src/index.css             Tokens, tonos de sección, formas, animaciones nativas
 public/imagenes/          Fotos en WebP
 ```
@@ -81,6 +82,17 @@ historia, galería chica y en color, boletos recorribles a mano, botón de la ca
 Pasada de teléfono (ver `qa/REVISION_V2_2.md`): acordeón en servicios, carrusel de menús, visor por
 deslizamiento, áreas táctiles, titular fluido. Sitio marcado como no indexable. Repositorio git local.
 
+### V2.3 — 2026-10-04
+Catorce ajustes del cliente (ver `qa/REVISION_V2_3.md`): capacidad 20–150, encabezado fijo con casita e índice
+de tres rayitas, Cotizar directo al formulario, nombre obligatorio, detalle del evento "Otro", presentación sin
+marco, galería en collage cuadrado, sin balanza ni sello giratorio, anfitrión antes de los menús y en cuadrado,
+sección de alianzas, boletos de experiencias con fotos y fecha, abono del 50% destacado.
+
+**Decisiones vigentes tras la V2.3** (reemplazan lo anterior donde se contradigan):
+- Formas: cuadrados y rectángulos de esquinas suaves. Sin óvalos ni arcos en fotos (el arco queda solo en las cartas de menú).
+- El encabezado es fijo; Cotizar lleva a `#formulario`; el índice está en las tres rayitas.
+- No hay sección de capacidad ni sello giratorio.
+
 ## Publicación
 
 - **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/
@@ -98,8 +110,9 @@ deslizamiento, áreas táctiles, titular fluido. Sitio marcado como no indexable
 
 1. WhatsApp real (`site.whatsapp`, hoy `56900000000`) y correo real (`site.email`).
 2. Instagram (`site.instagram`).
-3. Nombre, relato y retrato del dueño (`host`, `public/imagenes/anfitrion.webp`).
-4. Platos y valor por persona de cada menú (hoy solo descripción general).
-5. Confirmar qué experiencias se publican (hoy las seis del modelo de negocio).
-6. Autorización de fotos con invitados (`06-mesa-con-invitados`, `05-vino-y-quesos`).
-7. Recambio de fotos provisorias.
+3. Nombre, relato y retrato del dueño (`host`, `public/imagenes/anfitrion.webp`, cuadrada).
+4. Platos y valor por persona de cada menú.
+5. **Alianzas**: nombres y logos (`partners`). Hoy se muestran cuadros "Próximamente".
+6. **Experiencias**: fecha real y fotos de cada evento (`experiences`). Hoy "Fecha por confirmar" y fotos provisorias.
+7. Autorización de fotos con invitados.
+8. Recambio de fotos provisorias.

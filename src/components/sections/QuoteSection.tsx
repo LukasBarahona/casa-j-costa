@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Mail, MapPin, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import Reveal from '@/components/ui/Reveal';
-import Seal from '@/components/ui/Seal';
 import { WhatsAppIcon } from '@/components/ui/Brand';
-import { eventTypes, menus, modalities, MENU_MODALITY, quoteTerms, site } from '@/config/site';
+import { deposit, eventTypes, menus, modalities, MENU_MODALITY, OTHER_EVENT, site } from '@/config/site';
 import { useSiteActions } from '@/hooks/useSiteActions';
 import {
   openWhatsApp,
@@ -22,6 +21,7 @@ const emptyForm: Required<QuoteData> = {
   email: '',
   phone: '',
   eventType: '',
+  eventDetail: '',
   date: '',
   guests: '',
   modality: '',
@@ -48,8 +48,12 @@ const QuoteSection: React.FC = () => {
   };
 
   const validate = (requireEmail: boolean): QuoteData | null => {
-    // El menú solo aplica al Evento Integral.
-    const candidate = formData.modality === MENU_MODALITY ? formData : { ...formData, menu: '' };
+    // El menú solo aplica al Evento Integral, y el detalle solo al evento "Otro".
+    const candidate = {
+      ...formData,
+      menu: formData.modality === MENU_MODALITY ? formData.menu : '',
+      eventDetail: formData.eventType === OTHER_EVENT ? formData.eventDetail : '',
+    };
     const { data, errors: found } = validateQuote(candidate, { requireEmail });
     setErrors(found);
 
@@ -101,8 +105,7 @@ const QuoteSection: React.FC = () => {
       <div className="page">
         {/* Llamado a la acción */}
         <Reveal className="relative flex flex-col items-center text-center">
-          <Seal className="mb-8 w-24 text-verde md:w-28" />
-          <p className="eyebrow">06 / Cotiza</p>
+          <p className="eyebrow">08 / Cotiza</p>
           <h2 className="display mt-6 text-title text-foreground">
             ¿Tienes una fecha <br className="hidden sm:block" />
             <span className="text-verde">en mente?</span>
@@ -130,7 +133,7 @@ const QuoteSection: React.FC = () => {
         {/* Cotización por correo */}
         <div
           id="formulario"
-          className="mt-20 grid scroll-mt-6 gap-12 md:mt-28 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
+          className="mt-20 grid scroll-mt-24 gap-12 md:mt-28 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
         >
           <Reveal className="lg:pt-8">
             <h3 className="display max-w-[440px] text-statement text-foreground">
@@ -167,8 +170,17 @@ const QuoteSection: React.FC = () => {
               </li>
             </ul>
 
-            <p className="mt-10 max-w-[320px] text-xs font-medium text-muted-foreground">
-              Capacidad de {site.capacity.min} a {site.capacity.max} personas. {quoteTerms}
+            {/* Condición de reserva: destacada, es lo primero que hay que saber */}
+            <div className="mt-10 max-w-[400px] rounded-[2rem] bg-verde px-6 py-6 text-marfil">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-marfil/75">
+                Reserva de fecha
+              </p>
+              <p className="display mt-2 text-[clamp(2rem,4vw,2.75rem)] leading-none">{deposit.amount}</p>
+              <p className="mt-2 text-lead font-medium">{deposit.detail}</p>
+            </div>
+
+            <p className="mt-6 max-w-[400px] text-sm font-medium text-muted-foreground">
+              Capacidad de {site.capacity.min} a {site.capacity.max} personas.
             </p>
           </Reveal>
 
@@ -239,6 +251,28 @@ const QuoteSection: React.FC = () => {
                 </select>
                 {errors.eventType && <p className="mt-1 pl-1 text-xs text-destructive">{errors.eventType}</p>}
               </div>
+
+              {formData.eventType === OTHER_EVENT && (
+                <div className="sm:col-span-2">
+                  <label htmlFor="quote-eventDetail" className="field-label">¿Qué tipo de evento es?</label>
+                  <input
+                    id="quote-eventDetail"
+                    value={formData.eventDetail}
+                    onChange={update('eventDetail')}
+                    placeholder="Ej: lanzamiento de producto, graduación, retiro de equipo…"
+                    maxLength={160}
+                    aria-invalid={!!errors.eventDetail}
+                    className="field"
+                  />
+                  {errors.eventDetail ? (
+                    <p className="mt-1 pl-1 text-xs text-destructive">{errors.eventDetail}</p>
+                  ) : (
+                    <p className="mt-1 pl-1 text-xs text-muted-foreground">
+                      Cuéntanos en pocas palabras qué quieres celebrar, para orientarte mejor.
+                    </p>
+                  )}
+                </div>
+              )}
 
               <div>
                 <label htmlFor="quote-date" className="field-label">Fecha tentativa (opcional)</label>

@@ -123,7 +123,7 @@ const MenusSection: React.FC = () => {
         <div className="page py-20 md:py-36">
           <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="eyebrow">04 / Menús</p>
+              <p className="eyebrow">05 / Menús</p>
               <h2 className="display mt-6 text-title text-foreground">
                 {menusIntro[0]} <br />
                 <span className="text-verde-salvia">{menusIntro[1]}</span>

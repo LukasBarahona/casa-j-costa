@@ -1,4 +1,4 @@
-import { site } from '@/config/site';
+import { OTHER_EVENT, site } from '@/config/site';
 
 /* Datos de una cotización: los comparten el formulario del final de la página,
    el asistente del menú y los mensajes rápidos de WhatsApp. */
@@ -7,6 +7,8 @@ export interface QuoteData {
   email?: string;
   phone?: string;
   eventType?: string;
+  // Explicación del evento cuando el tipo es "Otro".
+  eventDetail?: string;
   date?: string;
   guests?: string;
   modality?: string;
@@ -39,6 +41,9 @@ export function validateQuote(
     errors.email = 'Revisa el correo, parece incompleto';
   }
   if (!data.eventType) errors.eventType = 'Elige el tipo de evento';
+  if (data.eventType === OTHER_EVENT && !data.eventDetail) {
+    errors.eventDetail = 'Cuéntanos qué tipo de evento es';
+  }
   if (!data.guests || !(Number(data.guests) > 0)) errors.guests = 'Indica cuántos invitados';
 
   return { data, errors };
@@ -65,9 +70,15 @@ export function todayISO(): string {
   return new Date(now.getTime() - offset).toISOString().slice(0, 10);
 }
 
+// "Otro" se acompaña de la explicación que dio la persona.
+function eventLabel(data: QuoteData): string {
+  if (data.eventType === OTHER_EVENT && data.eventDetail) return `${OTHER_EVENT} — ${data.eventDetail}`;
+  return data.eventType ?? '';
+}
+
 function quoteLines(data: QuoteData): string[] {
   return [
-    data.eventType && `Tipo de evento: ${data.eventType}`,
+    data.eventType && `Tipo de evento: ${eventLabel(data)}`,
     data.date && `Fecha tentativa: ${formatDate(data.date)}`,
     data.guests && `Invitados: ${data.guests}`,
     data.modality && `Modalidad: ${data.modality}`,
@@ -94,7 +105,7 @@ export function quoteWhatsAppText(data: QuoteData): string {
 }
 
 export function quoteMailto(data: QuoteData): string {
-  const subject = `Cotización ${data.eventType ?? 'de evento'}${
+  const subject = `Cotización ${eventLabel(data) || 'de evento'}${
     data.guests ? ` — ${data.guests} personas` : ''
   }`;
   const body = `Hola, quiero cotizar un evento en ${site.name}.\n\n${quoteLines(data).join('\n')}\n`;
@@ -116,7 +127,7 @@ export async function sendQuoteByEmail(data: QuoteData): Promise<'sent' | 'mailt
     body: JSON.stringify({
       ...data,
       date: formatDate(data.date),
-      _subject: `Cotización web — ${data.eventType ?? 'evento'}`,
+      _subject: `Cotización web — ${eventLabel(data) || 'evento'}`,
     }),
   });
 

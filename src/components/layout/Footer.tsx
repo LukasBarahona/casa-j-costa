@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowUp, Instagram, Mail, MapPin } from 'lucide-react';
 import { Wordmark, WhatsAppIcon } from '@/components/ui/Brand';
-import Seal from '@/components/ui/Seal';
 import { navigation, site } from '@/config/site';
 import { whatsappUrl } from '@/lib/quote';
 
@@ -13,7 +12,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="tone-bosque sticky bottom-0 z-0 pb-8 pt-20">
       <div className="page">
-        <div className="flex items-start justify-between gap-6">
+        <div>
           <a href="#inicio" className="text-foreground transition-opacity hover:opacity-70">
             {/* El margen inferior deja pasar la J, que baja de la línea */}
             <span className="mb-[0.8em] block text-[clamp(1.5rem,5.2vw,4.25rem)]">
@@ -23,7 +22,6 @@ const Footer: React.FC = () => {
               {site.tagline}
             </span>
           </a>
-          <Seal className="hidden w-28 flex-shrink-0 text-accent sm:block md:w-32" />
         </div>
 
         <div className="mt-10 flex flex-col gap-8 border-t border-foreground/15 pt-8 text-sm font-medium md:mt-14 md:flex-row md:justify-between">
