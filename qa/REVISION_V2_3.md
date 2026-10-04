@@ -41,3 +41,13 @@ Numeración nueva: 01 Casa J Costa · 02 La casa · 03 Formas de celebrar · 04 
 ## No verificado
 
 - Teléfono físico, Safari/iOS y Firefox (solo Chrome en emulación).
+
+## V2.3.1 — 2026-10-04 (encabezado y pie)
+
+- **Encabezado más discreto**: franja delgada pegada al borde superior, sin sombra ni forma de píldora.
+  Transparente sobre la portada; al bajar es vidrio esmerilado que toma el tono de la sección que tiene
+  debajo (oscuro con texto claro sobre secciones oscuras, claro con texto oscuro sobre las claras).
+  Cotizar pasa a ser un botón de contorno.
+- **Pie compacto**: sin "Volver arriba" y sin enlaces de navegación (están en el menú del encabezado).
+  Marca a un lado y contacto al otro; de 420 px a 208 px de alto en escritorio.
+- Verificado: 31 pruebas automáticas, sin errores de consola.

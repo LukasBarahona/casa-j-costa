@@ -209,6 +209,33 @@
     backdrop-filter: blur(14px) saturate(1.3);
   }
 
+  /* Encabezado al bajar: vidrio esmerilado, claro u oscuro según la sección
+     que tiene debajo. Es una franja delgada, así que el desenfoque de fondo
+     cuesta poco. Sin soporte de desenfoque, queda casi opaco. */
+  .header-glass-light {
+    background-color: rgb(243 238 228 / 0.94);
+  }
+
+  .header-glass-dark {
+    background-color: rgb(30 28 26 / 0.9);
+  }
+
+  @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .header-glass-light,
+    .header-glass-dark {
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      backdrop-filter: blur(16px) saturate(1.4);
+    }
+
+    .header-glass-light {
+      background-color: rgb(243 238 228 / 0.66);
+    }
+
+    .header-glass-dark {
+      background-color: rgb(30 28 26 / 0.38);
+    }
+  }
+
   /* Dato sobre la portada. Sin desenfoque de fondo: la foto se mueve debajo
      y recalcularlo en cada cuadro es caro. */
   .chip-dark {
