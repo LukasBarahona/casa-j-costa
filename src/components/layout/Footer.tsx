@@ -43,12 +43,14 @@ const Footer: React.FC = () => {
                 Escríbenos por WhatsApp
               </a>
             </li>
-            <li>
-              <a href={`mailto:${site.email}`} className={linkClass}>
-                <Mail size={15} className="flex-shrink-0 text-accent" />
-                {site.email}
-              </a>
-            </li>
+            {site.email && (
+              <li>
+                <a href={`mailto:${site.email}`} className={linkClass}>
+                  <Mail size={15} className="flex-shrink-0 text-accent" />
+                  {site.email}
+                </a>
+              </li>
+            )}
             {site.instagram && (
               <li>
                 <a

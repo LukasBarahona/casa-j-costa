@@ -300,15 +300,17 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
             <WhatsAppIcon className="w-4 h-4" />
             Enviar por WhatsApp
           </button>
-          <button
-            type="button"
-            onClick={() => onContinueByEmail(formData)}
-            disabled={!hasName}
-            className="pill pill-ghost w-full py-3 disabled:opacity-40"
-          >
-            <Mail size={14} />
-            Seguir por correo
-          </button>
+          {site.email && (
+            <button
+              type="button"
+              onClick={() => onContinueByEmail(formData)}
+              disabled={!hasName}
+              className="pill pill-ghost w-full py-3 disabled:opacity-40"
+            >
+              <Mail size={14} />
+              Seguir por correo
+            </button>
+          )}
         </div>
       )}
     </motion.div>

@@ -64,10 +64,10 @@ o guarda uno nuevo (WebP o JPG) y cambia el nombre en `src/config/site.ts`.
 
 En `src/config/site.ts`, marcados con ⚠️:
 
-1. `site.whatsapp` — hoy es un número de relleno (`56900000000`). Formato: `569XXXXXXXX`, solo dígitos.
-2. `site.email` — hoy es `cotizaciones@example.com`.
+1. `site.whatsapp` — ✅ número real (`56979878599`, +56 9 7987 8599). Todas las cotizaciones llegan ahí.
+2. `site.email` — vacío: mientras no haya correo real, el sitio no ofrece correo y todo va por WhatsApp.
 3. `site.instagram` — vacío (no se muestra hasta completarlo).
-4. `host.name`, `host.bio` y `public/imagenes/anfitrion.webp` — nombre, relato y retrato reales del dueño.
+4. Textos de los capítulos (`houseChapter`, `hostChapter`, `celebrateChapter`) — redactados desde las notas de la maqueta; revisar.
 5. `menus` — platos y valor por persona de cada menú.
 6. `partners` — marcas y aliados reales (hoy la sección muestra cuadros "Próximamente").
 7. `experiences` — fecha y fotos reales de cada experiencia.

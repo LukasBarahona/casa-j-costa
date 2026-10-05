@@ -13,6 +13,11 @@ const SPLIT_START = 0.3;
 const SPLIT_STEP = 0.07;
 const SPLIT_LENGTH = 0.22;
 
+/* La J de cada columna va en la capa de arriba, casi entera sobre la foto y
+   algo translúcida (deja ver la imagen); solo su base toca la lámina crema. */
+const COLUMN_J =
+  'pointer-events-none relative z-10 -mt-[10.5svh] h-[12.5svh] max-h-[118px] min-h-[64px] w-auto flex-shrink-0 text-white opacity-80 drop-shadow-[0_2px_10px_rgba(0,0,0,0.28)]';
+
 /* Titular y bajada del capítulo. */
 const ChapterIntro: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
   <>
@@ -30,8 +35,8 @@ const ChapterIntro: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
 /* Pie de una columna: la J sobre el borde de la foto, nombre, texto y filete. */
 const ColumnCaption: React.FC<{ column: ChapterColumn }> = ({ column }) => (
   <div className="flex h-full flex-col items-center px-5 pb-[5svh] text-center lg:px-8">
-    <JMark className="-mt-[4.6svh] h-[9.2svh] max-h-[86px] min-h-[52px] w-auto flex-shrink-0 text-white" />
-    <h3 className="display mt-[2.2svh] text-[clamp(1.35rem,2.6vw,2.4rem)] leading-tight text-verde">
+    <JMark className={COLUMN_J} />
+    <h3 className="display mt-[2.6svh] text-[clamp(1.35rem,2.6vw,2.4rem)] leading-tight text-verde">
       {column.title}
     </h3>
     <p className="copy mt-[1.6svh] max-w-[290px] text-[13px] lg:text-[15px]">{column.text}</p>
@@ -177,7 +182,7 @@ const ChapterStatic: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
               />
             </div>
             <div className="flex flex-1 flex-col items-center px-3 text-center md:px-5">
-              <JMark className="-mt-[30px] h-[60px] w-auto flex-shrink-0 text-white" />
+              <JMark className="pointer-events-none relative z-10 -mt-[70px] h-[84px] w-auto flex-shrink-0 text-white opacity-80 drop-shadow-[0_2px_10px_rgba(0,0,0,0.28)]" />
               <h3 className="display mt-3 text-[1.45rem] leading-tight text-verde md:text-[clamp(1.35rem,2.6vw,2.4rem)]">
                 {column.title}
               </h3>

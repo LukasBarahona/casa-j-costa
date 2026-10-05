@@ -36,8 +36,8 @@ const suggestions: {
   },
   {
     icon: Mail,
-    label: 'Cotizar por correo',
-    description: 'Déjanos tus datos y te enviamos la propuesta',
+    label: 'Llenar el formulario',
+    description: 'Déjanos los datos de tu evento y te enviamos la propuesta',
     keywords: ['email', 'mail', 'formulario', 'contacto'],
     action: 'email',
   },

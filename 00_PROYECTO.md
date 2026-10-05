@@ -102,6 +102,11 @@ Orden vigente: Portada ★ · La Casa ★ · ¡El Jota! ★ · frase · Qué Cel
 Experiencias · Alianzas · Cotiza · Pie. (★ = escena anclada; los tres capítulos comparten `ChapterSection.tsx`
 y sus datos están en `houseChapter`, `hostChapter`, `celebrateChapter` de `site.ts`.)
 
+### V3.1 — 2026-10-05
+- La J de cada columna va en la capa de arriba, casi entera sobre la foto y al 80% de opacidad (pedido del cliente).
+- WhatsApp real: +56 9 7987 8599. El formulario se envía directo por WhatsApp (botón principal); el correo
+  quedó oculto en todo el sitio hasta tener uno real (`site.email` vacío).
+
 ## Publicación
 
 - **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/
@@ -118,7 +123,7 @@ y sus datos están en `houseChapter`, `hostChapter`, `celebrateChapter` de `site
 ## Pendientes del cliente
 
 0. **Textos de los capítulos** (V3): redactados desde las notas de la maqueta; revisar. Confirmar licencia de las fotos de banco.
-1. WhatsApp real (`site.whatsapp`, hoy `56900000000`) y correo real (`site.email`).
+1. ~~WhatsApp real~~ ✅ `56979878599` (V3.1). Falta el correo real (`site.email`, hoy vacío: el sitio no muestra correo).
 2. Instagram (`site.instagram`).
 3. Nombre, relato y retrato del dueño (`host`, `public/imagenes/anfitrion.webp`, cuadrada).
 4. Platos y valor por persona de cada menú.

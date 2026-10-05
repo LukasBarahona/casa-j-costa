@@ -15,11 +15,11 @@ export const site = {
   name: 'Casa J Costa',
   tagline: 'Centro de eventos · Chicureo',
 
-  /* ⚠️ PENDIENTE — reemplazar por los datos reales antes de publicar */
-  // Número de WhatsApp en formato internacional, solo dígitos (56 + 9 + número).
-  whatsapp: '56900000000',
-  // Correo que recibe las cotizaciones.
-  email: 'cotizaciones@example.com',
+  // Número de WhatsApp que recibe las cotizaciones (+56 9 7987 8599):
+  // formato internacional, solo dígitos (56 + 9 + número).
+  whatsapp: '56979878599',
+  /* ⚠️ PENDIENTE — correo real. Vacío = el sitio no ofrece correo y todo va por WhatsApp. */
+  email: '',
   // Usuario de Instagram sin @ (vacío = no se muestra).
   instagram: '',
 

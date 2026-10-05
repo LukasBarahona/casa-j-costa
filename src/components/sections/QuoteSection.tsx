@@ -130,28 +130,30 @@ const QuoteSection: React.FC = () => {
           </div>
         </Reveal>
 
-        {/* Cotización por correo */}
+        {/* Formulario de cotización: se envía por WhatsApp (y por correo, si hay uno configurado) */}
         <div
           id="formulario"
           className="mt-20 grid scroll-mt-24 gap-12 md:mt-28 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
         >
           <Reveal className="lg:pt-8">
             <h3 className="display max-w-[440px] text-statement text-verde">
-              O pide tu cotización por correo.
+              O déjanos los datos de tu evento.
             </h3>
             <p className="mt-4 max-w-[400px] text-muted-foreground">
-              Te respondemos con la propuesta y la disponibilidad.
+              Al enviar se abre WhatsApp con tu cotización ya escrita. Te respondemos con la propuesta y la disponibilidad.
             </p>
 
             <ul className="mt-10 space-y-4 text-sm font-medium text-foreground">
-              <li>
-                <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-70">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-verde-niebla text-verde-profundo">
-                    <Mail size={16} />
-                  </span>
-                  {site.email}
-                </a>
-              </li>
+              {site.email && (
+                <li>
+                  <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-70">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-verde-niebla text-verde-profundo">
+                      <Mail size={16} />
+                    </span>
+                    {site.email}
+                  </a>
+                </li>
+              )}
               <li>
                 <a
                   href={site.mapsUrl}
@@ -186,7 +188,10 @@ const QuoteSection: React.FC = () => {
 
           <Reveal delay={0.1}>
             <form
-              onSubmit={handleEmail}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleWhatsApp();
+              }}
               noValidate
               className="grid gap-4 rounded-[2.5rem] bg-papel p-6 shadow-xl shadow-ebano/5 sm:grid-cols-2 md:p-10"
             >
@@ -206,7 +211,7 @@ const QuoteSection: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="quote-email" className="field-label">Correo</label>
+                <label htmlFor="quote-email" className="field-label">Correo (opcional)</label>
                 <input
                   id="quote-email"
                   type="email"
@@ -355,18 +360,25 @@ const QuoteSection: React.FC = () => {
               </div>
 
               <div className="flex flex-col gap-3 pt-2 sm:col-span-2 sm:flex-row">
-                <button type="submit" disabled={isSubmitting} className="pill pill-solid flex-1 py-3.5 disabled:opacity-50">
-                  {isSubmitting ? 'Enviando…' : (
-                    <>
-                      Enviar por correo
-                      <Send size={14} />
-                    </>
-                  )}
+                <button type="submit" className="pill pill-brand flex-1 py-3.5">
+                  <WhatsAppIcon className="h-4 w-4" />
+                  Enviar cotización por WhatsApp
                 </button>
-                <button type="button" onClick={handleWhatsApp} className="pill pill-ghost flex-1 py-3.5">
-                  Enviar por WhatsApp
-                  <WhatsAppIcon className="h-3.5 w-3.5" />
-                </button>
+                {site.email && (
+                  <button
+                    type="button"
+                    onClick={handleEmail}
+                    disabled={isSubmitting}
+                    className="pill pill-ghost flex-1 py-3.5 disabled:opacity-50"
+                  >
+                    {isSubmitting ? 'Enviando…' : (
+                      <>
+                        Enviar por correo
+                        <Send size={14} />
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             </form>
           </Reveal>
