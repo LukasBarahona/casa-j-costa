@@ -3,7 +3,7 @@ import { useMotionValueEvent } from 'framer-motion';
 import { CalendarDays, ChevronLeft, ChevronRight, Images } from 'lucide-react';
 import Reveal from '@/components/ui/Reveal';
 import type { LightboxItem } from '@/components/ui/Lightbox';
-import { experiences, experiencesTitle, type Experience } from '@/config/site';
+import { experiences, experiencesEyebrow, experiencesTitle, type Experience } from '@/config/site';
 import { useMotionEnabled, useScrollProgress } from '@/lib/motion';
 
 // El visor de fotos se descarga recién cuando alguien abre un boleto.
@@ -38,12 +38,13 @@ interface TicketProps {
 }
 
 const Ticket: React.FC<TicketProps> = ({ experience, index, onOpen }) => (
-  <li className="flex-shrink-0">
+  // `flex` + `h-full`: todos los boletos toman el alto del más alto de la tira.
+  <li className="flex flex-shrink-0">
     <button
       type="button"
       onClick={onOpen}
       aria-label={`${experience.name}: ver fotos y fecha del evento`}
-      className={`ticket group flex w-[300px] select-none items-stretch rounded-3xl text-left transition-transform duration-300 ease-out hover:-translate-y-1 md:w-[360px] ${
+      className={`ticket group flex h-full w-[300px] select-none items-stretch rounded-3xl text-left transition-transform duration-300 ease-out hover:-translate-y-1 md:w-[360px] ${
         ticketColors[index % ticketColors.length]
       }`}
     >
@@ -197,7 +198,7 @@ const ExperiencesSection: React.FC = () => {
     <section id="experiencias" ref={sectionRef} className="overflow-x-clip py-24 md:py-32">
       <Reveal className="page flex items-end justify-between gap-6">
         <div>
-          <p className="eyebrow">Experiencias</p>
+          <p className="eyebrow">{experiencesEyebrow}</p>
           <h2 className="display mt-6 text-statement text-verde">{experiencesTitle}</h2>
           <p className="mt-3 text-sm text-muted-foreground">
             Toca un boleto para ver las fotos y la fecha del evento.

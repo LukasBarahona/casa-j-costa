@@ -42,7 +42,7 @@ export const navigation = [
   { label: 'Qué celebramos', section: 'celebramos' },
   { label: 'Formas de celebrar', section: 'servicios' },
   { label: 'Menús', section: 'menus' },
-  { label: 'Experiencias', section: 'experiencias' },
+  { label: 'Experiencias Jota', section: 'experiencias' },
   { label: 'Alianzas', section: 'alianzas' },
   { label: 'Cotiza', section: 'cotizar' },
 ];
@@ -301,7 +301,8 @@ export interface Experience {
   photos: string[];
 }
 
-export const experiencesTitle = 'Experiencias con cupos limitados';
+export const experiencesTitle = 'Experiencias Jota';
+export const experiencesEyebrow = 'Cupos limitados';
 
 /* ⚠️ PENDIENTE — fecha real de cada experiencia y fotos de ese evento.
    Las fotos de abajo son provisorias (material general de la casa). */
@@ -384,4 +385,4 @@ export const modalities = [
 ];
 
 // Condición de reserva: se muestra destacada, es lo primero que hay que saber.
-export const deposit = { amount: '50% de abono', detail: 'para reservar tu fecha' };
+export const deposit = { amount: '30% de abono', detail: 'para reservar tu fecha' };

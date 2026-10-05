@@ -86,7 +86,7 @@ deslizamiento, áreas táctiles, titular fluido. Sitio marcado como no indexable
 Catorce ajustes del cliente (ver `qa/REVISION_V2_3.md`): capacidad 20–150, encabezado fijo con casita e índice
 de tres rayitas, Cotizar directo al formulario, nombre obligatorio, detalle del evento "Otro", presentación sin
 marco, galería en collage cuadrado, sin balanza ni sello giratorio, anfitrión antes de los menús y en cuadrado,
-sección de alianzas, boletos de experiencias con fotos y fecha, abono del 50% destacado.
+sección de alianzas, boletos de experiencias con fotos y fecha, abono destacado (30% desde la V3.2).
 
 **Decisiones vigentes tras la V2.3** (reemplazan lo anterior donde se contradigan):
 - Formas: cuadrados y rectángulos de esquinas suaves. Sin óvalos ni arcos en fotos (el arco queda solo en las cartas de menú).
@@ -106,6 +106,10 @@ y sus datos están en `houseChapter`, `hostChapter`, `celebrateChapter` de `site
 - La J de cada columna va en la capa de arriba, casi entera sobre la foto y al 80% de opacidad (pedido del cliente).
 - WhatsApp real: +56 9 7987 8599. El formulario se envía directo por WhatsApp (botón principal); el correo
   quedó oculto en todo el sitio hasta tener uno real (`site.email` vacío).
+
+### V3.2 — 2026-10-05
+- La sección de boletos se llama **Experiencias Jota**; todos los boletos tienen el mismo alto (en teléfono "Invitada" quedaba más bajo).
+- Abono para reservar: **30%** (antes 50%).
 
 ## Publicación
 
