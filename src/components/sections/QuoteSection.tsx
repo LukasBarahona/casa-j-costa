@@ -193,7 +193,7 @@ const QuoteSection: React.FC = () => {
                 handleWhatsApp();
               }}
               noValidate
-              className="grid gap-4 rounded-[2.5rem] bg-papel p-6 shadow-xl shadow-ebano/5 sm:grid-cols-2 md:p-10"
+              className="grid gap-4 rounded-[2.5rem] bg-papel p-6 shadow-xl shadow-ebano/5 sm:grid-cols-2 md:p-10 [&>div]:min-w-0"
             >
               <div>
                 <label htmlFor="quote-name" className="field-label">Nombre</label>

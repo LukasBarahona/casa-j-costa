@@ -286,6 +286,35 @@
     @apply w-full rounded-2xl border border-foreground/15 bg-foreground/[0.04] px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground/50 md:text-sm;
   }
 
+  /* Un campo nunca empuja a su celda: sin esto, el ancho propio del control
+     (sobre todo el de fecha en iPhone) lo saca del formulario. */
+  .field {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Campo de fecha: en iPhone el control nativo trae ancho y alto propios.
+     Se le quita la apariencia nativa para que obedezca al ancho de su celda,
+     y se fija el alto para que vacío mida lo mismo que los demás. */
+  input[type="date"].field {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    height: 3.125rem;
+  }
+
+  @media (min-width: 768px) {
+    input[type="date"].field {
+      height: 2.875rem;
+    }
+  }
+
+  input[type="date"].field::-webkit-date-and-time-value {
+    min-width: 0;
+    text-align: left;
+  }
+
   /* La lista desplegable nativa no hereda el fondo del tono */
   select.field option {
     background-color: hsl(var(--background));
