@@ -34,13 +34,13 @@ export const site = {
   capacity: { min: 20, max: 150 },
 };
 
-// Índice de la página: lo muestran el menú del encabezado (tres rayitas) y el pie.
+// Índice de la página: lo muestra el menú del encabezado (tres rayitas).
 export const navigation = [
   { label: 'Inicio', section: 'inicio' },
-  { label: 'Casa J Costa', section: 'casa-j-costa' },
   { label: 'La casa', section: 'la-casa' },
+  { label: 'El Jota', section: 'anfitrion' },
+  { label: 'Qué celebramos', section: 'celebramos' },
   { label: 'Formas de celebrar', section: 'servicios' },
-  { label: 'El anfitrión', section: 'anfitrion' },
   { label: 'Menús', section: 'menus' },
   { label: 'Experiencias', section: 'experiencias' },
   { label: 'Alianzas', section: 'alianzas' },
@@ -50,162 +50,190 @@ export const navigation = [
 /* ── Portada ─────────────────────────────────────────────────────────────── */
 
 export const hero = {
-  title: ['Casa J Costa', 'Centro de eventos'],
-  subtitle: `Una casa con historia en Chicureo, para celebrar de ${site.capacity.min} a ${site.capacity.max} personas.`,
+  title: 'Centro de eventos',
+  subtitle: 'Una casa en Chicureo, con mucha historia que contar',
   image: img('01-portada.webp'),
   imageAlt: 'Cocina de madera de Casa J Costa, con mesón central y ventanales al jardín',
+  // Sello circular de la marca, montado entre la foto y el texto.
+  seal: `${import.meta.env.BASE_URL}logo-sello.svg`,
   facts: ['Chicureo, Colina', `${site.capacity.min} a ${site.capacity.max} personas`, 'Cocina propia'],
-  // Frase que aparece cuando la foto ocupa toda la pantalla.
-  caption: ['Lo antiguo y lo contemporáneo', 'conviven en la misma casa.'],
 };
 
-/* ── 01 Casa J Costa (escena anclada en tres tiempos) ────────────────────── */
+/* ── Capítulos: La Casa · El Jota · Qué celebramos ───────────────────────────
+   Cada capítulo abre con una franja de foto y su titular, y al avanzar la
+   franja se divide en cuatro columnas (las láminas de la maqueta).
 
-export interface PresentationBeat {
+   ⚠️ Los textos se redactaron a partir de las notas de la maqueta
+   ("hablar de la capacidad, el diseño, estacionamiento…"). Revisarlos. */
+
+export interface ChapterColumn {
   title: string;
   text: string;
   image: string;
   imageAlt: string;
-  // 'logo': se muestra completo y centrado. 'photo': foto sin marco.
-  kind: 'logo' | 'photo';
 }
 
-export const presentation: PresentationBeat[] = [
-  {
-    title: 'Casa J Costa.',
-    text: `Un centro de eventos en Chicureo que reúne recinto, gastronomía y experiencias, para celebrar de ${site.capacity.min} a ${site.capacity.max} personas.`,
-    image: `${import.meta.env.BASE_URL}logo-casa-j-costa.webp`,
-    imageAlt: 'Logotipo de Casa J Costa, centro de eventos',
-    kind: 'logo',
-  },
-  {
-    title: 'El fogón.',
-    text: 'Banquetería propia y cocina a las brasas: acá la comida se hace en casa.',
-    image: img('11-fuego.webp'),
-    imageAlt: 'Carne a las brasas en la parrilla de la casa',
-    kind: 'photo',
-  },
-  {
-    title: 'Las antigüedades.',
-    text: 'Balanzas, pesas y objetos que ya estaban en la casa. Lo antiguo y lo contemporáneo conviven.',
-    image: img('07-objetos-con-historia.webp'),
-    imageAlt: 'Balanza antigua y rosas blancas sobre la mesa de madera',
-    kind: 'photo',
-  },
-];
-
-/* ── 02 La casa (collage de fotos cuadradas) ─────────────────────────────── */
-
-export type SpaceCategory = 'Espacios' | 'Gastronomía' | 'Objetos';
-
-export interface Space {
-  slug: string;
-  image: string;
+export interface Chapter {
+  // Ancla del índice.
+  id: string;
   title: string;
-  category: SpaceCategory;
-  moment: 'De día' | 'De noche';
-  description: string;
+  lead: string[];
+  image: string;
+  imageAlt: string;
+  // Qué parte de la foto se conserva cuando la franja la recorta (CSS object-position).
+  imagePosition?: string;
+  columns: ChapterColumn[];
 }
 
-export const spacesIntro = ['Madera, objetos antiguos', 'y un patio bajo los árboles.'];
+export const houseChapter: Chapter = {
+  id: 'la-casa',
+  title: 'La Casa',
+  lead: [
+    `Una casa en Chicureo con patio, jardín y antigüedades en cada rincón. Recibe todo tipo de celebraciones, de ${site.capacity.min} a ${site.capacity.max} personas, y cuenta con estacionamiento.`,
+  ],
+  image: img('banda-casa.webp'),
+  imageAlt: 'El patio de Casa J Costa de noche, con guirnaldas de luces entre los árboles',
+  imagePosition: '50% 60%',
+  columns: [
+    {
+      title: 'La Casa',
+      text: `Madera, ventanas antiguas y rincones para sentarse a conversar. Recibe de ${site.capacity.min} a ${site.capacity.max} personas y tiene estacionamiento.`,
+      image: img('col-casa.webp'),
+      imageAlt: 'Sala de la casa con sillón, cojines y ventanas antiguas apoyadas en el muro',
+    },
+    {
+      title: 'El Jardín',
+      text: 'Un patio amplio e iluminado, entre árboles frutales, para celebrar de día o de noche.',
+      image: img('col-jardin.webp'),
+      imageAlt: 'Mesas y quitasoles en el jardín, bajo los árboles',
+    },
+    {
+      title: 'El Bar',
+      text: 'Un mesón de madera con estilo propio, decorado con el mismo cuidado que el resto de la casa.',
+      image: img('col-bar.webp'),
+      imageAlt: 'Mesón de madera del bar, con taburete y repisas',
+    },
+    {
+      title: 'El Fogón',
+      text: 'El rincón más cercano de la casa: un círculo alrededor del fuego, en un ambiente grato y personal.',
+      image: img('col-fogon.webp'),
+      imageAlt: 'Invitados sentados alrededor del fogón encendido, de noche',
+    },
+  ],
+};
 
-export const spaces: Space[] = [
-  {
-    slug: 'patio-de-noche',
-    image: img('02-patio-noche.webp'),
-    title: 'El patio de noche',
-    category: 'Espacios',
-    moment: 'De noche',
-    description: 'Guirnaldas de luces entre los árboles.',
-  },
-  {
-    slug: 'objetos-con-historia',
-    image: img('07-objetos-con-historia.webp'),
-    title: 'Objetos con historia',
-    category: 'Objetos',
-    moment: 'De día',
-    description: 'Balanzas y pesas que ya estaban en la casa.',
-  },
-  {
-    slug: 'mesa-del-jardin',
-    image: img('09-mesa-del-jardin.webp'),
-    title: 'La mesa del jardín',
-    category: 'Espacios',
-    moment: 'De día',
-    description: 'Sombra, pasto y mesa larga.',
-  },
-  {
-    slug: 'mesa-de-la-casa',
-    image: img('03-mesa-de-la-casa.webp'),
-    title: 'La mesa de la casa',
-    category: 'Gastronomía',
-    moment: 'De día',
-    description: 'Cocina propia, servida en greda y madera.',
-  },
-  {
-    slug: 'cortadora-de-fiambre',
-    image: img('12-cortadora.webp'),
-    title: 'La cortadora a manivela',
-    category: 'Objetos',
-    moment: 'De día',
-    description: 'Ya estaba en la casa. No se compró para decorar.',
-  },
-  {
-    slug: 'vino-y-quesos',
-    image: img('05-vino-y-quesos.webp'),
-    title: 'Vino y quesos',
-    category: 'Gastronomía',
-    moment: 'De noche',
-    description: 'La tabla de la casa al caer la tarde.',
-  },
-  {
-    slug: 'mesas-en-el-jardin',
-    image: img('08-mesas-en-el-jardin.webp'),
-    title: 'Mesas en el jardín',
-    category: 'Espacios',
-    moment: 'De día',
-    description: 'El recinto montado y listo para recibir.',
-  },
-  {
-    slug: 'fuego',
-    image: img('11-fuego.webp'),
-    title: 'El fuego',
-    category: 'Gastronomía',
-    moment: 'De día',
-    description: 'Carne a las brasas en la parrilla de la casa.',
-  },
-];
+export const hostChapter: Chapter = {
+  id: 'anfitrion',
+  title: '¡El Jota!',
+  lead: [
+    'El anfitrión de la casa. Atiende cada celebración en persona, se preocupa de todos los detalles y siempre tiene una anécdota sobre los objetos que te rodean.',
+    'Lleva más de 40 años recolectando antigüedades de distintos lugares.',
+  ],
+  image: img('banda-jota.webp'),
+  imageAlt: 'El Jota, anfitrión de Casa J Costa, junto al mesón de la cocina',
+  imagePosition: '0% 40%',
+  columns: [
+    {
+      title: 'Ventanas',
+      text: 'Ventanas antiguas que hoy decoran la casa y cuentan historias.',
+      image: img('col-casa.webp'),
+      imageAlt: 'Ventanas antiguas apoyadas en el muro de madera de la sala',
+    },
+    {
+      title: 'La Mesa',
+      text: 'Detalles en cada mesa, pensados para tu celebración.',
+      image: img('col-mesa.webp'),
+      imageAlt: 'Mesa de madera con camino de mesa, velas y flores',
+    },
+    {
+      title: 'Detalles',
+      text: 'Pequeños detalles, gran diferencia: decoramos cada lugar con piezas únicas.',
+      image: img('col-detalles.webp'),
+      imageAlt: 'Postigo antiguo convertido en repisa, con toallas y frascos',
+    },
+    {
+      title: 'Arco de novios',
+      text: 'Para las fotos y para la entrada de los novios.',
+      image: img('col-arco.webp'),
+      imageAlt: 'Arco de puertas antiguas con telas blancas y flores en el jardín',
+    },
+  ],
+};
 
-/* ── 03 Formas de celebrar ───────────────────────────────────────────────── */
+// Frase que sigue al capítulo del anfitrión: se enciende palabra por palabra con el scroll.
+export const hostStatement =
+  'Mantuvimos la madera, los objetos antiguos y la historia del lugar. Sumamos cocina propia y fogón, para recibir como se recibe en casa.';
+
+export const celebrateChapter: Chapter = {
+  id: 'celebramos',
+  title: 'Qué Celebramos',
+  lead: [
+    `Desde celebraciones íntimas, como un cumpleaños, hasta matrimonios de ${site.capacity.max} personas.`,
+  ],
+  image: img('banda-celebramos.webp'),
+  imageAlt: 'Mesa de la casa servida con quesos, vino y una cortadora antigua',
+  imagePosition: '50% 55%',
+  columns: [
+    {
+      title: 'Matrimonios',
+      text: `Tu matrimonio en una casa con historia, para hasta ${site.capacity.max} invitados.`,
+      image: img('col-matrimonios.webp'),
+      imageAlt: 'Novios sentados en una escalera de piedra',
+    },
+    {
+      title: 'Cumpleaños',
+      text: `Celebraciones íntimas, en familia o con amigos, desde ${site.capacity.min} personas.`,
+      image: img('col-cumpleanos.webp'),
+      imageAlt: 'Invitados conversando en el patio durante una celebración',
+    },
+    {
+      title: 'Empresas',
+      text: 'Almuerzos, cierres de año y jornadas de equipo, lejos de la oficina.',
+      image: img('col-empresas.webp'),
+      imageAlt: 'Grupo reunido en el jardín escuchando al anfitrión',
+    },
+    {
+      title: 'Catas de Vino',
+      text: 'Vinos y sabores locales para compartir alrededor de la mesa.',
+      image: img('col-catas.webp'),
+      imageAlt: 'Brindis con copas de vino tinto al aire libre',
+    },
+  ],
+};
+
+/* ── Formas de celebrar ───────────────────────────────────────────────── */
 
 export interface Service {
   letter: string;
   title: string;
   shortDescription: string;
   fullDescription: string;
-  image: string;
+  // Modalidad con la que parte el cotizador (vacío = sin preselección). Ver `modalities`.
+  modality?: string;
 }
 
-export const servicesIntro = ['Tres formas', 'de celebrar.'];
+export const servicesIntro = ['3 Formas', 'de celebrar.'];
+export const servicesImage = img('banda-formas.webp');
+export const servicesImageAlt = 'Novios sonriendo en el jardín';
 export const servicesLead =
   'Arrienda solo el recinto, o encárgate únicamente de llegar.';
 
 export const services: Service[] = [
   {
     letter: 'A',
-    title: 'Arriendo del recinto',
+    title: 'Arriendo casa',
     shortDescription: 'La casa lista. Tú organizas la comida.',
     fullDescription:
       'Arriendas la casa y traes tu propia banquetería. Incluye recinto, mesas, sillas, baños, estacionamiento y limpieza final. Precio fijo, sin sorpresas.',
-    image: img('08-mesas-en-el-jardin.webp'),
+    modality: 'Arriendo del recinto',
   },
   {
     letter: 'B',
-    title: 'Evento Integral',
+    title: 'Evento integral',
     shortDescription: 'Recinto, banquetería propia y operación completa.',
     fullDescription:
       'Nos encargamos de todo: recinto, cocina y servicio. Eliges uno de nuestros tres menús —Jota Clásico, Jota Selección o Jota Costa— y tú solo llegas a celebrar.',
-    image: img('05-vino-y-quesos.webp'),
+    modality: 'Evento Integral',
   },
   {
     letter: 'C',
@@ -213,11 +241,10 @@ export const services: Service[] = [
     shortDescription: 'Eventos sociales, privados y de empresa.',
     fullDescription:
       '¿No sabes cuál te conviene? Escríbenos con tu fecha y tu número de invitados y te decimos qué opción calza mejor con lo que quieres celebrar.',
-    image: img('06-mesa-con-invitados.webp'),
   },
 ];
 
-/* ── 05 Menús del Evento Integral ────────────────────────────────────────── */
+/* ── Menús del Evento Integral ────────────────────────────────────────── */
 
 export interface Menu {
   // Nombre que viaja en la cotización.
@@ -230,6 +257,8 @@ export interface Menu {
 }
 
 export const menusIntro = ['Tres menús,', 'una misma cocina.'];
+export const menusImage = img('banda-menus.webp');
+export const menusImageAlt = 'Mesa montada con copas y un centro de flores';
 export const menusLead =
   'El Evento Integral se arma sobre uno de nuestros tres menús. Mientras más arriba, más cuidada la experiencia.';
 /* ⚠️ PENDIENTE — platos y valor por persona de cada menú */
@@ -260,7 +289,7 @@ export const menus: Menu[] = [
   },
 ];
 
-/* ── 06 Experiencias (boletos) ───────────────────────────────────────────── */
+/* ── Experiencias (boletos) ───────────────────────────────────────────── */
 
 export interface Experience {
   name: string;
@@ -315,7 +344,7 @@ export const experiences: Experience[] = [
   },
 ];
 
-/* ── 07 Alianzas ─────────────────────────────────────────────────────────── */
+/* ── Alianzas ─────────────────────────────────────────────────────────── */
 
 export interface Partner {
   name: string;
@@ -333,26 +362,7 @@ export const partners: Partner[] = [];
 // Cuántos espacios reservados mostrar mientras no haya aliados cargados.
 export const partnerPlaceholders = 6;
 
-/* ── 04 El anfitrión ─────────────────────────────────────────────────────── */
-
-export const host = {
-  /* ⚠️ PENDIENTE — nombre, foto y relato reales del dueño.
-     Foto: reemplazar `public/imagenes/anfitrion.webp` (cuadrada). */
-  name: '',
-  role: 'Anfitrión de Casa J Costa',
-  image: img('anfitrion.webp'),
-  imageAlt: 'El anfitrión de Casa J Costa',
-  // Frase grande de la sección: se va encendiendo palabra por palabra con el scroll.
-  statement:
-    'Mantuvimos la madera, los objetos antiguos y la historia del lugar. Sumamos cocina propia y fogón, para recibir como se recibe en casa.',
-  // Párrafos cortos junto a la foto: quién es, de dónde viene la casa, qué cocina.
-  bio: [
-    'Aquí va la historia de quien abre la puerta: cómo llegó a esta casa, por qué guarda cada objeto y qué le gusta poner en la mesa.',
-    'Detrás de cada evento hay una persona que lo recibe, lo cocina y lo cuida de principio a fin.',
-  ],
-};
-
-/* ── 08 Cotización ───────────────────────────────────────────────────────── */
+/* ── Cotización ───────────────────────────────────────────────────────── */
 
 // Opción que pide explicar el tipo de evento.
 export const OTHER_EVENT = 'Otro';

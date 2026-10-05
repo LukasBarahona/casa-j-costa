@@ -2,67 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Sistema de diseño — Casa J Costa (V2)
+/* Sistema de diseño — Casa J Costa (V3, según la maqueta "WEB COSTA 2")
 
-   Paleta #3 de la exploración de color:
-   - Verde         #596C52   color base de marca
-   - Ébano         #1E1C1A
-   - Marfil claro  #F3EEE4
-   - Bronce        #A78557   acento "latón antiguo": filetes, numerales, sellos
-   - Gris azulado  #5E6D74
-   Verdes derivados: profundo #232B20 · bosque #3C4A37 · salvia #A9B5A0 · niebla #DCE2D3
+   Paleta de la maqueta:
+   - Crema   #F8F5F1   fondo de toda la página
+   - Verde   #526E4E   titulares, sello, círculos y filetes
+   - Blanco  #FFFFFF   la J grande, los círculos de los menús
+   - Grafito #2B2B2B   texto
+   Verdes derivados: profundo #2A3927 · bosque #3D5239 · salvia #A9B8A4 · niebla #E3E9DE
 
    Tipografía:
-   - Titulares: Fraunces (serif de trazo suave)
-   - Texto e interfaz: Inter
+   - Titulares: Merriweather
+   - Texto e interfaz: Montserrat (liviana)
    - Logotipo: Playfair Display
 
-   Formas: arcos, óvalos, píldoras y esquinas muy redondeadas. Sin cajas rectas.
+   Formas: franjas de foto de borde a borde y rectas; círculos para el sello,
+   las letras y los menús; píldoras en los botones.
 */
 
 /* Tonos de sección. Cada sección declara su tono y todo lo que contiene
    (texto, filetes, campos) se adapta a través de las variables semánticas. */
 :root,
 .tone-marfil {
-  --background: 40 38% 92.4%;
-  --foreground: 30 7% 11%;
-  --muted: 36 16% 74%;
-  --muted-foreground: 32 8% 38%;
-  --accent: 34 32% 44%;
+  --background: 34 33% 96%;
+  --foreground: 0 0% 17%;
+  --muted: 34 14% 80%;
+  --muted-foreground: 0 0% 34%;
+  --accent: 113 17% 37%;
 
-  --brand: 104 14% 37%;
-  --brand-foreground: 40 38% 95%;
+  --brand: 113 17% 37%;
+  --brand-foreground: 34 33% 97%;
 
-  --secondary: 40 30% 87%;
-  --secondary-foreground: 30 7% 11%;
+  --secondary: 34 26% 91%;
+  --secondary-foreground: 0 0% 17%;
 
-  --border: 36 16% 74%;
-  --input: 36 16% 74%;
-  --ring: 30 7% 11%;
+  --border: 34 14% 80%;
+  --input: 34 14% 80%;
+  --ring: 113 17% 37%;
 
   --destructive: 6 62% 42%;
   --destructive-foreground: 0 0% 100%;
 }
 
-/* Verde profundo: los momentos oscuros de la historia */
+/* Verde profundo: el pie */
 .tone-bosque {
-  --background: 104 15% 14.7%;
-  --foreground: 40 38% 92.4%;
-  --muted: 104 10% 30%;
-  --muted-foreground: 99 13% 70%;
-  --accent: 36 40% 68%;
-  --secondary: 104 13% 20%;
-  --secondary-foreground: 40 38% 92.4%;
-  --border: 104 10% 30%;
-  --input: 104 10% 30%;
-  --ring: 40 38% 92.4%;
+  --background: 110 19% 19%;
+  --foreground: 34 33% 96%;
+  --muted: 110 12% 34%;
+  --muted-foreground: 105 14% 76%;
+  --accent: 100 22% 78%;
+  --secondary: 110 16% 25%;
+  --secondary-foreground: 34 33% 96%;
+  --border: 110 12% 34%;
+  --input: 110 12% 34%;
+  --ring: 34 33% 96%;
   --destructive: 6 70% 66%;
 }
 
 /* Verde de marca */
 .tone-verde {
-  --background: 104 14% 37%;
-  --foreground: 40 38% 94%;
+  --background: 113 17% 37%;
+  --foreground: 34 33% 97%;
   --muted: 104 12% 50%;
   --muted-foreground: 84 22% 86%;
   --accent: 38 48% 76%;
@@ -147,8 +147,8 @@
   }
 
   ::selection {
-    background: #596C52;
-    color: #F3EEE4;
+    background: #526E4E;
+    color: #F8F5F1;
   }
 
   :focus-visible {
@@ -163,11 +163,15 @@
     padding-inline: var(--gutter);
   }
 
-  /* Titulares serif de trazo suave */
+  /* Titulares: Merriweather, como en la maqueta */
   .display {
     @apply font-display font-normal;
-    font-variation-settings: "SOFT" 70;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.012em;
+  }
+
+  /* Texto de lectura: Montserrat liviana */
+  .copy {
+    @apply font-light leading-relaxed text-foreground/80;
   }
 
   /* Etiqueta de capítulo: "01 / Historia" */
@@ -191,7 +195,7 @@
   }
 
   .pill-solid {
-    @apply bg-foreground text-background hover:opacity-85;
+    @apply bg-verde-profundo text-marfil hover:opacity-85;
   }
 
   .pill-brand {
@@ -213,11 +217,11 @@
      que tiene debajo. Es una franja delgada, así que el desenfoque de fondo
      cuesta poco. Sin soporte de desenfoque, queda casi opaco. */
   .header-glass-light {
-    background-color: rgb(243 238 228 / 0.94);
+    background-color: rgb(248 245 241 / 0.94);
   }
 
   .header-glass-dark {
-    background-color: rgb(30 28 26 / 0.9);
+    background-color: rgb(42 57 39 / 0.9);
   }
 
   @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
@@ -228,11 +232,11 @@
     }
 
     .header-glass-light {
-      background-color: rgb(243 238 228 / 0.66);
+      background-color: rgb(248 245 241 / 0.7);
     }
 
     .header-glass-dark {
-      background-color: rgb(30 28 26 / 0.38);
+      background-color: rgb(30 40 28 / 0.36);
     }
   }
 
@@ -249,11 +253,6 @@
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
-  }
-
-  /* Carta de menú: arco arriba, esquinas suaves abajo */
-  .arch {
-    border-radius: 999px 999px 2rem 2rem;
   }
 
   /* Boleto antiguo: muescas a los lados. Son círculos del color del fondo

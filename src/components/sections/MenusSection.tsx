@@ -1,167 +1,128 @@
 import React, { useRef } from 'react';
 import { motion, useTransform, type MotionValue } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import Photo from '@/components/ui/Photo';
 import Reveal from '@/components/ui/Reveal';
-import { menus, menusIntro, menusLead, menusNote, MENU_MODALITY, type Menu } from '@/config/site';
-import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  menus,
+  menusImage,
+  menusImageAlt,
+  menusIntro,
+  menusLead,
+  menusNote,
+  MENU_MODALITY,
+  type Menu,
+} from '@/config/site';
 import { useSiteActions } from '@/hooks/useSiteActions';
 import { useMotionEnabled, useScrollProgress } from '@/lib/motion';
 
-// Cada menú sube un escalón: papel, verde de marca y ébano con filete de latón.
-const cardStyle: Record<Menu['level'], { card: string; rule: string; cta: string }> = {
-  1: {
-    card: 'bg-papel text-ebano',
-    rule: 'bg-ebano/15',
-    cta: 'bg-ebano text-marfil',
-  },
-  2: {
-    card: 'bg-verde text-marfil',
-    rule: 'bg-marfil/25',
-    cta: 'bg-marfil text-ebano',
-  },
-  3: {
-    card: 'bg-ebano text-marfil ring-1 ring-bronce/70',
-    rule: 'bg-bronce/50',
-    cta: 'bg-bronce-claro text-ebano',
-  },
-};
-
-/* Rombos: cuántos lleva encendidos indica qué tan premium es el menú. */
-const Level: React.FC<{ level: Menu['level'] }> = ({ level }) => (
-  <span className="flex items-center gap-1.5" role="img" aria-label={`Nivel ${level} de 3`}>
-    {[1, 2, 3].map((step) => (
-      <span
-        key={step}
-        className={`h-2 w-2 rotate-45 ${step <= level ? 'bg-bronce-claro' : 'border border-current opacity-40'}`}
-      />
-    ))}
-  </span>
+/* Círculo blanco de un menú, montado sobre el borde de la foto (como en la maqueta).
+   Teléfono: solo el numeral. Pantallas anchas: numeral, nombre y bajada. */
+const MenuDisc: React.FC<{ menu: Menu }> = ({ menu }) => (
+  <div className="flex aspect-square w-full flex-col items-center rounded-full bg-white px-[8%] pt-[14%] text-center text-verde shadow-[0_18px_40px_-28px_rgba(42,57,39,0.5)] max-md:justify-center max-md:pt-0">
+    <span className="display text-[clamp(1.75rem,3.9vw,3.5rem)] leading-none" aria-hidden="true">
+      {menu.numeral}
+    </span>
+    <span className="display mt-[4%] hidden text-[clamp(1.05rem,2.5vw,2.25rem)] leading-tight md:block">
+      {menu.name}
+    </span>
+    <span className="mt-[7%] hidden h-px w-8 bg-verde/40 lg:block" aria-hidden="true" />
+    <span className="mt-[6%] hidden max-w-[13em] text-[clamp(0.8rem,1.05vw,1rem)] italic leading-snug text-foreground/75 lg:block">
+      {menu.tagline}
+    </span>
+  </div>
 );
 
-const MenuCard: React.FC<{ menu: Menu }> = ({ menu }) => {
-  const { openQuote } = useSiteActions();
-  const style = cardStyle[menu.level];
-  const isTop = menu.level === 3;
+/* El círculo sube y crece mientras la sección entra en pantalla; cada uno parte un poco después. */
+const RisingDisc: React.FC<{ menu: Menu; index: number; progress: MotionValue<number> }> = ({
+  menu,
+  index,
+  progress,
+}) => {
+  const start = index * 0.16;
+  const y = useTransform(progress, [start, start + 0.6], ['55%', '0%']);
+  const scale = useTransform(progress, [start, start + 0.6], [0.72, 1]);
+  const opacity = useTransform(progress, [start, start + 0.3], [0, 1]);
 
   return (
-    <motion.article
-      whileHover={{ y: -10 }}
-      transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-      className={`arch relative flex h-full flex-col items-center px-7 pb-8 pt-16 text-center shadow-xl shadow-black/20 ${style.card}`}
-    >
-      {isTop && (
-        <span className="arch pointer-events-none absolute inset-2 border border-bronce/40" aria-hidden="true" />
-      )}
+    <motion.div style={{ y, scale, opacity }} className="will-change-transform">
+      <MenuDisc menu={menu} />
+    </motion.div>
+  );
+};
 
-      <span className={`font-display text-6xl leading-none ${isTop ? 'text-bronce-claro' : ''}`} aria-hidden="true">
-        {menu.numeral}
-      </span>
-      <span className={`mt-6 h-px w-12 ${style.rule}`} aria-hidden="true" />
+/* Qué trae el menú y su botón de cotización. */
+const MenuInfo: React.FC<{ menu: Menu }> = ({ menu }) => {
+  const { openQuote } = useSiteActions();
 
-      <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.2em] opacity-70">Menú</p>
-      <h3 className="display mt-2 text-[clamp(1.9rem,3vw,2.6rem)] leading-none">{menu.name}</h3>
-      <p className={`mt-3 font-display text-lg ${isTop ? 'text-bronce-claro' : 'opacity-80'}`}>
-        {menu.tagline}
-      </p>
-
-      <div className="mt-6">
-        <Level level={menu.level} />
-      </div>
-
-      <p className="mt-6 text-sm leading-relaxed opacity-80">{menu.description}</p>
-
-      <div className="mt-auto pt-8">
+  return (
+    <div className="flex h-full flex-col items-center text-center">
+      <h3 className="display text-2xl leading-tight text-verde md:hidden">
+        <span aria-hidden="true">{menu.numeral} · </span>
+        {menu.name}
+      </h3>
+      <p className="mt-1 text-sm italic text-foreground/75 lg:hidden">{menu.tagline}</p>
+      <p className="copy mt-3 max-w-[300px] text-sm md:mt-2 lg:mt-0">{menu.description}</p>
+      <div className="mt-auto pt-5">
         <button
           type="button"
           onClick={() => openQuote({ modality: MENU_MODALITY, menu: menu.name })}
-          className={`pill group/cta min-h-11 whitespace-nowrap hover:opacity-90 ${style.cta}`}
+          className="pill pill-ghost group/cta min-h-11 whitespace-nowrap border-verde/40 text-verde hover:border-verde hover:bg-verde hover:text-white"
         >
           Cotizar este menú
           <ArrowRight size={15} className="transition-transform duration-300 group-hover/cta:translate-x-1" />
         </button>
       </div>
-    </motion.article>
+    </div>
   );
 };
 
-// Posición de partida de cada carta en el abanico (izquierda, centro, derecha).
-const FAN = [
-  { x: '62%', y: 90, rotate: -9 },
-  { x: '0%', y: 150, rotate: 0 },
-  { x: '-62%', y: 90, rotate: 9 },
-];
-
-const FannedCard: React.FC<{ menu: Menu; index: number; progress: MotionValue<number> }> = ({
-  menu,
-  index,
-  progress,
-}) => {
-  const from = FAN[index];
-  const x = useTransform(progress, [0, 1], [from.x, '0%']);
-  const y = useTransform(progress, [0, 1], [from.y, 0]);
-  const rotate = useTransform(progress, [0, 1], [from.rotate, 0]);
-
-  return (
-    <motion.div style={{ x, y, rotate, zIndex: index === 1 ? 2 : 1 }} className="h-full will-change-transform">
-      <MenuCard menu={menu} />
-    </motion.div>
-  );
-};
-
-/* Menús del Evento Integral: tres cartas que parten juntas, como una mano
-   de naipes, y se abren en abanico a medida que la sección entra en pantalla. */
+/* Menús del Evento Integral: franja de foto y, montados sobre su borde, tres
+   círculos blancos (I, II, III) que suben a medida que la sección entra. */
 const MenusSection: React.FC = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
+  const discsRef = useRef<HTMLDivElement>(null);
   const motionOn = useMotionEnabled();
-  const scrollYProgress = useScrollProgress(ref, ['start 0.95', 'start 0.3']);
-  const fan = !isMobile && motionOn;
+  const progress = useScrollProgress(discsRef, ['start 1', 'start 0.5']);
 
   return (
-    <section id="menus" className="px-3 md:px-6">
-      <div className="tone-bosque rounded-sheet">
-        <div className="page py-20 md:py-36">
-          <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="eyebrow">05 / Menús</p>
-              <h2 className="display mt-6 text-title text-foreground">
-                {menusIntro[0]} <br />
-                <span className="text-verde-salvia">{menusIntro[1]}</span>
-              </h2>
-            </div>
-            <p className="max-w-[380px] text-lead text-muted-foreground">{menusLead}</p>
-          </Reveal>
+    <section id="menus" className="tone-marfil relative overflow-x-clip pb-20 md:pb-28">
+      <div className="tone-foto group">
+        <Photo src={menusImage} alt={menusImageAlt} className="h-[46svh] min-h-[230px] md:h-[55svh]" />
+      </div>
 
-          {/* Teléfono: carrusel que se desliza con el dedo, una carta por vez.
-              Pantallas anchas: las tres cartas en fila. */}
-          <div
-            ref={ref}
-            className="no-scrollbar -mx-[var(--gutter)] mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--gutter)] pb-8 pt-2 md:mx-0 md:mt-16 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:p-0 lg:gap-10"
-          >
-            {menus.map((menu, index) =>
-              fan ? (
-                <FannedCard key={menu.name} menu={menu} index={index} progress={scrollYProgress} />
-              ) : (
-                <Reveal
-                  key={menu.name}
-                  delay={index * 0.08}
-                  className="w-[82%] max-w-[340px] flex-shrink-0 snap-center md:mx-auto md:h-full md:w-full md:max-w-[380px]"
-                >
-                  <MenuCard menu={menu} />
-                </Reveal>
-              )
-            )}
-          </div>
-          <p className="text-center text-xs font-medium text-muted-foreground md:hidden" aria-hidden="true">
-            Desliza para ver los tres menús
-          </p>
-
-          <Reveal className="mt-8 flex items-center justify-center gap-4 text-center md:mt-14">
-            <span className="hidden h-px w-12 bg-accent/60 sm:block" aria-hidden="true" />
-            <p className="max-w-[460px] text-sm text-muted-foreground">{menusNote}</p>
-            <span className="hidden h-px w-12 bg-accent/60 sm:block" aria-hidden="true" />
-          </Reveal>
+      <div className="page relative">
+        {/* Círculos: la mitad sobre la foto, la mitad sobre la lámina */}
+        <div
+          ref={discsRef}
+          className="mx-auto -mt-[13vw] grid max-w-[1280px] grid-cols-3 gap-[4vw] px-[2vw] md:-mt-[10.5vw] md:gap-[8%] md:px-[1%] xl:-mt-[136px]"
+        >
+          {menus.map((menu, index) =>
+            motionOn ? (
+              <RisingDisc key={menu.name} menu={menu} index={index} progress={progress} />
+            ) : (
+              <MenuDisc key={menu.name} menu={menu} />
+            )
+          )}
         </div>
+
+        <ul className="mx-auto mt-10 grid max-w-[1280px] gap-10 md:mt-8 md:grid-cols-3 md:gap-[8%] md:px-[1%]">
+          {menus.map((menu, index) => (
+            <li key={menu.name}>
+              <Reveal delay={index * 0.08} className="h-full">
+                <MenuInfo menu={menu} />
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+
+        <Reveal className="mt-16 flex flex-col items-center text-center md:mt-24">
+          <h2 className="display text-[clamp(1.9rem,4.4vw,4rem)] leading-[1.2] text-verde">
+            {menusIntro[0]} <br className="md:hidden" />
+            {menusIntro[1]}
+          </h2>
+          <p className="copy mt-5 max-w-[560px] text-[15px] md:text-base">{menusLead}</p>
+          <p className="mt-3 max-w-[460px] text-sm font-medium text-muted-foreground">{menusNote}</p>
+        </Reveal>
       </div>
     </section>
   );

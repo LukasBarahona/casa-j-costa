@@ -8,30 +8,31 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        // Titulares: serif de trazo suave
-        display: ['Fraunces', 'Georgia', 'serif'],
+        sans: ['Montserrat', 'system-ui', 'sans-serif'],
+        // Titulares de la maqueta
+        display: ['Merriweather', 'Georgia', 'serif'],
         // Serif del logotipo "CASA J COSTA"
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
       },
       fontSize: {
         // Teléfono: sigue el ancho (10.9vw) para que "Centro de eventos" quepa en una línea desde 320 px.
-        'hero': ['clamp(2.1rem, min(10.9vw, 4rem + 3.4vw), 7.75rem)', { lineHeight: '0.98' }],
-        'title': ['clamp(2.1rem, 5.2vw, 4.5rem)', { lineHeight: '1.04' }],
-        'statement': ['clamp(1.6rem, 3.5vw, 3.25rem)', { lineHeight: '1.16' }],
-        'lead': ['clamp(1.125rem, 1.7vw, 1.5rem)', { lineHeight: '1.4' }],
+        'hero': ['clamp(2rem, min(9.4vw, 1.5rem + 3.4vw), 4.5rem)', { lineHeight: '1.08' }],
+        // Titular de capítulo ("La Casa", "Qué celebramos"): 78 pt sobre 1440 en la maqueta.
+        'title': ['clamp(2.1rem, 5.2vw, 5rem)', { lineHeight: '1.1' }],
+        'statement': ['clamp(1.4rem, 2.9vw, 2.6rem)', { lineHeight: '1.35' }],
+        'lead': ['clamp(1.05rem, 1.5vw, 1.3rem)', { lineHeight: '1.5' }],
       },
       colors: {
-        // Paleta #3 + verdes derivados
-        marfil: '#F3EEE4',
-        papel: '#FAF6EE',
-        ebano: '#1E1C1A',
+        // Paleta de la maqueta + verdes derivados
+        marfil: '#F8F5F1',
+        papel: '#FFFFFF',
+        ebano: '#2B2B2B',
         verde: {
-          DEFAULT: '#596C52',
-          bosque: '#3C4A37',
-          profundo: '#232B20',
-          salvia: '#A9B5A0',
-          niebla: '#DCE2D3',
+          DEFAULT: '#526E4E',
+          bosque: '#3D5239',
+          profundo: '#2A3927',
+          salvia: '#A9B8A4',
+          niebla: '#E3E9DE',
         },
         bronce: {
           DEFAULT: '#A78557',

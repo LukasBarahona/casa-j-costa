@@ -93,6 +93,15 @@ sección de alianzas, boletos de experiencias con fotos y fecha, abono del 50% d
 - El encabezado es fijo; Cotizar lleva a `#formulario`; el índice está en las tres rayitas.
 - No hay sección de capacidad ni sello giratorio.
 
+### V3 — 2026-10-05
+Fusión con la maqueta del cliente `WEB COSTA 2 (1).pdf` (ver `qa/REVISION_V3.md`). **Reemplaza la dirección
+visual anterior**: crema `#F8F5F1` + verde `#526E4E` + blanco, Merriweather + Montserrat, franjas de foto rectas,
+sello circular, J grande y filete ornamental (vectores del PDF). Sin secciones oscuras, bronce ni numeración "01 /".
+
+Orden vigente: Portada ★ · La Casa ★ · ¡El Jota! ★ · frase · Qué Celebramos ★ · 3 Formas de celebrar · Tres menús ·
+Experiencias · Alianzas · Cotiza · Pie. (★ = escena anclada; los tres capítulos comparten `ChapterSection.tsx`
+y sus datos están en `houseChapter`, `hostChapter`, `celebrateChapter` de `site.ts`.)
+
 ## Publicación
 
 - **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/
@@ -108,6 +117,7 @@ sección de alianzas, boletos de experiencias con fotos y fecha, abono del 50% d
 
 ## Pendientes del cliente
 
+0. **Textos de los capítulos** (V3): redactados desde las notas de la maqueta; revisar. Confirmar licencia de las fotos de banco.
 1. WhatsApp real (`site.whatsapp`, hoy `56900000000`) y correo real (`site.email`).
 2. Instagram (`site.instagram`).
 3. Nombre, relato y retrato del dueño (`host`, `public/imagenes/anfitrion.webp`, cuadrada).

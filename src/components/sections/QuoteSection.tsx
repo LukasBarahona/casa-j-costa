@@ -105,10 +105,10 @@ const QuoteSection: React.FC = () => {
       <div className="page">
         {/* Llamado a la acción */}
         <Reveal className="relative flex flex-col items-center text-center">
-          <p className="eyebrow">08 / Cotiza</p>
-          <h2 className="display mt-6 text-title text-foreground">
+          <p className="eyebrow">Cotiza</p>
+          <h2 className="display mt-6 text-title text-verde">
             ¿Tienes una fecha <br className="hidden sm:block" />
-            <span className="text-verde">en mente?</span>
+            en mente?
           </h2>
           <p className="mt-5 max-w-[420px] text-lead text-muted-foreground">
             Cuéntanos tu fecha y tu número de invitados y te decimos qué opción te conviene.
@@ -136,7 +136,7 @@ const QuoteSection: React.FC = () => {
           className="mt-20 grid scroll-mt-24 gap-12 md:mt-28 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
         >
           <Reveal className="lg:pt-8">
-            <h3 className="display max-w-[440px] text-statement text-foreground">
+            <h3 className="display max-w-[440px] text-statement text-verde">
               O pide tu cotización por correo.
             </h3>
             <p className="mt-4 max-w-[400px] text-muted-foreground">

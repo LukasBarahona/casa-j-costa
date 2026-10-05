@@ -1,45 +1,11 @@
 import React, { useRef } from 'react';
 import { motion, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
-import { hero, site } from '@/config/site';
-import { EASE_OUT, useMotionEnabled, useScrollProgress } from '@/lib/motion';
+import { hero } from '@/config/site';
+import { useMotionEnabled, useScrollProgress } from '@/lib/motion';
 
-/* Titular: cada línea sube desde detrás de su propia máscara. */
-const HeroTitle: React.FC = () => (
-  <h1 className="display text-hero text-white">
-    {hero.title.map((line, i) => (
-      <span key={line} className="block overflow-hidden pb-[0.12em]">
-        <motion.span
-          initial={{ y: '110%' }}
-          animate={{ y: 0 }}
-          transition={{ duration: 1, delay: 0.2 + i * 0.1, ease: EASE_OUT }}
-          className={`block ${i === 1 ? 'text-bronce-claro' : ''}`}
-        >
-          {line}
-        </motion.span>
-      </span>
-    ))}
-  </h1>
-);
-
-/* Presentación: bajada y datos clave del centro de eventos. */
-const HeroIntro: React.FC = () => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.9, delay: 0.5, ease: EASE_OUT }}
-    className="max-w-[460px] xl:max-w-[400px] xl:pb-3"
-  >
-    <p className="text-lead font-medium text-white/85">{hero.subtitle}</p>
-    <ul className="mt-5 flex flex-wrap gap-2">
-      {hero.facts.map((fact) => (
-        <li key={fact} className="chip-dark">
-          {fact}
-        </li>
-      ))}
-    </ul>
-  </motion.div>
-);
+// Alto de la franja de foto en la composición final (55% en la maqueta).
+const BAND = 55;
 
 const HeroImage: React.FC = () => (
   <img
@@ -52,93 +18,115 @@ const HeroImage: React.FC = () => (
   />
 );
 
-/* Degradados fijos para que el encabezado y el titular se lean sobre la foto. */
-const HeroShade: React.FC = () => (
-  <div
-    aria-hidden="true"
-    className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0)_26%,rgba(0,0,0,0)_42%,rgba(0,0,0,0.82)_100%)]"
+/* Sello circular de la marca, montado sobre el borde entre la foto y el texto. */
+const Seal: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <img
+    src={hero.seal}
+    alt="Casa J Costa, centro de eventos"
+    width={267}
+    height={267}
+    className={`aspect-square w-[clamp(132px,18.5vw,268px)] rounded-full ${className}`}
   />
 );
 
-/* Portada anclada: la foto ocupa toda la pantalla desde el inicio, con el
-   nombre de la casa encima. Al bajar, el nombre se va y aparece la frase de
-   la casa. Solo se animan opacidad y transformaciones (baratas de dibujar).
-   Todo depende de la posición del scroll: al subir, se revierte. */
+/* Titular, bajada y datos clave: la mitad inferior de la lámina. */
+const HeroText: React.FC = () => (
+  <>
+    <h1 className="display text-hero text-verde">{hero.title}</h1>
+    <p className="mt-2 text-[clamp(1rem,1.9vw,1.7rem)] italic leading-snug text-foreground md:mt-3">
+      {hero.subtitle}
+    </p>
+    <ul className="mt-5 flex flex-wrap justify-center gap-2 md:mt-6">
+      {hero.facts.map((fact) => (
+        <li key={fact} className="rounded-full border border-verde/35 px-3.5 py-1.5 text-xs font-medium text-verde md:text-sm">
+          {fact}
+        </li>
+      ))}
+    </ul>
+  </>
+);
+
+/* Portada anclada. Parte con la foto a pantalla completa y el sello encima;
+   al bajar, la lámina crema sube hasta dejar la composición de la maqueta:
+   franja de foto, sello sobre el borde y "Centro de eventos" debajo.
+   Solo se animan opacidad y transformaciones; al subir, se revierte. */
 const HeroScene: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const progress = useScrollProgress(ref, ['start start', 'end end']);
 
-  const imageScale = useTransform(progress, [0, 1], [1, 1.1]);
-  const introOpacity = useTransform(progress, [0.05, 0.38], [1, 0]);
-  const introY = useTransform(progress, [0.05, 0.38], [0, -80]);
-  const dimOpacity = useTransform(progress, [0.3, 0.62], [0, 1]);
-  const captionOpacity = useTransform(progress, [0.46, 0.7], [0, 1]);
-  const captionY = useTransform(progress, [0.46, 0.7], [36, 0]);
+  const imageScale = useTransform(progress, [0, 1], [1.08, 1]);
+  const panelY = useTransform(progress, [0.04, 0.62], ['100%', '0%']);
+  const textOpacity = useTransform(progress, [0.4, 0.68], [0, 1]);
+  const textY = useTransform(progress, [0.4, 0.68], [28, 0]);
+  const sealScale = useTransform(progress, [0.04, 0.62], [1.22, 1]);
+  const sealY = useTransform(progress, [0.04, 0.62], ['-7svh', '0svh']);
+  const introOpacity = useTransform(progress, [0.02, 0.24], [1, 0]);
 
   return (
-    <section id="inicio" ref={ref} className="tone-ebano relative h-[190svh] scroll-mt-0">
-      <div className="sticky top-0 h-[100svh] overflow-hidden">
-        <motion.div style={{ scale: imageScale }} className="absolute inset-0 will-change-transform">
+    <section id="inicio" ref={ref} className="tone-marfil relative h-[185svh] scroll-mt-0">
+      <div className="tone-foto sticky top-0 h-[100svh] overflow-hidden">
+        <motion.div style={{ scale: imageScale }} className="absolute inset-0 origin-top will-change-transform">
           <HeroImage />
         </motion.div>
-        <HeroShade />
-        <motion.div style={{ opacity: dimOpacity }} className="absolute inset-0 bg-black/45" aria-hidden="true" />
-
-        {/* Nombre y presentación */}
-        <motion.div
-          style={{ opacity: introOpacity, y: introY }}
-          className="page absolute inset-x-0 bottom-0 flex flex-col gap-5 pb-24 md:pb-16 xl:flex-row xl:items-end xl:justify-between xl:gap-10"
-        >
-          <div className="flex-shrink-0 xl:whitespace-nowrap">
-            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/75">
-              {site.city}
-              <span className="hidden sm:inline"> · Región Metropolitana</span>
-            </p>
-            <HeroTitle />
-          </div>
-          <HeroIntro />
-        </motion.div>
-
-        <motion.span
-          style={{ opacity: introOpacity }}
+        {/* Sombra fija para que el encabezado y la bajada se lean sobre la foto */}
+        <div
           aria-hidden="true"
-          className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/75"
-        >
-          Desliza
-          <ArrowDown size={13} className="motion-safe:animate-bounce" />
-        </motion.span>
+          className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.42)_0%,rgba(0,0,0,0)_22%,rgba(0,0,0,0)_50%,rgba(0,0,0,0.6)_100%)]"
+        />
 
-        {/* Frase de la casa */}
+        {/* Bajada sobre la foto: se va cuando sube la lámina */}
         <motion.div
-          style={{ opacity: captionOpacity, y: captionY }}
-          className="page pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center text-white"
+          style={{ opacity: introOpacity }}
+          className="page pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-center pb-7 text-center text-white"
         >
-          <p className="display text-title">
-            {hero.caption[0]} <br className="hidden sm:block" />
-            <span className="text-bronce-claro">{hero.caption[1]}</span>
+          <p className="max-w-[20ch] text-[clamp(1.05rem,2vw,1.7rem)] italic leading-snug sm:max-w-none">
+            {hero.subtitle}
           </p>
+          <span
+            aria-hidden="true"
+            className="mt-6 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/80"
+          >
+            Desliza
+            <ArrowDown size={13} className="motion-safe:animate-bounce" />
+          </span>
         </motion.div>
+
+        {/* Lámina crema */}
+        <motion.div
+          style={{ y: panelY, height: `${100 - BAND}svh` }}
+          className="tone-marfil absolute inset-x-0 bottom-0 will-change-transform"
+        >
+          <motion.div
+            style={{ opacity: textOpacity, y: textY }}
+            className="page flex h-full flex-col items-center pt-[calc(clamp(132px,18.5vw,268px)/2+0.75rem)] text-center"
+          >
+            <HeroText />
+          </motion.div>
+        </motion.div>
+
+        {/* Sello: termina centrado sobre el borde de la franja */}
+        <div style={{ top: `${BAND}svh` }} className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <motion.div style={{ y: sealY, scale: sealScale }} className="will-change-transform">
+            <Seal className="shadow-[0_0_0_3px_rgba(248,245,241,0.9)]" />
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-/* Versión sin movimiento: mismo contenido, todo a la vista. */
+/* Versión sin movimiento: la lámina de la maqueta, tal cual. */
 const HeroStatic: React.FC = () => (
-  <section id="inicio" className="tone-ebano relative scroll-mt-0">
-    <div className="relative flex min-h-[100svh] flex-col">
-      <div className="absolute inset-0">
-        <HeroImage />
-      </div>
-      <HeroShade />
-      <div className="page relative mt-auto flex flex-col gap-5 pb-10 pt-16 xl:flex-row xl:items-end xl:justify-between">
-        <HeroTitle />
-        <HeroIntro />
+  <section id="inicio" className="tone-marfil relative scroll-mt-0">
+    <div className="tone-foto h-[55svh] min-h-[240px] overflow-hidden">
+      <HeroImage />
+    </div>
+    <div className="page flex flex-col items-center pb-16 text-center">
+      <Seal className="-mt-[clamp(66px,9.25vw,134px)] shadow-[0_0_0_3px_rgba(248,245,241,0.9)]" />
+      <div className="mt-4">
+        <HeroText />
       </div>
     </div>
-    <p className="display page pb-24 pt-14 text-title text-foreground">
-      {hero.caption[0]} <span className="text-bronce-claro">{hero.caption[1]}</span>
-    </p>
   </section>
 );
 

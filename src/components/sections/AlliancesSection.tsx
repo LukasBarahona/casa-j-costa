@@ -17,10 +17,10 @@ const AlliancesSection: React.FC = () => {
       <div className="page">
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow">07 / Alianzas</p>
-            <h2 className="display mt-6 text-title text-foreground">
+            <p className="eyebrow">Alianzas</p>
+            <h2 className="display mt-6 text-title text-verde">
               {alliancesIntro[0]} <br />
-              <span className="text-verde">{alliancesIntro[1]}</span>
+              {alliancesIntro[1]}
             </h2>
           </div>
           <p className="max-w-[360px] text-lead text-muted-foreground">{alliancesLead}</p>

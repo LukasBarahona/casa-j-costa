@@ -4,16 +4,16 @@ import { Toaster } from 'sonner';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import HeroSection from '@/components/sections/HeroSection';
-import PresentationSection from '@/components/sections/PresentationSection';
-import SpacesSection from '@/components/sections/SpacesSection';
+import ChapterSection from '@/components/sections/ChapterSection';
+import StatementSection from '@/components/sections/StatementSection';
 import ServicesSection from '@/components/sections/ServicesSection';
 import MenusSection from '@/components/sections/MenusSection';
 import ExperiencesSection from '@/components/sections/ExperiencesSection';
 import AlliancesSection from '@/components/sections/AlliancesSection';
-import HostSection from '@/components/sections/HostSection';
 import QuoteSection from '@/components/sections/QuoteSection';
 import ScrollProgress from '@/components/ui/ScrollProgress';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
+import { celebrateChapter, hostChapter, houseChapter } from '@/config/site';
 import { SiteActionsProvider, useSiteActions } from '@/hooks/useSiteActions';
 
 // El menú y el cotizador se descargan aparte: no hacen falta para pintar la página.
@@ -56,12 +56,13 @@ const Page = () => {
           Nota: sin `overflow: hidden` aquí; rompería las escenas ancladas (sticky). */}
       <main className="relative z-[1] rounded-b-sheet bg-background">
         <HeroSection />
-        <PresentationSection />
-        <div className="tone-marfil relative z-20 -mt-12 rounded-b-sheet rounded-t-sheet">
-          <SpacesSection />
-          <ServicesSection />
-          <HostSection />
-          <MenusSection />
+        <ChapterSection chapter={houseChapter} />
+        <ChapterSection chapter={hostChapter} />
+        <StatementSection />
+        <ChapterSection chapter={celebrateChapter} />
+        <ServicesSection />
+        <MenusSection />
+        <div className="tone-marfil relative rounded-b-sheet">
           <ExperiencesSection />
           <AlliancesSection />
           <QuoteSection />

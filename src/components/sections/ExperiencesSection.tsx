@@ -12,11 +12,11 @@ const Lightbox = lazy(() => import('@/components/ui/Lightbox'));
 // Los boletos alternan los colores de la paleta.
 const ticketColors = [
   'bg-verde text-marfil',
-  'bg-bronce text-ebano',
-  'bg-azulado text-marfil',
+  'bg-papel text-verde-profundo',
   'bg-verde-bosque text-marfil',
   'bg-verde-niebla text-verde-profundo',
-  'bg-ebano text-marfil',
+  'bg-verde-profundo text-marfil',
+  'bg-verde-salvia text-verde-profundo',
 ];
 
 const dateLabel = (experience: Experience) => experience.date || 'Fecha por confirmar';
@@ -197,8 +197,8 @@ const ExperiencesSection: React.FC = () => {
     <section id="experiencias" ref={sectionRef} className="overflow-x-clip py-24 md:py-32">
       <Reveal className="page flex items-end justify-between gap-6">
         <div>
-          <p className="eyebrow">06 / Experiencias</p>
-          <h2 className="display mt-6 text-statement text-foreground">{experiencesTitle}</h2>
+          <p className="eyebrow">Experiencias</p>
+          <h2 className="display mt-6 text-statement text-verde">{experiencesTitle}</h2>
           <p className="mt-3 text-sm text-muted-foreground">
             Toca un boleto para ver las fotos y la fecha del evento.
           </p>

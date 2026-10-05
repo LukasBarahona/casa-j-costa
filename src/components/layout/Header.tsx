@@ -8,7 +8,8 @@ import { EASE_OUT } from '@/lib/motion';
 // A partir de cuántos píxeles de scroll la barra deja de ser transparente.
 const GLASS_AFTER = 40;
 // Tonos de sección con fondo oscuro (ver `.tone-*` en index.css).
-const DARK_TONES = '.tone-bosque, .tone-verde, .tone-ebano';
+// `.tone-foto` marca las franjas de foto: no pinta nada, solo avisa que debajo hay imagen.
+const DARK_TONES = '.tone-bosque, .tone-verde, .tone-ebano, .tone-foto';
 
 // 'top': transparente sobre la portada. 'dark' / 'light': vidrio según lo que hay debajo.
 type HeaderLook = 'top' | 'dark' | 'light';
