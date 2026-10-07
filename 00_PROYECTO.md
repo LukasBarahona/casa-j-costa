@@ -117,6 +117,11 @@ entrada fundida, El Jota en recuadro + texto, círculos de menú con hover, bole
 desplegables en dos grupos, sección de reseñas de Google, abono 50%, íconos de redes en el pie, Cotizar → paso a paso,
 correo y modalidad obligatorios. Faltan: enlaces de redes, correo, reseñas reales y confirmar nombres de alianzas.
 
+### V3.4 — 2026-10-07
+**Datos de prototipo** (inventados a pedido del usuario, marcados ⚠️ en `site.ts`; reemplazar antes de lanzar):
+correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada red), cinco reseñas con etiqueta
+"Ejemplo" y nombres de alianzas (salvo los tres del feedback).
+
 ## Publicación
 
 - **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/

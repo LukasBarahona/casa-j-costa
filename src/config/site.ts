@@ -18,14 +18,16 @@ export const site = {
   // Número de WhatsApp que recibe las cotizaciones (+56 9 7987 8599):
   // formato internacional, solo dígitos (56 + 9 + número).
   whatsapp: '56979878599',
-  /* ⚠️ PENDIENTE — correo real. Vacío = el sitio no ofrece correo y todo va por WhatsApp. */
-  email: '',
-  /* ⚠️ PENDIENTE — enlaces a los perfiles del centro de eventos (URL completa).
-     Mientras estén vacíos, el ícono se muestra apagado y sin enlace. */
+  /* ⚠️ DATO DE PROTOTIPO (inventado) — reemplazar por el correo real antes de lanzar.
+     Vacío = el sitio no ofrece correo y todo va por WhatsApp. */
+  email: 'contacto@casajcosta.cl',
+  /* ⚠️ DATO DE PROTOTIPO — enlaces a los perfiles del centro de eventos (URL completa).
+     Hoy apuntan a la portada de cada red, para no enlazar la cuenta de un tercero.
+     Reemplazar por los perfiles reales. Vacío = el ícono se muestra apagado y sin enlace. */
   social: {
-    instagram: '',
-    tiktok: '',
-    linkedin: '',
+    instagram: 'https://www.instagram.com/',
+    tiktok: 'https://www.tiktok.com/',
+    linkedin: 'https://www.linkedin.com/',
   },
   /* ⚠️ PENDIENTE — enlace a la ficha de Google (para "Ver todas las reseñas").
      Vacío = se usa el enlace del mapa. */
@@ -382,14 +384,21 @@ export interface AllianceGroup {
 export const alliancesIntro = ['Quiénes nos', 'acompañan.'];
 export const alliancesLead = 'Toca cada grupo para ver quiénes han pasado por la casa y con quiénes trabajamos.';
 
-/* ⚠️ POR CONFIRMAR — los nombres vienen del feedback del cliente (dados como
-   ejemplo). Confirmar la lista y la forma de escribirlos, y sumar logos.
+/* ⚠️ DATOS DE PROTOTIPO — los tres primeros nombres vienen del feedback del
+   cliente (dados como ejemplo); el resto es inventado para mostrar el diseño.
+   Reemplazar por la lista real antes de lanzar, y sumar logos.
    Ejemplo con logo: { name: 'Viña Ejemplo', logo: img('aliado-vina-ejemplo.webp') } */
 export const allianceGroups: AllianceGroup[] = [
   {
     title: 'Con quién hemos trabajado',
     lead: 'Clientes que han celebrado en la casa.',
-    partners: [{ name: 'Alumni Colegio Apoquindo', logo: '' }],
+    partners: [
+      { name: 'Alumni Colegio Apoquindo', logo: '' },
+      { name: 'Estudio Quillay', logo: '' },
+      { name: 'Constructora Los Maitenes', logo: '' },
+      { name: 'Club de Lectura Chicureo', logo: '' },
+      { name: 'Agencia Peumo', logo: '' },
+    ],
   },
   {
     title: 'Con quiénes trabajamos',
@@ -397,6 +406,9 @@ export const allianceGroups: AllianceGroup[] = [
     partners: [
       { name: 'Viña Matetic', logo: '' },
       { name: 'Pisco La Pizka', logo: '' },
+      { name: 'Flores del Alba', logo: '' },
+      { name: 'Quesos El Canelo', logo: '' },
+      { name: 'Panadería La Hornada', logo: '' },
     ],
   },
 ];
@@ -410,15 +422,53 @@ export interface Review {
   text: string;
   // Cuándo se publicó, tal como se quiere mostrar (p. ej. "Marzo de 2026").
   date: string;
+  // Reseña de muestra (inventada para el prototipo): la tarjeta lo indica con una etiqueta.
+  sample?: boolean;
 }
 
 export const reviewsIntro = ['Lo que dicen', 'quienes celebraron aquí.'];
 
-/* ⚠️ PENDIENTE — reseñas reales, copiadas de Google tal como fueron escritas.
-   Mientras la lista esté vacía, la sección muestra tarjetas de muestra
-   rotuladas como tales (no se inventan reseñas).
-   Ejemplo: { author: 'María P.', rating: 5, text: '…', date: 'Marzo de 2026' } */
-export const reviews: Review[] = [];
+/* ⚠️ DATOS DE PROTOTIPO — estas reseñas son inventadas para mostrar el diseño
+   (`sample: true` les pone la etiqueta "Ejemplo"). Antes de lanzar, reemplazarlas
+   por reseñas reales copiadas de Google tal como fueron escritas, sin `sample`.
+   Con la lista vacía, la sección muestra tarjetas "Próximamente". */
+export const reviews: Review[] = [
+  {
+    author: 'Camila R.',
+    rating: 5,
+    text: 'Celebramos nuestro matrimonio aquí y fue todo lo que queríamos. La casa es preciosa, llena de detalles, y el Jota estuvo pendiente de cada cosa.',
+    date: 'Marzo de 2026',
+    sample: true,
+  },
+  {
+    author: 'Felipe A.',
+    rating: 5,
+    text: 'Hicimos el cierre de año de la empresa. Buena comida, el fogón encendido y un patio increíble de noche. El equipo todavía lo comenta.',
+    date: 'Diciembre de 2025',
+    sample: true,
+  },
+  {
+    author: 'Josefina M.',
+    rating: 5,
+    text: 'El cumpleaños de mi mamá quedó hermoso. Las mesas, las flores y las antigüedades le dan un ambiente que no se encuentra en otro lugar.',
+    date: 'Enero de 2026',
+    sample: true,
+  },
+  {
+    author: 'Tomás V.',
+    rating: 4,
+    text: 'Muy buena atención y un lugar con mucha historia. Fuimos a una cata de vinos y la pasamos excelente. Volveríamos sin pensarlo.',
+    date: 'Noviembre de 2025',
+    sample: true,
+  },
+  {
+    author: 'Antonia S.',
+    rating: 5,
+    text: 'Desde la cotización hasta el último invitado, todo fluyó. Se nota el cariño con que reciben. Cien por ciento recomendado.',
+    date: 'Abril de 2026',
+    sample: true,
+  },
+];
 // Cuántas tarjetas de muestra mostrar mientras no haya reseñas cargadas.
 export const reviewPlaceholders = 4;
 

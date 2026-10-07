@@ -23,7 +23,14 @@ const cardClass =
 
 const ReviewCard: React.FC<{ review: Review }> = ({ review }) => (
   <figure className={cardClass}>
-    <Stars rating={review.rating} />
+    <div className="flex items-center justify-between gap-3">
+      <Stars rating={review.rating} />
+      {review.sample && (
+        <span className="rounded-full border border-verde/30 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-verde/80">
+          Ejemplo
+        </span>
+      )}
+    </div>
     <blockquote className="display mt-5 text-[1.15rem] leading-relaxed text-verde-profundo">
       “{review.text}”
     </blockquote>
