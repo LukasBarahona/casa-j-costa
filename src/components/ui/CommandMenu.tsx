@@ -47,7 +47,7 @@ const groupHeading =
   '[&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:mb-2';
 
 const CommandMenu: React.FC = () => {
-  const { menu, setMenuView, closeMenu, continueByEmail } = useSiteActions();
+  const { menu, setMenuView, closeMenu } = useSiteActions();
   const [search, setSearch] = useState('');
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -152,7 +152,6 @@ const CommandMenu: React.FC = () => {
                   preset={menu.preset}
                   onBack={() => setMenuView('main')}
                   onClose={closeMenu}
-                  onContinueByEmail={continueByEmail}
                 />
               )}
             </AnimatePresence>

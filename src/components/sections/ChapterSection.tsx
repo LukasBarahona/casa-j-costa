@@ -44,6 +44,12 @@ const ColumnCaption: React.FC<{ column: ChapterColumn }> = ({ column }) => (
   </div>
 );
 
+interface ChapterProps {
+  chapter: Chapter;
+  // La franja entra fundida con la lámina crema de la sección anterior (tras la portada).
+  softTop?: boolean;
+}
+
 interface ColumnProps {
   column: ChapterColumn;
   index: number;
@@ -85,7 +91,7 @@ const ColumnText: React.FC<ColumnProps> = ({ column, index, progress }) => {
    de la maqueta —franja de foto, titular y la J grande— y, al avanzar, la
    franja se divide en cuatro columnas con su nombre y su texto. Todo depende
    de la posición del scroll: al subir, las columnas se recogen. */
-const ChapterScene: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
+const ChapterScene: React.FC<ChapterProps> = ({ chapter, softTop }) => {
   const ref = useRef<HTMLElement>(null);
   const progress = useScrollProgress(ref, ['start start', 'end end']);
 
@@ -94,20 +100,60 @@ const ChapterScene: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
   const bigJOpacity = useTransform(progress, [0.2, 0.34], [1, 0]);
   const bigJY = useTransform(progress, [0, 0.34], [0, -40]);
   const wideScale = useTransform(progress, [0, 0.5], [1, 1.06]);
+  // Entrada de la sección (antes de anclarse): el fundido se retira cuando la franja llega arriba.
+  const entry = useScrollProgress(ref, ['start end', 'start start']);
+  const softOpacity = useTransform(entry, [0.45, 0.95], [1, 0]);
 
   return (
     <section id={chapter.id} ref={ref} className="tone-marfil relative h-[270svh] scroll-mt-0">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
-        {/* Franja de fotos */}
-        <div className="tone-foto absolute inset-x-0 top-0 overflow-hidden" style={{ height: `${BAND}svh` }}>
-          <motion.img
-            src={chapter.image}
-            alt={chapter.imageAlt}
-            loading="lazy"
-            decoding="async"
-            style={{ scale: wideScale, objectPosition: chapter.imagePosition }}
-            className="absolute inset-0 h-full w-full object-cover will-change-transform"
-          />
+        {/* Presentación con retrato: foto en un recuadro a la izquierda y el texto a la
+            derecha. Va debajo de la franja: las columnas suben y la tapan. */}
+        {chapter.portrait && (
+          <motion.div style={{ opacity: introOpacity, y: introY }} className="absolute inset-0">
+            <div className="page flex h-full items-center gap-[5vw] pb-[4svh] pt-[9svh]">
+              <div className="relative flex-shrink-0">
+                <img
+                  src={chapter.portrait}
+                  alt={chapter.imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-square h-[min(66svh,40vw)] object-cover"
+                />
+                <JMark className="pointer-events-none absolute -bottom-[7%] -right-[9%] h-[40%] w-auto text-white opacity-85 drop-shadow-[0_2px_12px_rgba(0,0,0,0.3)]" />
+              </div>
+              <div className="min-w-0 max-w-[560px]">
+                <ChapterIntro chapter={chapter} />
+                <Ornament className="mt-8 h-auto w-[112px]" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Franja de fotos. Con retrato no marca tono ni recibe el puntero mientras
+            está vacía, para que el encabezado lea la lámina crema que hay debajo. */}
+        <div
+          className={`absolute inset-x-0 top-0 overflow-hidden ${chapter.portrait ? 'pointer-events-none' : 'tone-foto'}`}
+          style={{ height: `${BAND}svh` }}
+        >
+          {!chapter.portrait && (
+            <motion.img
+              src={chapter.image}
+              alt={chapter.imageAlt}
+              loading="lazy"
+              decoding="async"
+              style={{ scale: wideScale, objectPosition: chapter.imagePosition }}
+              className="absolute inset-0 h-full w-full object-cover will-change-transform"
+            />
+          )}
+          {/* Entrada suave: la lámina crema de arriba se funde con la foto en vez de cortarla */}
+          {softTop && (
+            <motion.div
+              style={{ opacity: softOpacity }}
+              aria-hidden="true"
+              className="absolute inset-x-0 top-0 h-[22svh] bg-gradient-to-b from-marfil via-marfil/70 to-transparent"
+            />
+          )}
           <div className="absolute inset-0 grid grid-cols-4">
             {chapter.columns.map((column, index) => (
               <ColumnPhoto key={column.title} column={column} index={index} progress={progress} />
@@ -115,24 +161,28 @@ const ChapterScene: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
           </div>
         </div>
 
-        {/* La J grande, entre la foto y la lámina crema */}
-        <motion.div
-          style={{ opacity: bigJOpacity, y: bigJY }}
-          className="pointer-events-none absolute right-[2.8vw] top-[25.6svh]"
-          aria-hidden="true"
-        >
-          <JMark className="h-[min(66svh,44vw)] w-auto text-white" />
-        </motion.div>
+        {!chapter.portrait && (
+          <>
+            {/* La J grande, entre la foto y la lámina crema */}
+            <motion.div
+              style={{ opacity: bigJOpacity, y: bigJY }}
+              className="pointer-events-none absolute right-[2.8vw] top-[25.6svh]"
+              aria-hidden="true"
+            >
+              <JMark className="h-[min(66svh,44vw)] w-auto text-white" />
+            </motion.div>
 
-        {/* Lámina de presentación */}
-        <motion.div
-          style={{ opacity: introOpacity, y: introY, top: `${BAND + 6}svh` }}
-          className="absolute inset-x-0 px-[5.8vw]"
-        >
-          <div className="max-w-[58vw]">
-            <ChapterIntro chapter={chapter} />
-          </div>
-        </motion.div>
+            {/* Lámina de presentación */}
+            <motion.div
+              style={{ opacity: introOpacity, y: introY, top: `${BAND + 6}svh` }}
+              className="absolute inset-x-0 px-[5.8vw]"
+            >
+              <div className="max-w-[58vw]">
+                <ChapterIntro chapter={chapter} />
+              </div>
+            </motion.div>
+          </>
+        )}
 
         {/* Pies de las cuatro columnas */}
         <div className="absolute inset-x-0 bottom-0 grid grid-cols-4" style={{ top: `${BAND}svh` }}>
@@ -148,7 +198,7 @@ const ChapterScene: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
 /* Capítulo sin escena anclada (teléfono, movimiento reducido o pantalla muy
    baja): la lámina de presentación y, debajo, las cuatro columnas. En teléfono
    las columnas son un carrusel que se desliza con el dedo. */
-const ChapterStatic: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
+const ChapterStatic: React.FC<ChapterProps> = ({ chapter, softTop }) => (
   <section id={chapter.id} className="tone-marfil relative overflow-x-clip pb-16 md:pb-24">
     <div className="tone-foto relative h-[46svh] min-h-[230px] overflow-hidden md:h-[55svh]">
       <img
@@ -159,6 +209,12 @@ const ChapterStatic: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
         style={{ objectPosition: chapter.imagePosition }}
         className="absolute inset-0 h-full w-full object-cover"
       />
+      {softTop && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-marfil via-marfil/70 to-transparent"
+        />
+      )}
     </div>
 
     <div className="page relative">
@@ -194,15 +250,15 @@ const ChapterStatic: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
       ))}
     </ul>
     <p className="mt-5 text-center text-xs font-medium text-muted-foreground md:hidden" aria-hidden="true">
-      Desliza para ver los cuatro
+      {chapter.swipeHint} →
     </p>
   </section>
 );
 
-const ChapterSection: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
+const ChapterSection: React.FC<ChapterProps> = (props) => {
   const isMobile = useIsMobile();
   const motionOn = useMotionEnabled();
-  return motionOn && !isMobile ? <ChapterScene chapter={chapter} /> : <ChapterStatic chapter={chapter} />;
+  return motionOn && !isMobile ? <ChapterScene {...props} /> : <ChapterStatic {...props} />;
 };
 
 export default ChapterSection;

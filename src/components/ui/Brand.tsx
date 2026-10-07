@@ -1,32 +1,31 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-/* Logotipo en texto: CASA J COSTA, con la J protagonista como en el sello. */
-export const Wordmark: React.FC<{ className?: string }> = ({ className }) => (
-  <span
-    aria-label="Casa J Costa"
-    className={cn(
-      'inline-flex items-center font-serif font-normal leading-none tracking-[0.05em] whitespace-nowrap',
-      className
-    )}
-  >
-    <span aria-hidden="true">CASA</span>
-    <span
-      aria-hidden="true"
-      className="mx-[0.1em] -my-[0.4em] translate-y-[0.13em] text-[1.9em] font-black tracking-normal"
-    >
-      J
-    </span>
-    <span aria-hidden="true">COSTA</span>
-  </span>
-);
-
 /* La J del logotipo, sola (trazado de la maqueta). Toma el color del texto. */
 export const JMark: React.FC<{ className?: string }> = ({ className }) => (
   <svg viewBox="0 0 482.4 597.19" fill="currentColor" aria-hidden="true" className={className}>
     <path d="M324.96 562.30C294.00 582.75 260.75 594.71 224.05 596.24C201.59 597.19 179.69 595.75 156.60 589.47C248.22 569.73 309.43 487.33 303.48 394.08L303.07 63.03C303.03 28.61 273.00 4.26 241.51 0.34L468.85 0.00L482.40 0.93C449.81 2.92 423.48 28.09 419.91 61.58L419.55 387.97C419.52 410.31 414.60 431.42 408.37 452.31C394.64 498.34 365.15 535.73 324.96 562.30z" />
     <path d="M38.45 364.44C81.49 315.54 157.08 316.15 199.49 364.79C237.06 407.89 233.86 472.65 193.18 512.03C152.09 551.81 86.42 552.09 45.06 512.65C3.82 473.33 0.00 408.12 38.45 364.44z" />
   </svg>
+);
+
+/* Logotipo en texto: CASA J COSTA, con la misma J del isologo (con su punto).
+   Las proporciones salen del sello: la J mide unas tres veces el alto de las
+   letras, asoma sobre ellas y baja bajo la línea; el punto queda bajo "CASA". */
+export const Wordmark: React.FC<{ className?: string }> = ({ className }) => (
+  <span
+    aria-label="Casa J Costa"
+    className={cn(
+      'inline-flex items-baseline font-serif font-normal leading-none tracking-[0.05em] whitespace-nowrap',
+      className
+    )}
+  >
+    <span aria-hidden="true">CASA</span>
+    <span aria-hidden="true" className="relative inline-block h-[0.7em] w-[0.92em]">
+      <JMark className="absolute right-[0.02em] top-[-0.27em] h-[2.2em] w-auto" />
+    </span>
+    <span aria-hidden="true">COSTA</span>
+  </span>
 );
 
 /* Filete ornamental que cierra cada columna (trazado de la maqueta). */
@@ -40,6 +39,12 @@ export const Ornament: React.FC<{ className?: string }> = ({ className }) => (
     height={20}
     className={className}
   />
+);
+
+export const TikTokIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.3 0 .59.05.86.12V9a6.33 6.33 0 0 0-.86-.06A6.34 6.34 0 0 0 3.15 15.3a6.34 6.34 0 0 0 6.34 6.33 6.34 6.34 0 0 0 6.33-6.33V8.69a8.18 8.18 0 0 0 4.78 1.53V6.77a4.85 4.85 0 0 1-1.01-.08Z" />
+  </svg>
 );
 
 export const WhatsAppIcon: React.FC<{ className?: string }> = ({ className }) => (

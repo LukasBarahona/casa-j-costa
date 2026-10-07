@@ -1,10 +1,10 @@
-import React, { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useMotionValueEvent } from 'framer-motion';
-import { CalendarDays, ChevronLeft, ChevronRight, Images } from 'lucide-react';
+import React, { lazy, Suspense, useMemo, useRef, useState } from 'react';
+import { CalendarDays, Images } from 'lucide-react';
+import CarouselArrows from '@/components/ui/CarouselArrows';
 import Reveal from '@/components/ui/Reveal';
 import type { LightboxItem } from '@/components/ui/Lightbox';
 import { experiences, experiencesEyebrow, experiencesTitle, type Experience } from '@/config/site';
-import { useMotionEnabled, useScrollProgress } from '@/lib/motion';
+import { useCarousel } from '@/hooks/useCarousel';
 
 // El visor de fotos se descarga recién cuando alguien abre un boleto.
 const Lightbox = lazy(() => import('@/components/ui/Lightbox'));
@@ -70,33 +70,17 @@ const Ticket: React.FC<TicketProps> = ({ experience, index, onOpen }) => (
   </li>
 );
 
-// Tramo del cruce de la sección por la pantalla en que la tira se desplaza sola.
-const travelFor = (progress: number) => Math.min(1, Math.max(0, (progress - 0.28) / 0.42));
 // Cuánto hay que mover el mouse para que cuente como arrastre y no como clic.
 const DRAG_THRESHOLD = 6;
 
-const arrowClass =
-  'flex h-11 w-11 items-center justify-center rounded-full border border-foreground/20 text-foreground transition-colors hover:border-foreground/60 hover:bg-foreground/5 disabled:pointer-events-none disabled:opacity-30';
-
 /* Experiencias propias de la casa, como boletos antiguos.
 
-   La tira se mueve de dos formas que se suman:
-   - sola, mientras la sección cruza la pantalla (ligada al scroll de la página);
-   - a mano, sin moverse del lugar: arrastrando, con las flechas, deslizando el
-     dedo o el trackpad de lado, o con las flechas del teclado.
+   La tira queda quieta: no se mueve con el scroll de la página. Se recorre
+   con las flechas verdes, arrastrando con el mouse o deslizando el dedo.
    Al tocar un boleto se abren las fotos de ese evento, con su fecha. */
 const ExperiencesSection: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const motionOn = useMotionEnabled();
-  const progress = useScrollProgress(sectionRef, ['start end', 'end start']);
-
-  // Lo que la persona corrió la tira a mano, respecto de donde la deja el scroll de la página.
-  const userShift = useRef(0);
-  // Última posición puesta por el scroll de la página (para distinguirla del scroll manual).
-  const lastAuto = useRef(0);
+  const { scrollerRef, edges, updateEdges, step } = useCarousel(24);
   const drag = useRef<{ startX: number; startLeft: number; moved: boolean } | null>(null);
-  const [edges, setEdges] = useState({ atStart: true, atEnd: false });
 
   // Boleto abierto y foto visible de ese evento.
   const [openExperience, setOpenExperience] = useState<Experience | null>(null);
@@ -106,58 +90,6 @@ const ExperiencesSection: React.FC = () => {
     () => (openExperience ? toLightboxItems(openExperience) : []),
     [openExperience]
   );
-
-  const maxScroll = () => {
-    const scroller = scrollerRef.current;
-    return scroller ? Math.max(0, scroller.scrollWidth - scroller.clientWidth) : 0;
-  };
-
-  const autoPosition = useCallback(
-    (value: number) => (motionOn ? travelFor(value) * maxScroll() : 0),
-    [motionOn]
-  );
-
-  const updateEdges = useCallback(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    setEdges({
-      atStart: scroller.scrollLeft <= 1,
-      atEnd: scroller.scrollLeft >= maxScroll() - 1,
-    });
-  }, []);
-
-  // Scroll de la página → posición de la tira (más lo corrido a mano).
-  useMotionValueEvent(progress, 'change', (value) => {
-    const scroller = scrollerRef.current;
-    if (!scroller || !motionOn) return;
-    const target = Math.min(maxScroll(), Math.max(0, autoPosition(value) + userShift.current));
-    lastAuto.current = target;
-    scroller.scrollLeft = target;
-  });
-
-  // Scroll manual → se recuerda cuánto se apartó de la posición automática.
-  const handleScroll = () => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    if (Math.abs(scroller.scrollLeft - lastAuto.current) > 1) {
-      userShift.current = scroller.scrollLeft - autoPosition(progress.get());
-      lastAuto.current = scroller.scrollLeft;
-    }
-    updateEdges();
-  };
-
-  useEffect(() => {
-    updateEdges();
-    window.addEventListener('resize', updateEdges);
-    return () => window.removeEventListener('resize', updateEdges);
-  }, [updateEdges]);
-
-  const step = (direction: 1 | -1) => {
-    const scroller = scrollerRef.current;
-    const ticket = scroller?.querySelector('li');
-    if (!scroller || !ticket) return;
-    scroller.scrollBy({ left: direction * (ticket.offsetWidth + 24), behavior: 'smooth' });
-  };
 
   // Arrastre con el mouse (en pantallas táctiles el deslizamiento ya es nativo).
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -195,42 +127,23 @@ const ExperiencesSection: React.FC = () => {
   };
 
   return (
-    <section id="experiencias" ref={sectionRef} className="overflow-x-clip py-24 md:py-32">
+    <section id="experiencias" className="overflow-x-clip py-24 md:py-32">
       <Reveal className="page flex items-end justify-between gap-6">
         <div>
           <p className="eyebrow">{experiencesEyebrow}</p>
           <h2 className="display mt-6 text-statement text-verde">{experiencesTitle}</h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            Toca un boleto para ver las fotos y la fecha del evento.
+            Recórrelas con las flechas y toca un boleto para ver las fotos y la fecha del evento.
           </p>
         </div>
-        <div className="flex flex-shrink-0 gap-2">
-          <button
-            type="button"
-            onClick={() => step(-1)}
-            disabled={edges.atStart}
-            aria-label="Boletos anteriores"
-            className={arrowClass}
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            type="button"
-            onClick={() => step(1)}
-            disabled={edges.atEnd}
-            aria-label="Boletos siguientes"
-            className={arrowClass}
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+        <CarouselArrows label="Boletos" atStart={edges.atStart} atEnd={edges.atEnd} onStep={step} />
       </Reveal>
 
       <div
         ref={scrollerRef}
         role="group"
         aria-label="Experiencias: desliza hacia los lados"
-        onScroll={handleScroll}
+        onScroll={updateEdges}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={endDrag}

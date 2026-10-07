@@ -20,8 +20,16 @@ export const site = {
   whatsapp: '56979878599',
   /* ⚠️ PENDIENTE — correo real. Vacío = el sitio no ofrece correo y todo va por WhatsApp. */
   email: '',
-  // Usuario de Instagram sin @ (vacío = no se muestra).
-  instagram: '',
+  /* ⚠️ PENDIENTE — enlaces a los perfiles del centro de eventos (URL completa).
+     Mientras estén vacíos, el ícono se muestra apagado y sin enlace. */
+  social: {
+    instagram: '',
+    tiktok: '',
+    linkedin: '',
+  },
+  /* ⚠️ PENDIENTE — enlace a la ficha de Google (para "Ver todas las reseñas").
+     Vacío = se usa el enlace del mapa. */
+  googleReviewsUrl: '',
 
   // Opcional: URL de un servicio de formularios (Formspree, Web3Forms, etc.).
   // Vacío = el formulario abre el programa de correo del visitante con todo escrito.
@@ -44,6 +52,7 @@ export const navigation = [
   { label: 'Menús', section: 'menus' },
   { label: 'Experiencias Jota', section: 'experiencias' },
   { label: 'Alianzas', section: 'alianzas' },
+  { label: 'Reseñas', section: 'resenas' },
   { label: 'Cotiza', section: 'cotizar' },
 ];
 
@@ -56,7 +65,6 @@ export const hero = {
   imageAlt: 'Cocina de madera de Casa J Costa, con mesón central y ventanales al jardín',
   // Sello circular de la marca, montado entre la foto y el texto.
   seal: `${import.meta.env.BASE_URL}logo-sello.svg`,
-  facts: ['Chicureo, Colina', `${site.capacity.min} a ${site.capacity.max} personas`, 'Cocina propia'],
 };
 
 /* ── Capítulos: La Casa · El Jota · Qué celebramos ───────────────────────────
@@ -82,6 +90,11 @@ export interface Chapter {
   imageAlt: string;
   // Qué parte de la foto se conserva cuando la franja la recorta (CSS object-position).
   imagePosition?: string;
+  // Retrato cuadrado: en pantallas anchas el capítulo abre con la foto en un
+  // recuadro a la izquierda y el texto a la derecha (en vez de la franja ancha).
+  portrait?: string;
+  // Invitación a deslizar las columnas, solo en teléfono.
+  swipeHint: string;
   columns: ChapterColumn[];
 }
 
@@ -94,6 +107,7 @@ export const houseChapter: Chapter = {
   image: img('banda-casa.webp'),
   imageAlt: 'El patio de Casa J Costa de noche, con guirnaldas de luces entre los árboles',
   imagePosition: '50% 60%',
+  swipeHint: 'Desliza para seguir recorriendo la casa',
   columns: [
     {
       title: 'La Casa',
@@ -132,6 +146,8 @@ export const hostChapter: Chapter = {
   image: img('banda-jota.webp'),
   imageAlt: 'El Jota, anfitrión de Casa J Costa, junto al mesón de la cocina',
   imagePosition: '0% 40%',
+  portrait: img('anfitrion-jota.webp'),
+  swipeHint: 'Desliza para ver más detalles',
   columns: [
     {
       title: 'Ventanas',
@@ -173,6 +189,7 @@ export const celebrateChapter: Chapter = {
   image: img('banda-celebramos.webp'),
   imageAlt: 'Mesa de la casa servida con quesos, vino y una cortadora antigua',
   imagePosition: '50% 55%',
+  swipeHint: 'Desliza para ver qué más celebramos',
   columns: [
     {
       title: 'Matrimonios',
@@ -345,7 +362,10 @@ export const experiences: Experience[] = [
   },
 ];
 
-/* ── Alianzas ─────────────────────────────────────────────────────────── */
+/* ── Alianzas ────────────────────────────────────────────────────────────
+   Dos grupos que se despliegan al tocarlos:
+   - clientes: con quién hemos trabajado (colegios, empresas, familias);
+   - colaboradores: con quiénes trabajamos (viñas, productores, auspicios). */
 
 export interface Partner {
   name: string;
@@ -353,15 +373,54 @@ export interface Partner {
   logo: string;
 }
 
-export const alliancesIntro = ['Con quién', 'hemos trabajado.'];
-export const alliancesLead = 'Marcas, productores y personas que han sido parte de la casa.';
+export interface AllianceGroup {
+  title: string;
+  lead: string;
+  partners: Partner[];
+}
 
-/* ⚠️ PENDIENTE — marcas y aliados reales. Mientras la lista esté vacía, la
-   sección muestra espacios reservados en vez de inventar nombres.
-   Ejemplo: { name: 'Viña Ejemplo', logo: img('aliado-vina-ejemplo.webp') } */
-export const partners: Partner[] = [];
-// Cuántos espacios reservados mostrar mientras no haya aliados cargados.
-export const partnerPlaceholders = 6;
+export const alliancesIntro = ['Quiénes nos', 'acompañan.'];
+export const alliancesLead = 'Toca cada grupo para ver quiénes han pasado por la casa y con quiénes trabajamos.';
+
+/* ⚠️ POR CONFIRMAR — los nombres vienen del feedback del cliente (dados como
+   ejemplo). Confirmar la lista y la forma de escribirlos, y sumar logos.
+   Ejemplo con logo: { name: 'Viña Ejemplo', logo: img('aliado-vina-ejemplo.webp') } */
+export const allianceGroups: AllianceGroup[] = [
+  {
+    title: 'Con quién hemos trabajado',
+    lead: 'Clientes que han celebrado en la casa.',
+    partners: [{ name: 'Alumni Colegio Apoquindo', logo: '' }],
+  },
+  {
+    title: 'Con quiénes trabajamos',
+    lead: 'Viñas, productores y marcas que nos acompañan en cada evento.',
+    partners: [
+      { name: 'Viña Matetic', logo: '' },
+      { name: 'Pisco La Pizka', logo: '' },
+    ],
+  },
+];
+
+/* ── Reseñas de Google ───────────────────────────────────────────────────── */
+
+export interface Review {
+  author: string;
+  // 1 a 5 estrellas.
+  rating: number;
+  text: string;
+  // Cuándo se publicó, tal como se quiere mostrar (p. ej. "Marzo de 2026").
+  date: string;
+}
+
+export const reviewsIntro = ['Lo que dicen', 'quienes celebraron aquí.'];
+
+/* ⚠️ PENDIENTE — reseñas reales, copiadas de Google tal como fueron escritas.
+   Mientras la lista esté vacía, la sección muestra tarjetas de muestra
+   rotuladas como tales (no se inventan reseñas).
+   Ejemplo: { author: 'María P.', rating: 5, text: '…', date: 'Marzo de 2026' } */
+export const reviews: Review[] = [];
+// Cuántas tarjetas de muestra mostrar mientras no haya reseñas cargadas.
+export const reviewPlaceholders = 4;
 
 /* ── Cotización ───────────────────────────────────────────────────────── */
 
@@ -385,4 +444,4 @@ export const modalities = [
 ];
 
 // Condición de reserva: se muestra destacada, es lo primero que hay que saber.
-export const deposit = { amount: '30% de abono', detail: 'para reservar tu fecha' };
+export const deposit = { amount: '50% de abono', detail: 'para reservar tu fecha' };

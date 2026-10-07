@@ -111,6 +111,12 @@ y sus datos están en `houseChapter`, `hostChapter`, `celebrateChapter` de `site
 - La sección de boletos se llama **Experiencias Jota**; todos los boletos tienen el mismo alto (en teléfono "Invitada" quedaba más bajo).
 - Abono para reservar: **30%** (antes 50%).
 
+### V3.3 — 2026-10-07
+Feedback del cliente en nueve puntos (ver `qa/REVISION_V3_3.md`): J del isologo en el logotipo, portada sin globitos y con
+entrada fundida, El Jota en recuadro + texto, círculos de menú con hover, boletos estáticos con flechas verdes, alianzas
+desplegables en dos grupos, sección de reseñas de Google, abono 50%, íconos de redes en el pie, Cotizar → paso a paso,
+correo y modalidad obligatorios. Faltan: enlaces de redes, correo, reseñas reales y confirmar nombres de alianzas.
+
 ## Publicación
 
 - **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/

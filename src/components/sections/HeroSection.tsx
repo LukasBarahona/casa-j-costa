@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
+import { Ornament } from '@/components/ui/Brand';
 import { hero } from '@/config/site';
 import { useMotionEnabled, useScrollProgress } from '@/lib/motion';
 
@@ -29,20 +30,14 @@ const Seal: React.FC<{ className?: string }> = ({ className = '' }) => (
   />
 );
 
-/* Titular, bajada y datos clave: la mitad inferior de la lámina. */
+/* Titular, bajada y filete: la mitad inferior de la lámina. */
 const HeroText: React.FC = () => (
   <>
     <h1 className="display text-hero text-verde">{hero.title}</h1>
     <p className="mt-2 text-[clamp(1rem,1.9vw,1.7rem)] italic leading-snug text-foreground md:mt-3">
       {hero.subtitle}
     </p>
-    <ul className="mt-5 flex flex-wrap justify-center gap-2 md:mt-6">
-      {hero.facts.map((fact) => (
-        <li key={fact} className="rounded-full border border-verde/35 px-3.5 py-1.5 text-xs font-medium text-verde md:text-sm">
-          {fact}
-        </li>
-      ))}
-    </ul>
+    <Ornament className="mt-6 h-auto w-[112px] md:mt-8" />
   </>
 );
 

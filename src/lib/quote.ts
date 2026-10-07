@@ -21,13 +21,13 @@ export type QuoteErrors = Partial<Record<keyof QuoteData, string>>;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+export const isValidEmail = (value: string) => EMAIL_PATTERN.test(value.trim());
+
 /* Revisa una cotización antes de enviarla. Devuelve los datos limpios (sin
    espacios sobrantes) y, si algo falta, el mensaje para cada campo.
-   Por WhatsApp el correo no hace falta: solo se valida si viene escrito. */
-export function validateQuote(
-  input: QuoteData,
-  { requireEmail }: { requireEmail: boolean }
-): { data: QuoteData; errors: QuoteErrors } {
+   Pide lo mismo que la cotización paso a paso: nombre, correo, tipo de evento,
+   invitados y qué se necesita. */
+export function validateQuote(input: QuoteData): { data: QuoteData; errors: QuoteErrors } {
   const data: QuoteData = {};
   for (const [field, value] of Object.entries(input)) {
     data[field as keyof QuoteData] = (value ?? '').trim();
@@ -36,7 +36,7 @@ export function validateQuote(
   const errors: QuoteErrors = {};
   if (!data.name) errors.name = 'Escribe tu nombre';
   if (!data.email) {
-    if (requireEmail) errors.email = 'Escribe tu correo';
+    errors.email = 'Escribe tu correo';
   } else if (!EMAIL_PATTERN.test(data.email)) {
     errors.email = 'Revisa el correo, parece incompleto';
   }
@@ -45,6 +45,7 @@ export function validateQuote(
     errors.eventDetail = 'Cuéntanos qué tipo de evento es';
   }
   if (!data.guests || !(Number(data.guests) > 0)) errors.guests = 'Indica cuántos invitados';
+  if (!data.modality) errors.modality = 'Elige qué necesitas';
 
   return { data, errors };
 }

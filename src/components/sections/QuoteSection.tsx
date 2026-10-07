@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Mail, MapPin, Send } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
 import Reveal from '@/components/ui/Reveal';
 import { WhatsAppIcon } from '@/components/ui/Brand';
@@ -47,14 +47,14 @@ const QuoteSection: React.FC = () => {
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
-  const validate = (requireEmail: boolean): QuoteData | null => {
+  const validate = (): QuoteData | null => {
     // El menú solo aplica al Evento Integral, y el detalle solo al evento "Otro".
     const candidate = {
       ...formData,
       menu: formData.modality === MENU_MODALITY ? formData.menu : '',
       eventDetail: formData.eventType === OTHER_EVENT ? formData.eventDetail : '',
     };
-    const { data, errors: found } = validateQuote(candidate, { requireEmail });
+    const { data, errors: found } = validateQuote(candidate);
     setErrors(found);
 
     const firstInvalid = Object.keys(found)[0];
@@ -65,7 +65,7 @@ const QuoteSection: React.FC = () => {
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = validate(true);
+    const data = validate();
     if (!data) return;
 
     setIsSubmitting(true);
@@ -92,7 +92,7 @@ const QuoteSection: React.FC = () => {
   };
 
   const handleWhatsApp = () => {
-    const data = validate(false);
+    const data = validate();
     if (data) openWhatsApp(quoteWhatsAppText(data));
   };
 
@@ -140,7 +140,7 @@ const QuoteSection: React.FC = () => {
               O déjanos los datos de tu evento.
             </h3>
             <p className="mt-4 max-w-[400px] text-muted-foreground">
-              Al enviar se abre WhatsApp con tu cotización ya escrita. Te respondemos con la propuesta y la disponibilidad.
+Envíala por WhatsApp o por correo: el mensaje ya va escrito. Te respondemos con la propuesta y la disponibilidad.
             </p>
 
             <ul className="mt-10 space-y-4 text-sm font-medium text-foreground">
@@ -211,7 +211,7 @@ const QuoteSection: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="quote-email" className="field-label">Correo (opcional)</label>
+                <label htmlFor="quote-email" className="field-label">Correo</label>
                 <input
                   id="quote-email"
                   type="email"
@@ -316,11 +316,12 @@ const QuoteSection: React.FC = () => {
               </div>
 
               <div className={formData.modality === MENU_MODALITY ? '' : 'sm:col-span-2'}>
-                <label htmlFor="quote-modality" className="field-label">¿Qué necesitas? (opcional)</label>
+                <label htmlFor="quote-modality" className="field-label">¿Qué necesitas?</label>
                 <select
                   id="quote-modality"
                   value={formData.modality}
                   onChange={update('modality')}
+                  aria-invalid={!!errors.modality}
                   className="field"
                 >
                   <option value="">Elige una opción</option>
@@ -330,6 +331,7 @@ const QuoteSection: React.FC = () => {
                     </option>
                   ))}
                 </select>
+                {errors.modality && <p className="mt-1 pl-1 text-xs text-destructive">{errors.modality}</p>}
               </div>
 
               {formData.modality === MENU_MODALITY && (
@@ -362,7 +364,7 @@ const QuoteSection: React.FC = () => {
               <div className="flex flex-col gap-3 pt-2 sm:col-span-2 sm:flex-row">
                 <button type="submit" className="pill pill-brand flex-1 py-3.5">
                   <WhatsAppIcon className="h-4 w-4" />
-                  Enviar cotización por WhatsApp
+                  Cotizar por WhatsApp
                 </button>
                 {site.email && (
                   <button
@@ -373,8 +375,8 @@ const QuoteSection: React.FC = () => {
                   >
                     {isSubmitting ? 'Enviando…' : (
                       <>
-                        Enviar por correo
-                        <Send size={14} />
+                        <Mail size={15} />
+                        Cotizar por correo
                       </>
                     )}
                   </button>

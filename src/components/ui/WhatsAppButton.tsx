@@ -4,18 +4,10 @@ import { ArrowRight, X } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/ui/Brand';
 import { site } from '@/config/site';
 import { useSiteActions } from '@/hooks/useSiteActions';
-import { openWhatsApp } from '@/lib/quote';
 import { EASE_OUT as EASE } from '@/lib/motion';
 
-// Respuestas rápidas: cada una abre WhatsApp con el mensaje ya escrito.
-const quickReplies = [
-  { label: 'Quiero cotizar un matrimonio', message: 'Hola, quiero cotizar un matrimonio' },
-  { label: 'Una celebración familiar', message: 'Hola, quiero cotizar una celebración familiar' },
-  { label: 'Un evento de empresa', message: 'Hola, quiero cotizar un evento de empresa' },
-  { label: 'Solo arrendar el recinto', message: 'Hola, quiero cotizar el arriendo del recinto' },
-];
-
-/* Botón flotante de WhatsApp con respuestas rápidas. */
+/* Botón flotante de WhatsApp. Al tocarlo pregunta si quieres cotizar y te
+   lleva a la cotización paso a paso, que al final se envía por WhatsApp. */
 const WhatsAppButton: React.FC = () => {
   const { openQuote } = useSiteActions();
   const [open, setOpen] = useState(false);
@@ -39,9 +31,9 @@ const WhatsAppButton: React.FC = () => {
     };
   }, [open]);
 
-  const send = (message: string) => {
-    openWhatsApp(`${message} en ${site.name}. ¿Tienen disponibilidad?`);
+  const startQuote = () => {
     setOpen(false);
+    openQuote();
   };
 
   return (
@@ -51,7 +43,7 @@ const WhatsAppButton: React.FC = () => {
           <motion.div
             id="whatsapp-panel"
             role="dialog"
-            aria-label={`Escribir a ${site.name} por WhatsApp`}
+            aria-label={`Cotizar con ${site.name}`}
             initial={{ opacity: 0, y: 12, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
@@ -65,32 +57,19 @@ const WhatsAppButton: React.FC = () => {
 
             <div className="p-3">
               <p className="rounded-2xl rounded-tl-md bg-verde-niebla px-4 py-2.5 text-sm text-verde-profundo">
-                Hola 👋 ¿Qué quieres celebrar?
+                Hola 👋 ¿Quieres cotizar tu evento? Son cuatro pasos y al final nos llega por WhatsApp.
               </p>
 
-              <div className="mt-3 space-y-1.5">
-                {quickReplies.map((reply) => (
-                  <button
-                    key={reply.label}
-                    type="button"
-                    onClick={() => send(reply.message)}
-                    className="group flex w-full items-center justify-between gap-3 min-h-11 rounded-full border border-ebano/15 px-4 py-2.5 text-left text-sm font-medium text-ebano transition-colors hover:border-verde hover:bg-verde-niebla/60"
-                  >
-                    {reply.label}
-                    <ArrowRight size={14} className="flex-shrink-0 text-ebano/50 transition-transform group-hover:translate-x-0.5" />
-                  </button>
-                ))}
-              </div>
-
+              <button type="button" onClick={startQuote} className="pill pill-brand group mt-3 min-h-11 w-full">
+                Sí, quiero cotizar
+                <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
               <button
                 type="button"
-                onClick={() => {
-                  setOpen(false);
-                  openQuote();
-                }}
-                className="mt-3 w-full pb-1 text-center text-xs font-medium text-ebano/60 underline underline-offset-4 hover:text-ebano"
+                onClick={() => setOpen(false)}
+                className="mt-2 w-full pb-1 pt-1 text-center text-xs font-medium text-ebano/60 underline underline-offset-4 hover:text-ebano"
               >
-                Prefiero armar mi cotización paso a paso
+                Ahora no
               </button>
             </div>
           </motion.div>
@@ -107,7 +86,7 @@ const WhatsAppButton: React.FC = () => {
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-controls="whatsapp-panel"
-        aria-label={open ? 'Cerrar WhatsApp' : 'Escribir por WhatsApp'}
+        aria-label={open ? 'Cerrar' : 'Cotizar por WhatsApp'}
         className="relative flex h-12 w-12 items-center justify-center rounded-full md:h-14 md:w-14 bg-verde text-marfil shadow-lg shadow-black/25 ring-1 ring-white/20"
       >
         {!open && (

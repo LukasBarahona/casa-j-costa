@@ -3,6 +3,7 @@ import { motion, useTransform, type MotionValue } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Photo from '@/components/ui/Photo';
 import Reveal from '@/components/ui/Reveal';
+import { JMark } from '@/components/ui/Brand';
 import {
   menus,
   menusImage,
@@ -18,20 +19,37 @@ import { useMotionEnabled, useScrollProgress } from '@/lib/motion';
 
 /* Círculo blanco de un menú, montado sobre el borde de la foto (como en la maqueta).
    Teléfono: solo el numeral. Pantallas anchas: numeral, nombre y bajada. */
-const MenuDisc: React.FC<{ menu: Menu }> = ({ menu }) => (
-  <div className="flex aspect-square w-full flex-col items-center rounded-full bg-white px-[8%] pt-[14%] text-center text-verde shadow-[0_18px_40px_-28px_rgba(42,57,39,0.5)] max-md:justify-center max-md:pt-0">
-    <span className="display text-[clamp(1.75rem,3.9vw,3.5rem)] leading-none" aria-hidden="true">
-      {menu.numeral}
-    </span>
-    <span className="display mt-[4%] hidden text-[clamp(1.05rem,2.5vw,2.25rem)] leading-tight md:block">
-      {menu.name}
-    </span>
-    <span className="mt-[7%] hidden h-px w-8 bg-verde/40 lg:block" aria-hidden="true" />
-    <span className="mt-[6%] hidden max-w-[13em] text-[clamp(0.8rem,1.05vw,1rem)] italic leading-snug text-foreground/75 lg:block">
-      {menu.tagline}
-    </span>
-  </div>
-);
+const MenuDisc: React.FC<{ menu: Menu }> = ({ menu }) => {
+  const { openQuote } = useSiteActions();
+
+  return (
+    <button
+      type="button"
+      onClick={() => openQuote({ modality: MENU_MODALITY, menu: menu.name })}
+      aria-label={`Cotizar el menú ${menu.name}`}
+      // Al pasar el cursor: el círculo se levanta, se tiñe de verde y el filete interior se aclara.
+      className="group/disc relative flex aspect-square w-full flex-col items-center rounded-full bg-white px-[8%] pt-[13%] text-center text-verde shadow-[0_18px_40px_-28px_rgba(42,57,39,0.5)] transition-[transform,background-color,color,box-shadow] duration-500 ease-out hover:-translate-y-2 hover:bg-verde hover:text-white hover:shadow-[0_28px_50px_-26px_rgba(42,57,39,0.75)] focus-visible:-translate-y-2 focus-visible:bg-verde focus-visible:text-white max-md:justify-center max-md:pt-0"
+    >
+      {/* Filete interior */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-[4.5%] rounded-full border border-verde/25 transition-[inset,border-color] duration-500 ease-out group-hover/disc:inset-[3%] group-hover/disc:border-white/45 group-focus-visible/disc:border-white/45"
+      />
+      <span className="display text-[clamp(1.75rem,3.9vw,3.5rem)] leading-none" aria-hidden="true">
+        {menu.numeral}
+      </span>
+      <span className="display mt-[4%] hidden text-[clamp(1.05rem,2.5vw,2.25rem)] leading-tight md:block">
+        {menu.name}
+      </span>
+      <span className="mt-[6%] hidden h-px w-8 bg-current opacity-40 lg:block" aria-hidden="true" />
+      <span className="mt-[5%] hidden max-w-[13em] text-[clamp(0.8rem,1.05vw,1rem)] italic leading-snug opacity-80 lg:block">
+        {menu.tagline}
+      </span>
+      {/* La J de la casa, como sello discreto al pie del círculo */}
+      <JMark className="mt-auto mb-[9%] hidden h-[13%] w-auto opacity-25 transition-opacity duration-500 group-hover/disc:opacity-70 md:block" />
+    </button>
+  );
+};
 
 /* El círculo sube y crece mientras la sección entra en pantalla; cada uno parte un poco después. */
 const RisingDisc: React.FC<{ menu: Menu; index: number; progress: MotionValue<number> }> = ({

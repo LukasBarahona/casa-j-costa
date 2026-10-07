@@ -3,13 +3,20 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Mail } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/ui/Brand';
 import { deposit, eventTypes, menus, modalities, MENU_MODALITY, OTHER_EVENT, site } from '@/config/site';
-import { formatDate, openWhatsApp, quoteWhatsAppText, todayISO, type QuoteData } from '@/lib/quote';
+import {
+  formatDate,
+  isValidEmail,
+  openWhatsApp,
+  quoteWhatsAppText,
+  sendQuoteByEmail,
+  todayISO,
+  type QuoteData,
+} from '@/lib/quote';
 
 interface QuoteWizardProps {
   preset: QuoteData;
   onBack: () => void;
   onClose: () => void;
-  onContinueByEmail: (data: QuoteData) => void;
 }
 
 const TOTAL_STEPS = 4;
@@ -21,7 +28,7 @@ const optionClass = (selected: boolean) =>
 
 /* Cotización en cuatro pasos dentro del menú:
    tipo de evento → invitados y fecha → modalidad → resumen y envío. */
-const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onContinueByEmail }) => {
+const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<QuoteData>({
     eventType: '',
@@ -31,6 +38,7 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
     modality: '',
     menu: '',
     name: '',
+    email: '',
     ...preset,
   });
 
@@ -40,6 +48,9 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
 
   const isOther = formData.eventType === OTHER_EVENT;
   const hasName = (formData.name ?? '').trim() !== '';
+  const hasEmail = isValidEmail(formData.email ?? '');
+  // Para enviar hacen falta el nombre y un correo donde responder.
+  const canSend = hasName && hasEmail;
 
   const canProceed = () => {
     switch (step) {
@@ -61,6 +72,11 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
 
   const handleWhatsApp = () => {
     openWhatsApp(quoteWhatsAppText(formData));
+    onClose();
+  };
+
+  const handleEmail = async () => {
+    await sendQuoteByEmail(formData);
     onClose();
   };
 
@@ -274,8 +290,24 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
             aria-invalid={!hasName}
             className="field"
           />
-          {!hasName && (
-            <p className="mt-1 pl-1 text-xs text-muted-foreground">Escribe tu nombre para enviar la cotización.</p>
+
+          <label htmlFor="wizard-email" className="field-label mt-4">Tu correo</label>
+          <input
+            id="wizard-email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            placeholder="tu@correo.com"
+            autoComplete="email"
+            maxLength={255}
+            required
+            aria-invalid={!hasEmail}
+            className="field"
+          />
+          {!canSend && (
+            <p className="mt-1 pl-1 text-xs text-muted-foreground">
+              Escribe tu nombre y tu correo para enviar la cotización.
+            </p>
           )}
         </div>
       )}
@@ -294,21 +326,21 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose, onCo
           <button
             type="button"
             onClick={handleWhatsApp}
-            disabled={!hasName}
+            disabled={!canSend}
             className="pill pill-brand w-full py-3 disabled:opacity-40"
           >
             <WhatsAppIcon className="w-4 h-4" />
-            Enviar por WhatsApp
+            Cotizar por WhatsApp
           </button>
           {site.email && (
             <button
               type="button"
-              onClick={() => onContinueByEmail(formData)}
-              disabled={!hasName}
+              onClick={handleEmail}
+              disabled={!canSend}
               className="pill pill-ghost w-full py-3 disabled:opacity-40"
             >
               <Mail size={14} />
-              Seguir por correo
+              Cotizar por correo
             </button>
           )}
         </div>

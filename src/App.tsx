@@ -10,6 +10,7 @@ import ServicesSection from '@/components/sections/ServicesSection';
 import MenusSection from '@/components/sections/MenusSection';
 import ExperiencesSection from '@/components/sections/ExperiencesSection';
 import AlliancesSection from '@/components/sections/AlliancesSection';
+import ReviewsSection from '@/components/sections/ReviewsSection';
 import QuoteSection from '@/components/sections/QuoteSection';
 import ScrollProgress from '@/components/ui/ScrollProgress';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
@@ -56,7 +57,7 @@ const Page = () => {
           Nota: sin `overflow: hidden` aquí; rompería las escenas ancladas (sticky). */}
       <main className="relative z-[1] rounded-b-sheet bg-background">
         <HeroSection />
-        <ChapterSection chapter={houseChapter} />
+        <ChapterSection chapter={houseChapter} softTop />
         <ChapterSection chapter={hostChapter} />
         <StatementSection />
         <ChapterSection chapter={celebrateChapter} />
@@ -65,6 +66,7 @@ const Page = () => {
         <div className="tone-marfil relative rounded-b-sheet">
           <ExperiencesSection />
           <AlliancesSection />
+          <ReviewsSection />
           <QuoteSection />
         </div>
       </main>

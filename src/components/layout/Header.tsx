@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Home } from 'lucide-react';
 import { Wordmark } from '@/components/ui/Brand';
 import NavMenu from '@/components/ui/NavMenu';
+import { useSiteActions } from '@/hooks/useSiteActions';
 import { EASE_OUT } from '@/lib/motion';
 
 // A partir de cuántos píxeles de scroll la barra deja de ser transparente.
@@ -62,11 +63,12 @@ const barClass: Record<HeaderLook, string> = {
 /* Encabezado fijo y discreto: una franja delgada pegada al borde superior.
    - Arriba, sobre la foto de portada: transparente.
    - Al bajar: vidrio esmerilado que toma el tono de la sección que tiene debajo.
-   Lleva el logotipo, la casita (volver al inicio), Cotizar (directo al
-   formulario del final) y el menú de tres rayitas con el índice. */
+   Lleva el logotipo, la casita (volver al inicio), Cotizar (abre la
+   cotización paso a paso) y el menú de tres rayitas con el índice. */
 const Header: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const look = useHeaderLook(ref);
+  const { openQuote } = useSiteActions();
   const onLight = look === 'light';
 
   const iconButton = `flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
@@ -83,15 +85,16 @@ const Header: React.FC = () => {
     >
       <div className="page flex h-14 items-center justify-between md:h-[3.75rem]">
         <a href="#inicio" aria-label="Casa J Costa: volver al inicio" className="py-1 transition-opacity hover:opacity-70">
-          <Wordmark className="text-[14px] md:text-[17px] lg:text-[19px]" />
+          <Wordmark className="-translate-y-[0.42em] text-[14px] md:text-[17px] lg:text-[19px]" />
         </a>
 
         <div className="-mr-2 flex items-center gap-0.5 md:gap-1">
           <a href="#inicio" aria-label="Volver al inicio" title="Volver al inicio" className={iconButton}>
             <Home size={17} />
           </a>
-          <a
-            href="#formulario"
+          <button
+            type="button"
+            onClick={() => openQuote()}
             className={`pill mx-1 h-9 border px-4 py-0 text-[13px] md:px-5 ${
               onLight
                 ? 'border-ebano/25 hover:bg-ebano hover:text-marfil'
@@ -99,7 +102,7 @@ const Header: React.FC = () => {
             }`}
           >
             Cotizar
-          </a>
+          </button>
           <NavMenu buttonClassName={iconButton} />
         </div>
       </div>
