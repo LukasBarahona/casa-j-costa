@@ -178,7 +178,7 @@ const QuoteSection: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="quote-email" className="field-label">Correo</label>
+                <label htmlFor="quote-email" className="field-label">Correo (opcional)</label>
                 <input
                   id="quote-email"
                   type="email"

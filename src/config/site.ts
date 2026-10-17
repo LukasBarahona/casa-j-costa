@@ -103,8 +103,8 @@ export const houseChapter: Chapter = {
   id: 'la-casa',
   title: 'La Casa',
   lead: [
-    '**No es un centro de eventos cualquiera: es una casa.**',
-    'Y como en toda buena casa, aquí te recibe el dueño. El Jota abre la puerta con una sonrisa, te muestra cada rincón y, si le das tiempo, te cuenta la historia de cada reliquia que encuentras en el camino. Algunas tienen más años que todos tus invitados juntos.',
+    '**Un lugar con historia, para celebrar las tuyas.**',
+    'Aquí, como en toda buena casa, te recibe el dueño. El Jota abre la puerta con una sonrisa, te muestra cada rincón y, si le das tiempo, te cuenta la historia de cada reliquia que encuentras en el camino. Algunas tienen más años que todos tus invitados juntos.',
     'Madera noble, ventanas antiguas y piezas reunidas durante más de 40 años, con cada detalle elegido con cuidado. Afuera, un jardín amplio y lleno de verde y un fogón para alargar la noche. Y en la cocina, lo nuestro: buena mesa, hecha en casa.',
     `Celebra de ${site.capacity.min} a ${site.capacity.max} personas, con estacionamiento para todos tus invitados. **Tú pones la fecha; nosotros, la casa.**`,
   ],
@@ -335,7 +335,7 @@ export const experiences: Experience[] = [
   },
   {
     name: 'Colecciones',
-    description: 'Antigüedades y objetos únicos, con sus historias.',
+    description: 'Reliquias y objetos únicos, con sus historias.',
     date: '',
     photos: [img('07-objetos-con-historia.webp'), img('12-cortadora.webp')],
   },

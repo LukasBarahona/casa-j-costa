@@ -48,9 +48,10 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose }) =>
 
   const isOther = formData.eventType === OTHER_EVENT;
   const hasName = (formData.name ?? '').trim() !== '';
-  const hasEmail = isValidEmail(formData.email ?? '');
-  // Para enviar hacen falta el nombre y un correo donde responder.
-  const canSend = hasName && hasEmail;
+  // El correo es opcional; si se escribe, tiene que estar completo.
+  const email = (formData.email ?? '').trim();
+  const emailOk = email === '' || isValidEmail(email);
+  const canSend = hasName && emailOk;
 
   const canProceed = () => {
     switch (step) {
@@ -291,7 +292,7 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose }) =>
             className="field"
           />
 
-          <label htmlFor="wizard-email" className="field-label mt-4">Tu correo</label>
+          <label htmlFor="wizard-email" className="field-label mt-4">Tu correo (opcional)</label>
           <input
             id="wizard-email"
             type="email"
@@ -300,13 +301,12 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose }) =>
             placeholder="tu@correo.com"
             autoComplete="email"
             maxLength={255}
-            required
-            aria-invalid={!hasEmail}
+            aria-invalid={!emailOk}
             className="field"
           />
           {!canSend && (
             <p className="mt-1 pl-1 text-xs text-muted-foreground">
-              Escribe tu nombre y tu correo para enviar la cotización.
+              {hasName ? 'Revisa el correo, parece incompleto.' : 'Escribe tu nombre para enviar la cotización.'}
             </p>
           )}
         </div>

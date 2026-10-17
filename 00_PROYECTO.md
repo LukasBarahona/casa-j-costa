@@ -140,7 +140,14 @@ correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada 
 - Cotiza: textos nuevos, solo WhatsApp (botón centrado; `site.email` vacío), opciones nuevas de evento y modalidad,
   menús solo con nombre, listas desplegables propias (`ui/Select.tsx`, accesibles con teclado).
 - Redes: Instagram → instagram.com/del_jota; TikTok, LinkedIn y correo se ven sin enlace. Dirección subrayada como enlace a Maps.
-- Justificado (`.prose-justify`, `.prose-justify-center`) en párrafos largos desde 600 px; en teléfono, a la izquierda.
+- Justificado (`.prose-justify`, `.prose-justify-center`) en párrafos largos (desde la V4.1, también en teléfono).
+
+### V4.1 — 2026-10-17
+- La Casa: "Un lugar con historia, para celebrar las tuyas." (negrita) y "Aquí, como en toda buena casa, te recibe el dueño."
+- Justificado también en teléfono (se quitó la excepción de <600 px).
+- Meta description: "Cotiza tu fecha por WhatsApp."
+- Correo opcional en el formulario y en el paso a paso (solo se revisa si viene escrito).
+- Boleto Colecciones: "Reliquias y objetos únicos, con sus historias."
 
 ## Publicación
 

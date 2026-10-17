@@ -25,8 +25,8 @@ export const isValidEmail = (value: string) => EMAIL_PATTERN.test(value.trim());
 
 /* Revisa una cotización antes de enviarla. Devuelve los datos limpios (sin
    espacios sobrantes) y, si algo falta, el mensaje para cada campo.
-   Pide lo mismo que la cotización paso a paso: nombre, correo, tipo de evento,
-   invitados y qué se necesita. */
+   Pide lo mismo que la cotización paso a paso: nombre, tipo de evento,
+   invitados y qué se necesita. El correo es opcional: solo se revisa si viene escrito. */
 export function validateQuote(input: QuoteData): { data: QuoteData; errors: QuoteErrors } {
   const data: QuoteData = {};
   for (const [field, value] of Object.entries(input)) {
@@ -35,9 +35,7 @@ export function validateQuote(input: QuoteData): { data: QuoteData; errors: Quot
 
   const errors: QuoteErrors = {};
   if (!data.name) errors.name = 'Escribe tu nombre';
-  if (!data.email) {
-    errors.email = 'Escribe tu correo';
-  } else if (!EMAIL_PATTERN.test(data.email)) {
+  if (data.email && !EMAIL_PATTERN.test(data.email)) {
     errors.email = 'Revisa el correo, parece incompleto';
   }
   if (!data.eventType) errors.eventType = 'Elige el tipo de evento';
