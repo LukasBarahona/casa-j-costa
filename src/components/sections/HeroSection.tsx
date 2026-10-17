@@ -99,8 +99,7 @@ const HeroScene: React.FC = () => {
           className="tone-marfil absolute inset-x-0 bottom-0 will-change-transform"
         >
           <motion.div
-            style={{ opacity: textOpacity, y: textY }}
-            style={{ paddingTop: `calc(${SEAL} / 2 + 0.75rem)` }}
+            style={{ opacity: textOpacity, y: textY, paddingTop: `calc(${SEAL} / 2 + 0.75rem)` }}
             className="page flex h-full flex-col items-center text-center"
           >
             <HeroText />
