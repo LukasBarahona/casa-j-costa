@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Mail, MapPin } from 'lucide-react';
-import { toast } from 'sonner';
+import { MapPin } from 'lucide-react';
 import Reveal from '@/components/ui/Reveal';
+import Select from '@/components/ui/Select';
 import { WhatsAppIcon } from '@/components/ui/Brand';
-import { deposit, eventTypes, menus, modalities, MENU_MODALITY, OTHER_EVENT, site } from '@/config/site';
+import { deposit, eventTypes, menuOptions, modalities, MENU_MODALITY, OTHER_EVENT, site } from '@/config/site';
 import { useSiteActions } from '@/hooks/useSiteActions';
 import {
   openWhatsApp,
   quoteWhatsAppText,
-  sendQuoteByEmail,
   todayISO,
   validateQuote,
   whatsappUrl,
@@ -33,7 +32,6 @@ const QuoteSection: React.FC = () => {
   const { formDraft, openQuote } = useSiteActions();
   const [formData, setFormData] = useState(emptyForm);
   const [errors, setErrors] = useState<QuoteErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // El asistente de cotización puede dejar el formulario a medio llenar.
   useEffect(() => {
@@ -44,6 +42,11 @@ const QuoteSection: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  const setField = (field: keyof QuoteData) => (value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
@@ -61,34 +64,6 @@ const QuoteSection: React.FC = () => {
     if (!firstInvalid) return data;
     document.getElementById(`quote-${firstInvalid}`)?.focus();
     return null;
-  };
-
-  const handleEmail = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const data = validate();
-    if (!data) return;
-
-    setIsSubmitting(true);
-    try {
-      const result = await sendQuoteByEmail(data);
-      if (result === 'sent') {
-        toast.success('Cotización enviada', {
-          description: 'Te responderemos al correo que nos dejaste.',
-        });
-        setFormData(emptyForm);
-      } else {
-        toast('Se abrió tu programa de correo', {
-          description: 'El mensaje ya va escrito: solo falta presionar Enviar.',
-        });
-      }
-    } catch (err) {
-      console.error('Quote submission failed', err);
-      toast.error('No pudimos enviar tu cotización', {
-        description: 'Tus datos siguen en el formulario. Prueba de nuevo o envíala por WhatsApp.',
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   const handleWhatsApp = () => {
@@ -110,8 +85,8 @@ const QuoteSection: React.FC = () => {
             ¿Tienes una fecha <br className="hidden sm:block" />
             en mente?
           </h2>
-          <p className="mt-5 max-w-[420px] text-lead text-muted-foreground">
-            Cuéntanos tu fecha y tu número de invitados y te decimos qué opción te conviene.
+          <p className="prose-justify-center mt-5 max-w-[520px] text-lead text-muted-foreground">
+            Cuéntanos la fecha, cuántos invitados esperas y qué quieres celebrar. Nosotros te ayudamos a elegir la mejor opción.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
@@ -130,7 +105,7 @@ const QuoteSection: React.FC = () => {
           </div>
         </Reveal>
 
-        {/* Formulario de cotización: se envía por WhatsApp (y por correo, si hay uno configurado) */}
+        {/* Formulario de cotización: se envía por WhatsApp */}
         <div
           id="formulario"
           className="mt-20 grid scroll-mt-24 gap-12 md:mt-28 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16"
@@ -139,32 +114,24 @@ const QuoteSection: React.FC = () => {
             <h3 className="display max-w-[440px] text-statement text-verde">
               O déjanos los datos de tu evento.
             </h3>
-            <p className="mt-4 max-w-[400px] text-muted-foreground">
-Envíala por WhatsApp o por correo: el mensaje ya va escrito. Te respondemos con la propuesta y la disponibilidad.
+            <p className="prose-justify mt-4 max-w-[400px] text-muted-foreground">
+              Completa estos datos y envíalos por WhatsApp; el mensaje se arma solo. Te respondemos con la propuesta y la
+              disponibilidad de tu fecha.
             </p>
 
             <ul className="mt-10 space-y-4 text-sm font-medium text-foreground">
-              {site.email && (
-                <li>
-                  <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-70">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-verde-niebla text-verde-profundo">
-                      <Mail size={16} />
-                    </span>
-                    {site.email}
-                  </a>
-                </li>
-              )}
               <li>
                 <a
                   href={site.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-70"
+                  title="Ver en Google Maps"
+                  className="group inline-flex min-h-11 items-center gap-3 transition-opacity hover:opacity-70"
                 >
                   <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-verde-niebla text-verde-profundo">
                     <MapPin size={16} />
                   </span>
-                  <span>
+                  <span className="underline decoration-foreground/25 underline-offset-4 group-hover:decoration-foreground">
                     {site.address}
                     <span className="block text-muted-foreground">{site.city}</span>
                   </span>
@@ -242,18 +209,13 @@ Envíala por WhatsApp o por correo: el mensaje ya va escrito. Te respondemos con
 
               <div>
                 <label htmlFor="quote-eventType" className="field-label">Tipo de evento</label>
-                <select
+                <Select
                   id="quote-eventType"
                   value={formData.eventType}
-                  onChange={update('eventType')}
-                  aria-invalid={!!errors.eventType}
-                  className="field"
-                >
-                  <option value="" disabled>Elige una opción</option>
-                  {eventTypes.map((type) => (
-                    <option key={type.value} value={type.value}>{type.value}</option>
-                  ))}
-                </select>
+                  options={eventTypes.map((type) => type.value)}
+                  onChange={setField('eventType')}
+                  invalid={!!errors.eventType}
+                />
                 {errors.eventType && <p className="mt-1 pl-1 text-xs text-destructive">{errors.eventType}</p>}
               </div>
 
@@ -317,34 +279,26 @@ Envíala por WhatsApp o por correo: el mensaje ya va escrito. Te respondemos con
 
               <div className={formData.modality === MENU_MODALITY ? '' : 'sm:col-span-2'}>
                 <label htmlFor="quote-modality" className="field-label">¿Qué necesitas?</label>
-                <select
+                <Select
                   id="quote-modality"
                   value={formData.modality}
-                  onChange={update('modality')}
-                  aria-invalid={!!errors.modality}
-                  className="field"
-                >
-                  <option value="">Elige una opción</option>
-                  {modalities.map((modality) => (
-                    <option key={modality.value} value={modality.value}>
-                      {modality.value}
-                    </option>
-                  ))}
-                </select>
+                  options={modalities.map((modality) => modality.value)}
+                  onChange={setField('modality')}
+                  invalid={!!errors.modality}
+                />
                 {errors.modality && <p className="mt-1 pl-1 text-xs text-destructive">{errors.modality}</p>}
               </div>
 
               {formData.modality === MENU_MODALITY && (
                 <div>
                   <label htmlFor="quote-menu" className="field-label">Menú (opcional)</label>
-                  <select id="quote-menu" value={formData.menu} onChange={update('menu')} className="field">
-                    <option value="">Aún no lo sé</option>
-                    {menus.map((menu) => (
-                      <option key={menu.name} value={menu.name}>
-                        {menu.name} — {menu.tagline}
-                      </option>
-                    ))}
-                  </select>
+                  <Select
+                    id="quote-menu"
+                    value={formData.menu}
+                    options={menuOptions}
+                    onChange={setField('menu')}
+                    placeholder="Elige un menú"
+                  />
                 </div>
               )}
 
@@ -361,26 +315,11 @@ Envíala por WhatsApp o por correo: el mensaje ya va escrito. Te respondemos con
                 />
               </div>
 
-              <div className="flex flex-col gap-3 pt-2 sm:col-span-2 sm:flex-row">
-                <button type="submit" className="pill pill-brand flex-1 py-3.5">
+              <div className="flex justify-center pt-2 sm:col-span-2">
+                <button type="submit" className="pill pill-brand w-full px-8 py-3.5 sm:w-auto">
                   <WhatsAppIcon className="h-4 w-4" />
                   Cotizar por WhatsApp
                 </button>
-                {site.email && (
-                  <button
-                    type="button"
-                    onClick={handleEmail}
-                    disabled={isSubmitting}
-                    className="pill pill-ghost flex-1 py-3.5 disabled:opacity-50"
-                  >
-                    {isSubmitting ? 'Enviando…' : (
-                      <>
-                        <Mail size={15} />
-                        Cotizar por correo
-                      </>
-                    )}
-                  </button>
-                )}
               </div>
             </form>
           </Reveal>

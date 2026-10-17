@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Mail } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/ui/Brand';
-import { deposit, eventTypes, menus, modalities, MENU_MODALITY, OTHER_EVENT, site } from '@/config/site';
+import { deposit, eventTypes, menuOptions, modalities, MENU_MODALITY, OTHER_EVENT, site } from '@/config/site';
 import {
   formatDate,
   isValidEmail,
@@ -230,21 +230,21 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({ preset, onBack, onClose }) =>
             <div className="mt-5">
               <p className="field-label">¿Con qué menú? (opcional)</p>
               <div className="flex flex-wrap gap-2">
-                {menus.map((menu) => {
-                  const selected = formData.menu === menu.name;
+                {menuOptions.map((menu) => {
+                  const selected = formData.menu === menu;
                   return (
                     <button
-                      key={menu.name}
+                      key={menu}
                       type="button"
                       aria-pressed={selected}
-                      onClick={() => setFormData({ ...formData, menu: selected ? '' : menu.name })}
+                      onClick={() => setFormData({ ...formData, menu: selected ? '' : menu })}
                       className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                         selected
                           ? 'border-verde bg-verde text-marfil'
                           : 'border-foreground/20 text-foreground hover:border-foreground/50'
                       }`}
                     >
-                      {menu.name}
+                      {menu}
                     </button>
                   );
                 })}

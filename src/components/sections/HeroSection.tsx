@@ -34,15 +34,22 @@ const Seal: React.FC<{ className?: string }> = ({ className = '' }) => (
   />
 );
 
-/* Titular, bajada y filete: la mitad inferior de la lámina. */
+/* Titular, burbujas y filete: la mitad inferior de la lámina. */
 const HeroText: React.FC = () => (
   <>
     <h1 className="display text-[clamp(2rem,min(9.4vw,1.5rem+3.4vw,7.6svh),4.5rem)] leading-[1.08] text-verde">
       {hero.title}
     </h1>
-    <p className="mt-2 text-[clamp(1rem,min(1.9vw,3svh),1.7rem)] italic leading-snug text-foreground md:mt-3">
-      {hero.subtitle}
-    </p>
+    <ul className="mt-[clamp(0.75rem,2.2svh,1.25rem)] flex flex-wrap justify-center gap-2">
+      {hero.bubbles.map((bubble) => (
+        <li
+          key={bubble}
+          className="rounded-full border border-verde/35 px-4 py-1.5 text-xs font-medium text-verde md:text-sm"
+        >
+          {bubble}
+        </li>
+      ))}
+    </ul>
     <Ornament className="mt-[clamp(1rem,3svh,2rem)] h-auto w-[112px] flex-shrink-0" />
   </>
 );

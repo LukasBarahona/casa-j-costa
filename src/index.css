@@ -169,6 +169,23 @@
     letter-spacing: -0.012em;
   }
 
+  /* Párrafos largos (más de dos líneas): justificados con guiones automáticos.
+     En teléfono (menos de 600 px) quedan alineados a la izquierda.
+     `-center`: para textos de tarjetas centradas, cuya última línea va al centro.
+     No se usa en títulos, botones, burbujas ni etiquetas. */
+  @media (min-width: 600px) {
+    .prose-justify,
+    .prose-justify-center {
+      text-align: justify;
+      -webkit-hyphens: auto;
+      hyphens: auto;
+    }
+
+    .prose-justify-center {
+      text-align-last: center;
+    }
+  }
+
   /* Texto de lectura: Montserrat liviana */
   .copy {
     @apply font-light leading-relaxed text-foreground/80;

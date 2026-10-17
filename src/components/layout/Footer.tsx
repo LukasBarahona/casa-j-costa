@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
           </a>
 
           <div className="flex flex-col gap-5 md:items-end">
-            {/* Redes y correo. Un perfil sin enlace configurado se muestra apagado. */}
+            {/* Redes y correo. Un perfil sin enlace configurado se ve, pero no navega. */}
             <ul className="flex gap-2.5" aria-label="Perfiles de Casa J Costa">
               {profiles.map(({ name, href, icon: Icon }) => (
                 <li key={name}>
@@ -52,9 +52,10 @@ const Footer: React.FC = () => {
                       <Icon className="h-[18px] w-[18px]" />
                     </a>
                   ) : (
-                    <span title={`${name}: enlace por confirmar`} className={`${profileClass} opacity-40`}>
+                    // Sin enlace por ahora: el ícono se ve igual, pero no lleva a ninguna parte.
+                    <span className={`${profileClass} cursor-default`}>
                       <Icon className="h-[18px] w-[18px]" />
-                      <span className="sr-only">{name}: enlace por confirmar</span>
+                      <span className="sr-only">{name} (próximamente)</span>
                     </span>
                   )}
                 </li>
@@ -63,7 +64,13 @@ const Footer: React.FC = () => {
 
             <ul className="flex flex-col items-start gap-x-8 gap-y-2.5 text-sm font-medium md:flex-row md:flex-wrap md:items-center md:justify-end">
               <li>
-                <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                <a
+                  href={site.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Ver en Google Maps"
+                  className={`${linkClass} underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground`}
+                >
                   <MapPin size={15} className="flex-shrink-0 text-accent" />
                   {site.address}, {site.city}
                 </a>

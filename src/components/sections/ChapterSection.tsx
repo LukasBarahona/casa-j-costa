@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useTransform, type MotionValue } from 'framer-motion';
 import Reveal from '@/components/ui/Reveal';
+import RichText from '@/components/ui/RichText';
 import { JMark, Ornament } from '@/components/ui/Brand';
 import type { Chapter, ChapterColumn } from '@/config/site';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -24,8 +25,8 @@ const ChapterIntro: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
     <h2 className="display text-title text-verde">{chapter.title}</h2>
     <div className="mt-4 max-w-[640px] space-y-3 md:mt-5">
       {chapter.lead.map((paragraph) => (
-        <p key={paragraph} className="copy text-[15px] md:text-[17px]">
-          {paragraph}
+        <p key={paragraph} className="copy prose-justify text-[15px] md:text-[clamp(14px,min(1.25vw,2.4svh),17px)]">
+          <RichText text={paragraph} />
         </p>
       ))}
     </div>
@@ -34,12 +35,12 @@ const ChapterIntro: React.FC<{ chapter: Chapter }> = ({ chapter }) => (
 
 /* Pie de una columna: la J sobre el borde de la foto, nombre, texto y filete. */
 const ColumnCaption: React.FC<{ column: ChapterColumn }> = ({ column }) => (
-  <div className="flex h-full flex-col items-center px-5 pb-[5svh] text-center lg:px-8">
+  <div className="flex h-full flex-col items-center px-4 pb-[5svh] text-center lg:px-6">
     <JMark className={COLUMN_J} />
     <h3 className="display mt-[2.6svh] text-[clamp(1.35rem,2.6vw,2.4rem)] leading-tight text-verde">
       {column.title}
     </h3>
-    <p className="copy mt-[1.6svh] max-w-[290px] text-[13px] lg:text-[15px]">{column.text}</p>
+    <p className="copy prose-justify-center mt-[1.6svh] w-full max-w-[320px] text-[13px] lg:text-[15px]">{column.text}</p>
     <Ornament className="mt-auto h-5 w-auto pt-0" />
   </div>
 );
@@ -111,20 +112,20 @@ const ChapterScene: React.FC<ChapterProps> = ({ chapter, softTop }) => {
             derecha. Va debajo de la franja: las columnas suben y la tapan. */}
         {chapter.portrait && (
           <motion.div style={{ opacity: introOpacity, y: introY }} className="absolute inset-0">
-            <div className="page flex h-full items-center gap-[5vw] pb-[4svh] pt-[9svh]">
+            <div className="page flex h-full items-center gap-[4.5vw] pb-[3svh] pt-[9svh]">
               <div className="relative flex-shrink-0">
                 <img
                   src={chapter.portrait}
                   alt={chapter.imageAlt}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-square h-[min(66svh,40vw)] object-cover"
+                  className="aspect-square h-[min(64svh,36vw)] object-cover"
                 />
                 <JMark className="pointer-events-none absolute -bottom-[7%] -right-[9%] h-[40%] w-auto text-white opacity-85 drop-shadow-[0_2px_12px_rgba(0,0,0,0.3)]" />
               </div>
-              <div className="min-w-0 max-w-[560px]">
+              <div className="min-w-0 max-w-[640px]">
                 <ChapterIntro chapter={chapter} />
-                <Ornament className="mt-8 h-auto w-[112px]" />
+                <Ornament className="mt-[clamp(1rem,3svh,2rem)] h-auto w-[112px]" />
               </div>
             </div>
           </motion.div>
@@ -242,7 +243,7 @@ const ChapterStatic: React.FC<ChapterProps> = ({ chapter, softTop }) => (
               <h3 className="display mt-3 text-[1.45rem] leading-tight text-verde md:text-[clamp(1.35rem,2.6vw,2.4rem)]">
                 {column.title}
               </h3>
-              <p className="copy mt-2 max-w-[290px] text-[13px] md:text-sm">{column.text}</p>
+              <p className="copy prose-justify-center mt-2 max-w-[290px] text-[13px] md:text-sm">{column.text}</p>
               <Ornament className="mt-auto h-auto w-[92px] pt-5" />
             </div>
           </Reveal>

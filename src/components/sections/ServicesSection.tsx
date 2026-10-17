@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import Photo from '@/components/ui/Photo';
 import Reveal from '@/components/ui/Reveal';
 import {
   services,
-  servicesImage,
-  servicesImageAlt,
   servicesIntro,
   servicesLead,
   MENU_MODALITY,
@@ -22,7 +19,7 @@ const ServiceDetail: React.FC<{ service: Service }> = ({ service }) => {
 
   return (
     <>
-      <p className="copy text-sm">{service.fullDescription}</p>
+      <p className="copy prose-justify text-sm">{service.fullDescription}</p>
       <div className="mt-5 flex flex-wrap gap-2">
         <button
           type="button"
@@ -98,24 +95,20 @@ const ServiceItem: React.FC<ServiceItemProps> = ({ service, index, isActive, onS
   </motion.li>
 );
 
-/* Formas de celebrar: franja de foto arriba; abajo, el titular a la izquierda
-   y las tres opciones (A, B, C) a la derecha. */
+/* Formas de celebrar: el titular a la izquierda y las tres opciones (A, B, C)
+   a la derecha. Sigue directo a "Qué Celebramos", sin foto entre medio. */
 const ServicesSection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section id="servicios" className="tone-marfil relative overflow-x-clip pb-20 md:pb-28">
-      <div className="tone-foto group">
-        <Photo src={servicesImage} alt={servicesImageAlt} position="50% 22%" className="h-[46svh] min-h-[230px] md:h-[55svh]" />
-      </div>
-
-      <div className="page grid gap-8 pt-10 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-14 md:pt-16">
+    <section id="servicios" className="tone-marfil relative overflow-x-clip pb-20 pt-4 md:pb-28 md:pt-10">
+      <div className="page grid gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] md:gap-14">
         <Reveal className="md:self-center">
           <h2 className="display text-[clamp(2rem,4.4vw,4rem)] leading-[1.2] text-verde">
             {servicesIntro[0]} <br />
             {servicesIntro[1]}
           </h2>
-          <p className="copy mt-4 max-w-[360px] text-[15px] md:text-base">{servicesLead}</p>
+          <p className="copy prose-justify mt-4 max-w-[400px] text-[15px] md:text-base">{servicesLead}</p>
         </Reveal>
 
         <ul className="flex flex-col">

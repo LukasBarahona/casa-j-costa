@@ -128,6 +128,20 @@ correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada 
   (`pb-[max(4rem,9svh)]`) entre el filete y la foto de La Casa. Medido en seis tamaños de escritorio: el filete
   siempre entero y a 120 px o más de la foto.
 
+### V4 — 2026-10-17 · Textos definitivos del cliente
+- Portada: bajo "Centro de eventos", tres burbujas (Reliquias · 20 a 150 personas · Cocina propia) en vez de la frase repetida.
+- La Casa, ¡El Jota!, la frase de cierre y Qué Celebramos con los textos del cliente (negritas con `**…**` en `site.ts`,
+  componente `RichText`). La Casa abre como El Jota (foto cuadrada + texto), porque su texto largo no cabía bajo la franja.
+- Tarjetas: El Salón / El Jardín / El Bar / El Fogón; Matrimonios / Cumpleaños y familia / Empresas / Otras ocasiones.
+- Formas de celebrar sin foto de novios; nuevos textos A y B. Menús: el bloque "Tres menús, una misma cocina." va antes
+  de los círculos; nuevas bajadas y textos; sin la nota del detalle.
+- Experiencias: "Próximamente" y boletos bloqueados (sin fotos, atenuados). Alianzas: espacios reservados con la J
+  (#596C52 al 25%), listas `allianceGroups` en `site.ts`. Reseñas: las 2 reales de Google, fijas, con "4,8 ★ en Google".
+- Cotiza: textos nuevos, solo WhatsApp (botón centrado; `site.email` vacío), opciones nuevas de evento y modalidad,
+  menús solo con nombre, listas desplegables propias (`ui/Select.tsx`, accesibles con teclado).
+- Redes: Instagram → instagram.com/del_jota; TikTok, LinkedIn y correo se ven sin enlace. Dirección subrayada como enlace a Maps.
+- Justificado (`.prose-justify`, `.prose-justify-center`) en párrafos largos desde 600 px; en teléfono, a la izquierda.
+
 ## Publicación
 
 - **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/

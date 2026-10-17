@@ -2,9 +2,27 @@ import React, { useId, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Plus } from 'lucide-react';
 import Reveal from '@/components/ui/Reveal';
-import { allianceGroups, alliancesIntro, alliancesLead, site, type AllianceGroup } from '@/config/site';
+import { JMark } from '@/components/ui/Brand';
+import { allianceGroups, alliancesIntro, site, type AllianceGroup, type Partner } from '@/config/site';
 import { EASE_OUT } from '@/lib/motion';
 import { whatsappUrl } from '@/lib/quote';
+
+/* Un espacio del grupo: el logo, el nombre si aún no hay logo, o —si está
+   vacío— la J de la casa como reserva. */
+const PartnerSlot: React.FC<{ partner: Partner }> = ({ partner }) => {
+  if (partner.logo) {
+    return <img src={partner.logo} alt={partner.name} loading="lazy" className="max-h-full max-w-full object-contain" />;
+  }
+  if (partner.name) {
+    return <span className="display text-lg leading-tight text-verde md:text-xl">{partner.name}</span>;
+  }
+  return (
+    <>
+      <JMark className="h-[52%] w-auto text-[#596C52] opacity-25" />
+      <span className="sr-only">Espacio reservado</span>
+    </>
+  );
+};
 
 interface GroupProps {
   group: AllianceGroup;
@@ -55,22 +73,13 @@ const Group: React.FC<GroupProps> = ({ group, open, onToggle }) => {
             <ul className="grid grid-cols-2 gap-2 pb-8 sm:grid-cols-3 md:gap-3 lg:grid-cols-5">
               {group.partners.map((partner, index) => (
                 <motion.li
-                  key={partner.name}
+                  key={partner.name || index}
                   initial={{ opacity: 0, y: 22 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.12 + index * 0.07, ease: EASE_OUT }}
                   className="flex aspect-[4/3] items-center justify-center rounded-2xl bg-papel p-5 text-center"
                 >
-                  {partner.logo ? (
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      loading="lazy"
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  ) : (
-                    <span className="display text-lg leading-tight text-verde md:text-xl">{partner.name}</span>
-                  )}
+                  <PartnerSlot partner={partner} />
                 </motion.li>
               ))}
             </ul>
@@ -89,15 +98,12 @@ const AlliancesSection: React.FC = () => {
   return (
     <section id="alianzas" className="relative overflow-x-clip pb-8 pt-4 md:pb-12">
       <div className="page">
-        <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="eyebrow">Alianzas</p>
-            <h2 className="display mt-6 text-title text-verde">
-              {alliancesIntro[0]} <br />
-              {alliancesIntro[1]}
-            </h2>
-          </div>
-          <p className="max-w-[360px] text-lead text-muted-foreground">{alliancesLead}</p>
+        <Reveal>
+          <p className="eyebrow">Alianzas</p>
+          <h2 className="display mt-6 text-title text-verde">
+            {alliancesIntro[0]} <br />
+            {alliancesIntro[1]}
+          </h2>
         </Reveal>
 
         <Reveal delay={0.1}>

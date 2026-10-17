@@ -1,13 +1,9 @@
-import React, { lazy, Suspense, useMemo, useRef, useState } from 'react';
-import { CalendarDays, Images } from 'lucide-react';
+import React, { useRef } from 'react';
+import { CalendarDays } from 'lucide-react';
 import CarouselArrows from '@/components/ui/CarouselArrows';
 import Reveal from '@/components/ui/Reveal';
-import type { LightboxItem } from '@/components/ui/Lightbox';
 import { experiences, experiencesEyebrow, experiencesTitle, type Experience } from '@/config/site';
 import { useCarousel } from '@/hooks/useCarousel';
-
-// El visor de fotos se descarga recién cuando alguien abre un boleto.
-const Lightbox = lazy(() => import('@/components/ui/Lightbox'));
 
 // Los boletos alternan los colores de la paleta.
 const ticketColors = [
@@ -19,32 +15,15 @@ const ticketColors = [
   'bg-verde-salvia text-verde-profundo',
 ];
 
-const dateLabel = (experience: Experience) => experience.date || 'Fecha por confirmar';
-
-// Fotos del evento, cada una con el nombre y la fecha de la experiencia.
-const toLightboxItems = (experience: Experience): LightboxItem[] =>
-  experience.photos.map((image, index) => ({
-    id: `${experience.name}-${index}`,
-    image,
-    eyebrow: dateLabel(experience),
-    title: `Experiencia ${experience.name}`,
-    caption: `${experience.description} Foto ${index + 1} de ${experience.photos.length}.`,
-  }));
-
-interface TicketProps {
-  experience: Experience;
-  index: number;
-  onOpen: () => void;
-}
-
-const Ticket: React.FC<TicketProps> = ({ experience, index, onOpen }) => (
+/* Boleto de una experiencia. Por ahora no se abren: se ven levemente
+   atenuados y anuncian "Próximamente". Cuando haya fecha y fotos, volverán a
+   ser botones que abren las fotos del evento. */
+const Ticket: React.FC<{ experience: Experience; index: number }> = ({ experience, index }) => (
   // `flex` + `h-full`: todos los boletos toman el alto del más alto de la tira.
   <li className="flex flex-shrink-0">
-    <button
-      type="button"
-      onClick={onOpen}
-      aria-label={`${experience.name}: ver fotos y fecha del evento`}
-      className={`ticket group flex h-full w-[300px] select-none items-stretch rounded-3xl text-left transition-transform duration-300 ease-out hover:-translate-y-1 md:w-[360px] ${
+    <div
+      aria-disabled="true"
+      className={`ticket flex h-full w-[300px] select-none items-stretch rounded-3xl opacity-75 saturate-[0.85] md:w-[360px] ${
         ticketColors[index % ticketColors.length]
       }`}
     >
@@ -59,14 +38,10 @@ const Ticket: React.FC<TicketProps> = ({ experience, index, onOpen }) => (
         <span className="mt-2 text-sm leading-snug opacity-85">{experience.description}</span>
         <span className="mt-3 flex items-center gap-1.5 text-xs font-semibold opacity-90">
           <CalendarDays size={13} />
-          {dateLabel(experience)}
-        </span>
-        <span className="mt-1 flex items-center gap-1.5 text-xs font-semibold underline-offset-4 opacity-90 group-hover:underline">
-          <Images size={13} />
-          Ver fotos del evento
+          Próximamente
         </span>
       </span>
-    </button>
+    </div>
   </li>
 );
 
@@ -77,19 +52,10 @@ const DRAG_THRESHOLD = 6;
 
    La tira queda quieta: no se mueve con el scroll de la página. Se recorre
    con las flechas verdes, arrastrando con el mouse o deslizando el dedo.
-   Al tocar un boleto se abren las fotos de ese evento, con su fecha. */
+   Los boletos todavía no se abren (ver `Ticket`). */
 const ExperiencesSection: React.FC = () => {
   const { scrollerRef, edges, updateEdges, step } = useCarousel(24);
   const drag = useRef<{ startX: number; startLeft: number; moved: boolean } | null>(null);
-
-  // Boleto abierto y foto visible de ese evento.
-  const [openExperience, setOpenExperience] = useState<Experience | null>(null);
-  const [photoIndex, setPhotoIndex] = useState<number | null>(null);
-  const [lightboxRequested, setLightboxRequested] = useState(false);
-  const lightboxItems = useMemo(
-    () => (openExperience ? toLightboxItems(openExperience) : []),
-    [openExperience]
-  );
 
   // Arrastre con el mouse (en pantallas táctiles el deslizamiento ya es nativo).
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -118,14 +84,6 @@ const ExperiencesSection: React.FC = () => {
     }, 0);
   };
 
-  const openTicket = (experience: Experience) => {
-    // Si el gesto fue un arrastre, no es un clic sobre el boleto.
-    if (drag.current?.moved) return;
-    setLightboxRequested(true);
-    setOpenExperience(experience);
-    setPhotoIndex(0);
-  };
-
   return (
     <section id="experiencias" className="overflow-x-clip py-24 md:py-32">
       <Reveal className="page flex items-end justify-between gap-6">
@@ -133,7 +91,7 @@ const ExperiencesSection: React.FC = () => {
           <p className="eyebrow">{experiencesEyebrow}</p>
           <h2 className="display mt-6 text-statement text-verde">{experiencesTitle}</h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            Recórrelas con las flechas y toca un boleto para ver las fotos y la fecha del evento.
+            Recórrelas con las flechas y conoce lo que se viene en la casa.
           </p>
         </div>
         <CarouselArrows label="Boletos" atStart={edges.atStart} atEnd={edges.atEnd} onStep={step} />
@@ -152,21 +110,10 @@ const ExperiencesSection: React.FC = () => {
       >
         <ul className="flex w-max gap-4 px-[var(--gutter)] md:gap-6">
           {experiences.map((experience, index) => (
-            <Ticket
-              key={experience.name}
-              experience={experience}
-              index={index}
-              onOpen={() => openTicket(experience)}
-            />
+            <Ticket key={experience.name} experience={experience} index={index} />
           ))}
         </ul>
       </div>
-
-      {lightboxRequested && (
-        <Suspense fallback={null}>
-          <Lightbox items={lightboxItems} index={photoIndex} onIndexChange={setPhotoIndex} />
-        </Suspense>
-      )}
     </section>
   );
 };

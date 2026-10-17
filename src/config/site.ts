@@ -18,20 +18,17 @@ export const site = {
   // Número de WhatsApp que recibe las cotizaciones (+56 9 7987 8599):
   // formato internacional, solo dígitos (56 + 9 + número).
   whatsapp: '56979878599',
-  /* ⚠️ DATO DE PROTOTIPO (inventado) — reemplazar por el correo real antes de lanzar.
-     Vacío = el sitio no ofrece correo y todo va por WhatsApp. */
-  email: 'contacto@casajcosta.cl',
-  /* ⚠️ DATO DE PROTOTIPO — enlaces a los perfiles del centro de eventos (URL completa).
-     Hoy apuntan a la portada de cada red, para no enlazar la cuenta de un tercero.
-     Reemplazar por los perfiles reales. Vacío = el ícono se muestra apagado y sin enlace. */
+  // Correo del centro de eventos. Vacío = la cotización sale solo por WhatsApp
+  // (no hay botón "Cotizar por correo" y el ícono del pie queda sin enlace).
+  email: '',
+  // Perfiles del centro de eventos (URL completa). Vacío = el ícono se ve, pero sin enlace.
   social: {
-    instagram: 'https://www.instagram.com/',
-    tiktok: 'https://www.tiktok.com/',
-    linkedin: 'https://www.linkedin.com/',
+    instagram: 'https://www.instagram.com/del_jota/',
+    tiktok: '',
+    linkedin: '',
   },
-  /* ⚠️ PENDIENTE — enlace a la ficha de Google (para "Ver todas las reseñas").
-     Vacío = se usa el enlace del mapa. */
-  googleReviewsUrl: '',
+  // Calificación en Google, tal como se muestra sobre las reseñas.
+  googleRating: '4,8',
 
   // Opcional: URL de un servicio de formularios (Formspree, Web3Forms, etc.).
   // Vacío = el formulario abre el programa de correo del visitante con todo escrito.
@@ -67,14 +64,16 @@ export const hero = {
   imageAlt: 'Cocina de madera de Casa J Costa, con mesón central y ventanales al jardín',
   // Sello circular de la marca, montado entre la foto y el texto.
   seal: `${import.meta.env.BASE_URL}logo-sello.svg`,
+  // Burbujas bajo el titular, cuando sube la lámina crema.
+  bubbles: ['Reliquias', `${site.capacity.min} a ${site.capacity.max} personas`, 'Cocina propia'],
 };
 
 /* ── Capítulos: La Casa · El Jota · Qué celebramos ───────────────────────────
    Cada capítulo abre con una franja de foto y su titular, y al avanzar la
    franja se divide en cuatro columnas (las láminas de la maqueta).
 
-   ⚠️ Los textos se redactaron a partir de las notas de la maqueta
-   ("hablar de la capacidad, el diseño, estacionamiento…"). Revisarlos. */
+   Textos definitivos del cliente (2026-10). En `lead`, lo que va entre
+   **dobles asteriscos** se muestra en negrita. */
 
 export interface ChapterColumn {
   title: string;
@@ -104,34 +103,39 @@ export const houseChapter: Chapter = {
   id: 'la-casa',
   title: 'La Casa',
   lead: [
-    `Una casa en Chicureo con patio, jardín y antigüedades en cada rincón. Recibe todo tipo de celebraciones, de ${site.capacity.min} a ${site.capacity.max} personas, y cuenta con estacionamiento.`,
+    '**No es un centro de eventos cualquiera: es una casa.**',
+    'Y como en toda buena casa, aquí te recibe el dueño. El Jota abre la puerta con una sonrisa, te muestra cada rincón y, si le das tiempo, te cuenta la historia de cada reliquia que encuentras en el camino. Algunas tienen más años que todos tus invitados juntos.',
+    'Madera noble, ventanas antiguas y piezas reunidas durante más de 40 años, con cada detalle elegido con cuidado. Afuera, un jardín amplio y lleno de verde y un fogón para alargar la noche. Y en la cocina, lo nuestro: buena mesa, hecha en casa.',
+    `Celebra de ${site.capacity.min} a ${site.capacity.max} personas, con estacionamiento para todos tus invitados. **Tú pones la fecha; nosotros, la casa.**`,
   ],
   image: img('banda-casa.webp'),
   imageAlt: 'El patio de Casa J Costa de noche, con guirnaldas de luces entre los árboles',
   imagePosition: '50% 60%',
+  // El texto es largo: abre con la foto en recuadro y el texto al lado, como El Jota.
+  portrait: img('casa-portada.webp'),
   swipeHint: 'Desliza para seguir recorriendo la casa',
   columns: [
     {
-      title: 'La Casa',
-      text: `Madera, ventanas antiguas y rincones para sentarse a conversar. Recibe de ${site.capacity.min} a ${site.capacity.max} personas y tiene estacionamiento.`,
+      title: 'El Salón',
+      text: 'Madera noble, ventanas antiguas y reliquias en cada rincón. Un salón con alma de casa para comer, bailar o simplemente sentarse a conversar.',
       image: img('col-casa.webp'),
-      imageAlt: 'Sala de la casa con sillón, cojines y ventanas antiguas apoyadas en el muro',
+      imageAlt: 'Salón de la casa con sillón, cojines y ventanas antiguas apoyadas en el muro',
     },
     {
       title: 'El Jardín',
-      text: 'Un patio amplio e iluminado, entre árboles frutales, para celebrar de día o de noche.',
+      text: 'Áreas verdes amplias e iluminadas para celebrar de día o de noche. Sol y sombra a la hora de almuerzo, luces cálidas cuando cae la tarde.',
       image: img('col-jardin.webp'),
       imageAlt: 'Mesas y quitasoles en el jardín, bajo los árboles',
     },
     {
       title: 'El Bar',
-      text: 'Un mesón de madera con estilo propio, decorado con el mismo cuidado que el resto de la casa.',
+      text: 'Un mesón de madera con estilo propio, donde empiezan los brindis y terminan las mejores conversaciones.',
       image: img('col-bar.webp'),
       imageAlt: 'Mesón de madera del bar, con taburete y repisas',
     },
     {
       title: 'El Fogón',
-      text: 'El rincón más cercano de la casa: un círculo alrededor del fuego, en un ambiente grato y personal.',
+      text: 'El fuego siempre reúne a la gente. Un círculo alrededor de las llamas, buena conversación y nadie con ganas de irse.',
       image: img('col-fogon.webp'),
       imageAlt: 'Invitados sentados alrededor del fogón encendido, de noche',
     },
@@ -142,8 +146,9 @@ export const hostChapter: Chapter = {
   id: 'anfitrion',
   title: '¡El Jota!',
   lead: [
-    'El anfitrión de la casa. Atiende cada celebración en persona, se preocupa de todos los detalles y siempre tiene una anécdota sobre los objetos que te rodean.',
-    'Lleva más de 40 años recolectando antigüedades de distintos lugares.',
+    'El anfitrión de la casa, y probablemente la persona con la que más vas a querer conversar en toda la noche.',
+    'Te recibe como uno más de la familia, te saluda como si te conociera de toda la vida y siempre tiene una anécdota bajo la manga: de dónde salió esa ventana, quién se sentó en ese sillón, cómo llegó esa lámpara a la casa. Está en cada celebración en persona, pendiente de que no falte nada y de que nadie se quede sin su copa.',
+    'Lleva más de 40 años reuniendo reliquias, y una sola regla: **en esta casa, nadie es visita.**',
   ],
   image: img('banda-jota.webp'),
   imageAlt: 'El Jota, anfitrión de Casa J Costa, junto al mesón de la cocina',
@@ -153,25 +158,25 @@ export const hostChapter: Chapter = {
   columns: [
     {
       title: 'Ventanas',
-      text: 'Ventanas antiguas que hoy decoran la casa y cuentan historias.',
+      text: 'Ventanas antiguas, rescatadas una a una. Hoy decoran la casa y cada una tiene algo que contar.',
       image: img('col-casa.webp'),
       imageAlt: 'Ventanas antiguas apoyadas en el muro de madera de la sala',
     },
     {
       title: 'La Mesa',
-      text: 'Detalles en cada mesa, pensados para tu celebración.',
+      text: 'Cada mesa se arma pensando en tu celebración, porque una buena mesa también entra por los ojos.',
       image: img('col-mesa.webp'),
       imageAlt: 'Mesa de madera con camino de mesa, velas y flores',
     },
     {
       title: 'Detalles',
-      text: 'Pequeños detalles, gran diferencia: decoramos cada lugar con piezas únicas.',
+      text: 'Pequeños detalles, gran diferencia: reliquias únicas que no vas a encontrar en otro lugar.',
       image: img('col-detalles.webp'),
       imageAlt: 'Postigo antiguo convertido en repisa, con toallas y frascos',
     },
     {
       title: 'Arco de novios',
-      text: 'Para las fotos y para la entrada de los novios.',
+      text: 'El marco perfecto para la entrada de los novios y para la foto que va a quedar colgada en el living por años.',
       image: img('col-arco.webp'),
       imageAlt: 'Arco de puertas antiguas con telas blancas y flores en el jardín',
     },
@@ -180,13 +185,13 @@ export const hostChapter: Chapter = {
 
 // Frase que sigue al capítulo del anfitrión: se enciende palabra por palabra con el scroll.
 export const hostStatement =
-  'Mantuvimos la madera, los objetos antiguos y la historia del lugar. Sumamos cocina propia y fogón, para recibir como se recibe en casa.';
+  'Mantuvimos la madera, las reliquias y la historia del lugar. Sumamos cocina propia y fogón, porque las mejores fiestas siempre terminan en la cocina o alrededor del fuego.';
 
 export const celebrateChapter: Chapter = {
   id: 'celebramos',
   title: 'Qué Celebramos',
   lead: [
-    `Desde celebraciones íntimas, como un cumpleaños, hasta matrimonios de ${site.capacity.max} personas.`,
+    'Un “sí, acepto”, un año más, un cierre de año, una buena copa de vino… o lo que se te ocurra. Aquí todo se celebra mejor.',
   ],
   image: img('banda-celebramos.webp'),
   imageAlt: 'Mesa de la casa servida con quesos, vino y una cortadora antigua',
@@ -195,27 +200,27 @@ export const celebrateChapter: Chapter = {
   columns: [
     {
       title: 'Matrimonios',
-      text: `Tu matrimonio en una casa con historia, para hasta ${site.capacity.max} invitados.`,
+      text: 'El “sí, acepto” en una casa con historia, para que tu matrimonio no se parezca a ningún otro.',
       image: img('col-matrimonios.webp'),
       imageAlt: 'Novios sentados en una escalera de piedra',
     },
     {
-      title: 'Cumpleaños',
-      text: `Celebraciones íntimas, en familia o con amigos, desde ${site.capacity.min} personas.`,
+      title: 'Cumpleaños y familia',
+      text: 'Cumpleaños, aniversarios, bautizos o ese almuerzo familiar que todos venían postergando.',
       image: img('col-cumpleanos.webp'),
       imageAlt: 'Invitados conversando en el patio durante una celebración',
     },
     {
       title: 'Empresas',
-      text: 'Almuerzos, cierres de año y jornadas de equipo, lejos de la oficina.',
+      text: 'Cierres de año, almuerzos y jornadas de equipo, lejos de la oficina y entre áreas verdes.',
       image: img('col-empresas.webp'),
       imageAlt: 'Grupo reunido en el jardín escuchando al anfitrión',
     },
     {
-      title: 'Catas de Vino',
-      text: 'Vinos y sabores locales para compartir alrededor de la mesa.',
+      title: 'Otras ocasiones',
+      text: 'Despedidas, lanzamientos, reencuentros o cualquier fecha que merezca celebrarse. Si tienes algo en mente, aquí tiene su lugar.',
       image: img('col-catas.webp'),
-      imageAlt: 'Brindis con copas de vino tinto al aire libre',
+      imageAlt: 'Brindis con copas de vino al aire libre',
     },
   ],
 };
@@ -232,10 +237,8 @@ export interface Service {
 }
 
 export const servicesIntro = ['3 Formas', 'de celebrar.'];
-export const servicesImage = img('banda-formas.webp');
-export const servicesImageAlt = 'Novios sonriendo en el jardín';
 export const servicesLead =
-  'Arrienda solo el recinto, o encárgate únicamente de llegar.';
+  'Arrienda solo la casa, encárgate únicamente de llegar o armemos juntos algo a tu medida. Toca cada opción y descubre todo lo que incluye.';
 
 export const services: Service[] = [
   {
@@ -243,16 +246,16 @@ export const services: Service[] = [
     title: 'Arriendo casa',
     shortDescription: 'La casa lista. Tú organizas la comida.',
     fullDescription:
-      'Arriendas la casa y traes tu propia banquetería. Incluye recinto, mesas, sillas, baños, estacionamiento y limpieza final. Precio fijo, sin sorpresas.',
-    modality: 'Arriendo del recinto',
+      'Arriendas la casa y traes tu propia banquetería. Incluye recinto, mesas, sillas, baños, estacionamiento y limpieza final. Y si celebras de lunes a jueves, la tarifa es aún más conveniente.',
+    modality: 'Arriendo de la casa',
   },
   {
     letter: 'B',
     title: 'Evento integral',
     shortDescription: 'Recinto, banquetería propia y operación completa.',
     fullDescription:
-      'Nos encargamos de todo: recinto, cocina y servicio. Eliges uno de nuestros tres menús —Jota Clásico, Jota Selección o Jota Costa— y tú solo llegas a celebrar.',
-    modality: 'Evento Integral',
+      'Tú solo llegas: nosotros ponemos la casa, la cocina y el equipo. Elige entre nuestros tres menús: Jota Clásico, Jota Selección o Jota Costa.',
+    modality: 'Evento integral',
   },
   {
     letter: 'C',
@@ -260,6 +263,7 @@ export const services: Service[] = [
     shortDescription: 'Eventos sociales, privados y de empresa.',
     fullDescription:
       '¿No sabes cuál te conviene? Escríbenos con tu fecha y tu número de invitados y te decimos qué opción calza mejor con lo que quieres celebrar.',
+    modality: 'A tu medida',
   },
 ];
 
@@ -279,32 +283,29 @@ export const menusIntro = ['Tres menús,', 'una misma cocina.'];
 export const menusImage = img('banda-menus.webp');
 export const menusImageAlt = 'Mesa montada con copas y un centro de flores';
 export const menusLead =
-  'El Evento Integral se arma sobre uno de nuestros tres menús. Mientras más arriba, más cuidada la experiencia.';
-/* ⚠️ PENDIENTE — platos y valor por persona de cada menú */
-export const menusNote =
-  'El detalle de cada menú y su valor por persona se envían con la cotización.';
+  'El Evento Integral se arma sobre uno de nuestros tres menús. Todos salen de la misma cocina; lo que cambia es la variedad que llega a la mesa. Te enviamos el detalle de cada uno y su valor por persona junto con tu cotización.';
 
 export const menus: Menu[] = [
   {
     name: 'Jota Clásico',
     numeral: 'I',
     level: 1,
-    tagline: 'Lo esencial, bien hecho',
-    description: 'Nuestro menú de entrada: funcional y de calidad, para celebrar sin complicarse.',
+    tagline: 'Los sabores de siempre',
+    description: 'Una selección de preparaciones tradicionales, pensada para celebrar sin complicaciones.',
   },
   {
     name: 'Jota Selección',
     numeral: 'II',
     level: 2,
-    tagline: 'Más variedad en la mesa',
-    description: 'Mayor variedad y calidad, con más opciones gastronómicas para elegir.',
+    tagline: 'Más opciones en la mesa',
+    description: 'Una propuesta más amplia, con más preparaciones para que cada invitado encuentre su favorito.',
   },
   {
     name: 'Jota Costa',
     numeral: 'III',
     level: 3,
-    tagline: 'El más premium',
-    description: 'Nuestra experiencia gastronómica más cuidada, con calidad superior de principio a fin.',
+    tagline: 'La mesa completa',
+    description: 'Nuestra propuesta más amplia, con más variedad y preparaciones especiales para las ocasiones que lo merecen.',
   },
 ];
 
@@ -321,7 +322,7 @@ export interface Experience {
 }
 
 export const experiencesTitle = 'Experiencias Jota';
-export const experiencesEyebrow = 'Cupos limitados';
+export const experiencesEyebrow = 'Próximamente';
 
 /* ⚠️ PENDIENTE — fecha real de cada experiencia y fotos de ese evento.
    Las fotos de abajo son provisorias (material general de la casa). */
@@ -382,34 +383,24 @@ export interface AllianceGroup {
 }
 
 export const alliancesIntro = ['Quiénes nos', 'acompañan.'];
-export const alliancesLead = 'Toca cada grupo para ver quiénes han pasado por la casa y con quiénes trabajamos.';
 
-/* ⚠️ DATOS DE PROTOTIPO — los tres primeros nombres vienen del feedback del
-   cliente (dados como ejemplo); el resto es inventado para mostrar el diseño.
-   Reemplazar por la lista real antes de lanzar, y sumar logos.
-   Ejemplo con logo: { name: 'Viña Ejemplo', logo: img('aliado-vina-ejemplo.webp') } */
+/* Cada grupo es una lista de espacios. Un espacio sin `logo` (ni `name`)
+   muestra la J de la casa como reserva. Para sumar un cliente o aliado,
+   completa uno de los espacios, por ejemplo:
+   { name: 'Viña Ejemplo', logo: img('aliado-vina-ejemplo.webp') }
+   (el logo va en `public/imagenes/`; el nombre se usa como texto alternativo). */
+const reserved = (count: number): Partner[] => Array.from({ length: count }, () => ({ name: '', logo: '' }));
+
 export const allianceGroups: AllianceGroup[] = [
   {
     title: 'Con quién hemos trabajado',
     lead: 'Clientes que han celebrado en la casa.',
-    partners: [
-      { name: 'Alumni Colegio Apoquindo', logo: '' },
-      { name: 'Estudio Quillay', logo: '' },
-      { name: 'Constructora Los Maitenes', logo: '' },
-      { name: 'Club de Lectura Chicureo', logo: '' },
-      { name: 'Agencia Peumo', logo: '' },
-    ],
+    partners: reserved(5),
   },
   {
     title: 'Con quiénes trabajamos',
     lead: 'Viñas, productores y marcas que nos acompañan en cada evento.',
-    partners: [
-      { name: 'Viña Matetic', logo: '' },
-      { name: 'Pisco La Pizka', logo: '' },
-      { name: 'Flores del Alba', logo: '' },
-      { name: 'Quesos El Canelo', logo: '' },
-      { name: 'Panadería La Hornada', logo: '' },
-    ],
+    partners: reserved(5),
   },
 ];
 
@@ -420,78 +411,54 @@ export interface Review {
   // 1 a 5 estrellas.
   rating: number;
   text: string;
-  // Cuándo se publicó, tal como se quiere mostrar (p. ej. "Marzo de 2026").
-  date: string;
-  // Reseña de muestra (inventada para el prototipo): la tarjeta lo indica con una etiqueta.
-  sample?: boolean;
+  // Línea bajo el nombre.
+  detail: string;
 }
 
 export const reviewsIntro = ['Lo que dicen', 'quienes celebraron aquí.'];
 
-/* ⚠️ DATOS DE PROTOTIPO — estas reseñas son inventadas para mostrar el diseño
-   (`sample: true` les pone la etiqueta "Ejemplo"). Antes de lanzar, reemplazarlas
-   por reseñas reales copiadas de Google tal como fueron escritas, sin `sample`.
-   Con la lista vacía, la sección muestra tarjetas "Próximamente". */
+/* Reseñas de Google, copiadas tal como fueron escritas. Para sumar una nueva,
+   agrégala a la lista: con dos se muestran lado a lado; con más, en filas de tres. */
 export const reviews: Review[] = [
   {
-    author: 'Camila R.',
+    author: 'María Cecilia P.',
     rating: 5,
-    text: 'Celebramos nuestro matrimonio aquí y fue todo lo que queríamos. La casa es preciosa, llena de detalles, y el Jota estuvo pendiente de cada cosa.',
-    date: 'Marzo de 2026',
-    sample: true,
+    text: 'Lugar precioso para cualquier celebración. ¡El Jota, un tremendo anfitrión! Fácil de llegar, todo muy lindo y rico. ¡Y a 15 minutos de Vitacura!',
+    detail: 'Reseña de Google',
   },
   {
-    author: 'Felipe A.',
+    author: 'Magdalena M.',
     rating: 5,
-    text: 'Hicimos el cierre de año de la empresa. Buena comida, el fogón encendido y un patio increíble de noche. El equipo todavía lo comenta.',
-    date: 'Diciembre de 2025',
-    sample: true,
-  },
-  {
-    author: 'Josefina M.',
-    rating: 5,
-    text: 'El cumpleaños de mi mamá quedó hermoso. Las mesas, las flores y las antigüedades le dan un ambiente que no se encuentra en otro lugar.',
-    date: 'Enero de 2026',
-    sample: true,
-  },
-  {
-    author: 'Tomás V.',
-    rating: 4,
-    text: 'Muy buena atención y un lugar con mucha historia. Fuimos a una cata de vinos y la pasamos excelente. Volveríamos sin pensarlo.',
-    date: 'Noviembre de 2025',
-    sample: true,
-  },
-  {
-    author: 'Antonia S.',
-    rating: 5,
-    text: 'Desde la cotización hasta el último invitado, todo fluyó. Se nota el cariño con que reciben. Cien por ciento recomendado.',
-    date: 'Abril de 2026',
-    sample: true,
+    text: 'Increíble lugar, todo hecho por su dueño. Exquisito, muy profesional y acogedor.',
+    detail: 'Reseña de Google',
   },
 ];
-// Cuántas tarjetas de muestra mostrar mientras no haya reseñas cargadas.
-export const reviewPlaceholders = 4;
 
 /* ── Cotización ───────────────────────────────────────────────────────── */
 
 // Opción que pide explicar el tipo de evento.
-export const OTHER_EVENT = 'Otro';
+export const OTHER_EVENT = 'Otra ocasión';
 
 export const eventTypes = [
   { value: 'Matrimonio', description: 'La fiesta, de principio a fin' },
-  { value: 'Celebración familiar', description: 'Cumpleaños, aniversarios, bautizos' },
-  { value: 'Evento de empresa', description: 'Almuerzos, cierres de año, jornadas' },
-  { value: OTHER_EVENT, description: 'Cuéntanos qué tipo de evento es' },
+  { value: 'Cumpleaños y familia', description: 'Cumpleaños, aniversarios, bautizos' },
+  { value: 'Evento de empresa', description: 'Cierres de año, almuerzos, jornadas' },
+  { value: OTHER_EVENT, description: 'Cuéntanos qué quieres celebrar' },
 ];
 
 // Modalidad que se cotiza con uno de los menús.
-export const MENU_MODALITY = 'Evento Integral';
+export const MENU_MODALITY = 'Evento integral';
 
 export const modalities = [
-  { value: 'Arriendo del recinto', description: 'Solo la casa; yo organizo la comida' },
-  { value: MENU_MODALITY, description: 'Recinto + banquetería + operación' },
+  { value: 'Arriendo de la casa', description: 'Solo la casa; yo organizo la comida' },
+  { value: MENU_MODALITY, description: 'La casa, la cocina y el equipo' },
+  { value: 'A tu medida', description: 'Armemos juntos algo especial' },
   { value: 'Aún no lo sé', description: 'Prefiero que me orienten' },
 ];
+
+// Opciones de menú al cotizar el Evento integral: solo los nombres.
+export const MENU_UNDECIDED = 'Aún no lo sé';
+export const menuOptions = ['Jota Clásico', 'Jota Selección', 'Jota Costa', MENU_UNDECIDED];
 
 // Condición de reserva: se muestra destacada, es lo primero que hay que saber.
 export const deposit = { amount: '50% de abono', detail: 'para reservar tu fecha' };

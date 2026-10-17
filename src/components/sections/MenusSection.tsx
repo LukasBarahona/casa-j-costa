@@ -10,7 +10,6 @@ import {
   menusImageAlt,
   menusIntro,
   menusLead,
-  menusNote,
   MENU_MODALITY,
   type Menu,
 } from '@/config/site';
@@ -80,7 +79,7 @@ const MenuInfo: React.FC<{ menu: Menu }> = ({ menu }) => {
         {menu.name}
       </h3>
       <p className="mt-1 text-sm italic text-foreground/75 lg:hidden">{menu.tagline}</p>
-      <p className="copy mt-3 max-w-[300px] text-sm md:mt-2 lg:mt-0">{menu.description}</p>
+      <p className="copy prose-justify-center mt-3 w-full max-w-[360px] text-sm md:mt-2 lg:mt-0">{menu.description}</p>
       <div className="mt-auto pt-5">
         <button
           type="button"
@@ -104,6 +103,14 @@ const MenusSection: React.FC = () => {
 
   return (
     <section id="menus" className="tone-marfil relative overflow-x-clip pb-20 md:pb-28">
+      <Reveal className="page flex flex-col items-center pb-12 pt-8 text-center md:pb-16 md:pt-12">
+        <h2 className="display text-[clamp(1.9rem,4.4vw,4rem)] leading-[1.2] text-verde">
+          {menusIntro[0]} <br className="md:hidden" />
+          {menusIntro[1]}
+        </h2>
+        <p className="copy prose-justify-center mt-5 max-w-[640px] text-[15px] md:text-base">{menusLead}</p>
+      </Reveal>
+
       <div className="tone-foto group">
         <Photo src={menusImage} alt={menusImageAlt} className="h-[46svh] min-h-[230px] md:h-[55svh]" />
       </div>
@@ -133,14 +140,6 @@ const MenusSection: React.FC = () => {
           ))}
         </ul>
 
-        <Reveal className="mt-16 flex flex-col items-center text-center md:mt-24">
-          <h2 className="display text-[clamp(1.9rem,4.4vw,4rem)] leading-[1.2] text-verde">
-            {menusIntro[0]} <br className="md:hidden" />
-            {menusIntro[1]}
-          </h2>
-          <p className="copy mt-5 max-w-[560px] text-[15px] md:text-base">{menusLead}</p>
-          <p className="mt-3 max-w-[460px] text-sm font-medium text-muted-foreground">{menusNote}</p>
-        </Reveal>
       </div>
     </section>
   );
