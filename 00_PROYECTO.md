@@ -122,6 +122,12 @@ correo y modalidad obligatorios. Faltan: enlaces de redes, correo, reseñas real
 correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada red), cinco reseñas con etiqueta
 "Ejemplo" y nombres de alianzas (salvo los tres del feedback).
 
+### V3.5 — 2026-10-17
+- Portada: en portátiles bajos (1366×620, 1536×730) el filete bajo la bajada se cortaba o tocaba la foto siguiente.
+  El sello y el titular ahora también se ajustan al alto de la pantalla, y queda una franja crema
+  (`pb-[max(4rem,9svh)]`) entre el filete y la foto de La Casa. Medido en seis tamaños de escritorio: el filete
+  siempre entero y a 120 px o más de la foto.
+
 ## Publicación
 
 - **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/

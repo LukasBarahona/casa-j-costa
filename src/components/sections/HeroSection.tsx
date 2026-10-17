@@ -7,6 +7,9 @@ import { useMotionEnabled, useScrollProgress } from '@/lib/motion';
 
 // Alto de la franja de foto en la composición final (55% en la maqueta).
 const BAND = 55;
+// Diámetro del sello: sigue el ancho, pero en pantallas bajas (portátiles) también
+// el alto, para que el titular, la bajada y el filete quepan enteros en la lámina.
+const SEAL = 'clamp(112px, min(18.5vw, 27svh), 268px)';
 
 const HeroImage: React.FC = () => (
   <img
@@ -26,18 +29,21 @@ const Seal: React.FC<{ className?: string }> = ({ className = '' }) => (
     alt="Casa J Costa, centro de eventos"
     width={267}
     height={267}
-    className={`aspect-square w-[clamp(132px,18.5vw,268px)] rounded-full ${className}`}
+    style={{ width: SEAL }}
+    className={`aspect-square rounded-full ${className}`}
   />
 );
 
 /* Titular, bajada y filete: la mitad inferior de la lámina. */
 const HeroText: React.FC = () => (
   <>
-    <h1 className="display text-hero text-verde">{hero.title}</h1>
-    <p className="mt-2 text-[clamp(1rem,1.9vw,1.7rem)] italic leading-snug text-foreground md:mt-3">
+    <h1 className="display text-[clamp(2rem,min(9.4vw,1.5rem+3.4vw,7.6svh),4.5rem)] leading-[1.08] text-verde">
+      {hero.title}
+    </h1>
+    <p className="mt-2 text-[clamp(1rem,min(1.9vw,3svh),1.7rem)] italic leading-snug text-foreground md:mt-3">
       {hero.subtitle}
     </p>
-    <Ornament className="mt-6 h-auto w-[112px] md:mt-8" />
+    <Ornament className="mt-[clamp(1rem,3svh,2rem)] h-auto w-[112px] flex-shrink-0" />
   </>
 );
 
@@ -58,7 +64,8 @@ const HeroScene: React.FC = () => {
   const introOpacity = useTransform(progress, [0.02, 0.24], [1, 0]);
 
   return (
-    <section id="inicio" ref={ref} className="tone-marfil relative h-[185svh] scroll-mt-0">
+    // El margen inferior deja una franja crema entre el filete y la foto que sigue.
+    <section id="inicio" ref={ref} className="tone-marfil relative box-content h-[185svh] scroll-mt-0 pb-[max(4rem,9svh)]">
       <div className="tone-foto sticky top-0 h-[100svh] overflow-hidden">
         <motion.div style={{ scale: imageScale }} className="absolute inset-0 origin-top will-change-transform">
           <HeroImage />
@@ -93,7 +100,8 @@ const HeroScene: React.FC = () => {
         >
           <motion.div
             style={{ opacity: textOpacity, y: textY }}
-            className="page flex h-full flex-col items-center pt-[calc(clamp(132px,18.5vw,268px)/2+0.75rem)] text-center"
+            style={{ paddingTop: `calc(${SEAL} / 2 + 0.75rem)` }}
+            className="page flex h-full flex-col items-center text-center"
           >
             <HeroText />
           </motion.div>
@@ -117,7 +125,7 @@ const HeroStatic: React.FC = () => (
       <HeroImage />
     </div>
     <div className="page flex flex-col items-center pb-16 text-center">
-      <Seal className="-mt-[clamp(66px,9.25vw,134px)] shadow-[0_0_0_3px_rgba(248,245,241,0.9)]" />
+      <Seal className="-mt-[clamp(56px,min(9.25vw,13.5svh),134px)] shadow-[0_0_0_3px_rgba(248,245,241,0.9)]" />
       <div className="mt-4">
         <HeroText />
       </div>
