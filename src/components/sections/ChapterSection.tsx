@@ -219,7 +219,7 @@ const ChapterStatic: React.FC<ChapterProps> = ({ chapter, softTop }) => (
     </div>
 
     <div className="page relative">
-      <JMark className="pointer-events-none absolute -top-[21vw] right-[4vw] h-[46vw] max-h-[420px] w-auto text-white md:-top-[150px]" />
+      <JMark className="pointer-events-none absolute -top-[31vw] right-[4vw] h-[40vw] max-h-[420px] w-auto text-white md:-top-[230px] md:h-[300px]" />
       <Reveal className="relative pt-9 md:pt-14">
         <ChapterIntro chapter={chapter} />
       </Reveal>

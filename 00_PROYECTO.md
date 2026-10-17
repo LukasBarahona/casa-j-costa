@@ -143,11 +143,16 @@ correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada 
 - Justificado (`.prose-justify`, `.prose-justify-center`) en párrafos largos (desde la V4.1, también en teléfono).
 
 ### V4.1 — 2026-10-17
-- La Casa: "Un lugar con historia, para celebrar las tuyas." (negrita) y "Aquí, como en toda buena casa, te recibe el dueño."
+- La Casa: "Un lugar con historia, para celebrar la tuya." (negrita) y "Aquí, como en toda buena casa, te recibe el dueño."
 - Justificado también en teléfono (se quitó la excepción de <600 px).
 - Meta description: "Cotiza tu fecha por WhatsApp."
 - Correo opcional en el formulario y en el paso a paso (solo se revisa si viene escrito).
 - Boleto Colecciones: "Reliquias y objetos únicos, con sus historias."
+
+### V4.2 — 2026-10-17
+- "…para celebrar la tuya." (antes "las tuyas").
+- Teléfono: la J grande de cada capítulo sube y queda casi entera sobre la foto; ya no queda detrás del titular
+  ni del texto (medido en 320, 390 y 430 px en los tres capítulos).
 
 ## Publicación
 
