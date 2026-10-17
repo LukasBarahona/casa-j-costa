@@ -3,18 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Casa J Costa — Centro de eventos en Chicureo</title>
-    <meta name="description" content="Casa J Costa es un centro de eventos en Chicureo para 20 a 150 personas. Arrienda el recinto o contrata el evento completo con banquetería propia. Cotiza tu fecha por WhatsApp." />
+    <title>Casa J Costa | Centro de eventos en Chicureo, Colina</title>
+    <meta name="description" content="Centro de eventos en Chicureo, Colina, para 20 a 150 personas: matrimonios, cumpleaños y eventos de empresa en una casa con historia, jardín y fogón. Arriendo del recinto o evento completo con banquetería propia. Cotiza por WhatsApp." />
     <meta name="theme-color" content="#F8F5F1" />
-    <!-- Sitio privado por ahora: no aparece en buscadores. Quitar esta línea (y public/robots.txt) al lanzarlo. -->
-    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://casajcosta.cl/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_CL" />
-    <meta property="og:title" content="Casa J Costa — Centro de eventos en Chicureo" />
+    <meta property="og:site_name" content="Casa J Costa" />
+    <meta property="og:url" content="https://casajcosta.cl/" />
+    <meta property="og:title" content="Casa J Costa | Centro de eventos en Chicureo" />
     <meta property="og:description" content="Una casa con historia para celebrar de 20 a 150 personas. Recinto, banquetería propia y experiencias." />
-    <meta property="og:image" content="%BASE_URL%og-casa-j-costa.jpg" />
+    <meta property="og:image" content="https://casajcosta.cl/og-casa-j-costa.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://casajcosta.cl/og-casa-j-costa.jpg" />
+
+    <!-- Datos del negocio para Google (Schema.org). Mantener alineados con src/config/site.ts. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["EventVenue", "LocalBusiness"],
+      "@id": "https://casajcosta.cl/#negocio",
+      "name": "Casa J Costa",
+      "alternateName": ["Casa Jota Costa", "Quincho del Jota"],
+      "description": "Centro de eventos en Chicureo, Colina, para 20 a 150 personas. Matrimonios, cumpleaños, celebraciones familiares y eventos de empresa, con arriendo del recinto o evento completo con banquetería propia.",
+      "url": "https://casajcosta.cl/",
+      "logo": "https://casajcosta.cl/logo-casa-j-costa.png",
+      "image": "https://casajcosta.cl/og-casa-j-costa.jpg",
+      "telephone": "+56979878599",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "El Alba 3, Parcela 29, Sitio 9",
+        "addressLocality": "Colina",
+        "addressRegion": "Región Metropolitana",
+        "addressCountry": "CL"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": -33.3048625, "longitude": -70.6710228 },
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=-33.3048625,-70.6710228",
+      "areaServed": ["Chicureo", "Colina", "Lo Barnechea", "Vitacura", "Santiago"],
+      "maximumAttendeeCapacity": 150,
+      "amenityFeature": [
+        { "@type": "LocationFeatureSpecification", "name": "Jardín", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Fogón", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Cocina propia y banquetería", "value": true },
+        { "@type": "LocationFeatureSpecification", "name": "Estacionamiento", "value": true }
+      ],
+      "knowsAbout": ["Matrimonios", "Cumpleaños", "Eventos de empresa", "Celebraciones familiares", "Banquetería"],
+      "sameAs": ["https://www.instagram.com/del_jota/"]
+    }
+    </script>
 
     <link rel="icon" type="image/png" href="%BASE_URL%favicon.png" />
     <link rel="apple-touch-icon" href="%BASE_URL%logo-casa-j-costa.png" />
