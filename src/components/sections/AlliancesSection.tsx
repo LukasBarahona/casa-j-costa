@@ -18,7 +18,7 @@ const PartnerSlot: React.FC<{ partner: Partner }> = ({ partner }) => {
   }
   return (
     <>
-      <JMark className="h-[52%] w-auto text-[#596C52] opacity-25" />
+      <JMark className="h-[52%] w-auto text-[#596D52] opacity-25" />
       <span className="sr-only">Espacio reservado</span>
     </>
   );

@@ -6,10 +6,10 @@
 
    Paleta de la maqueta:
    - Crema   #F8F5F1   fondo de toda la página
-   - Verde   #526E4E   titulares, sello, círculos y filetes
+   - Verde   #596D52   el del logo: titulares, sello, círculos y filetes
    - Blanco  #FFFFFF   la J grande, los círculos de los menús
    - Grafito #2B2B2B   texto
-   Verdes derivados: profundo #2A3927 · bosque #3D5239 · salvia #A9B8A4 · niebla #E3E9DE
+   Verdes derivados: profundo #2D3729 · bosque #41503B · salvia #ACB6A6 · niebla #E4E8DF
 
    Tipografía:
    - Titulares: Merriweather
@@ -28,9 +28,9 @@
   --foreground: 0 0% 17%;
   --muted: 34 14% 80%;
   --muted-foreground: 0 0% 34%;
-  --accent: 113 17% 37%;
+  --accent: 104 14% 37.5%;
 
-  --brand: 113 17% 37%;
+  --brand: 104 14% 37.5%;
   --brand-foreground: 34 33% 97%;
 
   --secondary: 34 26% 91%;
@@ -38,7 +38,7 @@
 
   --border: 34 14% 80%;
   --input: 34 14% 80%;
-  --ring: 113 17% 37%;
+  --ring: 104 14% 37.5%;
 
   --destructive: 6 62% 42%;
   --destructive-foreground: 0 0% 100%;
@@ -46,22 +46,22 @@
 
 /* Verde profundo: el pie */
 .tone-bosque {
-  --background: 110 19% 19%;
+  --background: 102 16% 19%;
   --foreground: 34 33% 96%;
-  --muted: 110 12% 34%;
-  --muted-foreground: 105 14% 76%;
-  --accent: 100 22% 78%;
-  --secondary: 110 16% 25%;
+  --muted: 102 10% 34%;
+  --muted-foreground: 97 12% 76%;
+  --accent: 92 18% 78%;
+  --secondary: 102 13% 25%;
   --secondary-foreground: 34 33% 96%;
-  --border: 110 12% 34%;
-  --input: 110 12% 34%;
+  --border: 102 10% 34%;
+  --input: 102 10% 34%;
   --ring: 34 33% 96%;
   --destructive: 6 70% 66%;
 }
 
 /* Verde de marca */
 .tone-verde {
-  --background: 113 17% 37%;
+  --background: 104 14% 37.5%;
   --foreground: 34 33% 97%;
   --muted: 104 12% 50%;
   --muted-foreground: 84 22% 86%;
@@ -147,7 +147,7 @@
   }
 
   ::selection {
-    background: #526E4E;
+    background: #596D52;
     color: #F8F5F1;
   }
 
@@ -235,7 +235,7 @@
   }
 
   .header-glass-dark {
-    background-color: rgb(42 57 39 / 0.9);
+    background-color: rgb(45 55 41 / 0.9);
   }
 
   @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {

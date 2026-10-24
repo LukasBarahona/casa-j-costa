@@ -85,7 +85,7 @@ const Header: React.FC = () => {
     >
       <div className="page flex h-14 items-center justify-between md:h-[3.75rem]">
         <a href="#inicio" aria-label="Casa J Costa: volver al inicio" className="py-1 transition-opacity hover:opacity-70">
-          <Wordmark className="-translate-y-[0.42em] text-[14px] md:text-[17px] lg:text-[19px]" />
+          <Wordmark className="-translate-y-[0.55em] text-[14px] md:text-[16px] lg:text-[18px]" />
         </a>
 
         <div className="-mr-2 flex items-center gap-0.5 md:gap-1">

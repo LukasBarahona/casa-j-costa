@@ -28,11 +28,12 @@ export default {
         papel: '#FFFFFF',
         ebano: '#2B2B2B',
         verde: {
-          DEFAULT: '#526E4E',
-          bosque: '#3D5239',
-          profundo: '#2A3927',
-          salvia: '#A9B8A4',
-          niebla: '#E3E9DE',
+          // Verde del logo (desde 2026-10-24); los demás se derivan de él.
+          DEFAULT: '#596D52',
+          bosque: '#41503B',
+          profundo: '#2D3729',
+          salvia: '#ACB6A6',
+          niebla: '#E4E8DF',
         },
         bronce: {
           DEFAULT: '#A78557',
