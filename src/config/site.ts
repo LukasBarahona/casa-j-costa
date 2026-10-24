@@ -151,8 +151,8 @@ export const hostChapter: Chapter = {
     'Lleva más de 40 años reuniendo reliquias, y una sola regla: **en esta casa, nadie es visita.**',
   ],
   image: img('banda-jota.webp'),
-  imageAlt: 'El Jota, anfitrión de Casa J Costa, junto al mesón de la cocina',
-  imagePosition: '0% 40%',
+  imageAlt: 'El Jota, anfitrión de Casa J Costa, riendo',
+  imagePosition: '50% 25%',
   portrait: img('anfitrion-jota.webp'),
   swipeHint: 'Desliza para ver más detalles',
   columns: [
@@ -172,7 +172,7 @@ export const hostChapter: Chapter = {
       title: 'Detalles',
       text: 'Pequeños detalles, gran diferencia: reliquias únicas que no vas a encontrar en otro lugar.',
       image: img('col-detalles.webp'),
-      imageAlt: 'Postigo antiguo convertido en repisa, con toallas y frascos',
+      imageAlt: 'Mesa de madera con rosas blancas y una balanza antigua',
     },
     {
       title: 'Arco de novios',
@@ -202,7 +202,7 @@ export const celebrateChapter: Chapter = {
       title: 'Matrimonios',
       text: 'El “sí, acepto” en una casa con historia, para que tu matrimonio no se parezca a ningún otro.',
       image: img('col-matrimonios.webp'),
-      imageAlt: 'Novios sentados en una escalera de piedra',
+      imageAlt: 'El novio pone el anillo a la novia durante la ceremonia',
     },
     {
       title: 'Cumpleaños y familia',

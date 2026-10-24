@@ -154,9 +154,24 @@ correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada 
 - Teléfono: la J grande de cada capítulo sube y queda casi entera sobre la foto; ya no queda detrás del titular
   ni del texto (medido en 320, 390 y 430 px en los tres capítulos).
 
+### V5 — 2026-10-24 · Logo nuevo (rama `nuevo-logo`)
+- **J nueva**: `JMark` (`src/components/ui/Brand.tsx`) usa el trazado de la J del logo nuevo (vectorizado del original,
+  sin punto; sigue con `fill="currentColor"`). Se reajustó el logotipo `Wordmark` con las proporciones del logo
+  (J = 4 mayúsculas, asoma 0,68 y baja 2,35; gancho bajo la última A de CASA) y su posición en encabezado y pie.
+  Revisado en 320, 390, 430 y 1440 px: encabezado, pie, columnas de capítulos, retrato, menús y alianzas.
+- **Logo nuevo**: `public/logo-sello.svg` (vector completo: círculo #596D52 + letras), `logo-casa-j-costa.png` (512) y
+  `.webp` (480) con fondo transparente. El sello de la portada ya no lleva el borde blanco: solo el círculo verde.
+- **Favicons**: `favicon.png` 96×96 y `favicon-48.png` 48×48 (círculo verde con la J blanca), declarados en
+  `index.html` con `sizes`. **OG**: nueva `og-casa-j-costa.jpg` 1200×630 (foto de la cocina + logo).
+- **index.html**: segundo bloque JSON-LD `WebSite` (name "Casa J Costa", alternateName "casajcosta.cl").
+  No se tocaron title, description, canonical, og:url, og:image, twitter:image ni el bloque EventVenue.
+- **Fotos** (originales en `Pagina_Web/Imagenes_2026-10-24/`): El Jota con el retrato nuevo en blanco y negro
+  (`anfitrion-jota.webp`, `banda-jota.webp`); Detalles → acercamiento de la mesa con la balanza (`col-detalles.webp`);
+  Matrimonios → foto del anillo (`col-matrimonios.webp`).
+
 ## Publicación
 
-- **Sitio en vivo**: https://lukasbarahona.github.io/casa-j-costa/
+- **Sitio en vivo**: https://casajcosta.cl (dominio propio desde 2026-10; antes lukasbarahona.github.io/casa-j-costa/)
 - **Repositorio (público)**: https://github.com/LukasBarahona/casa-j-costa — contiene solo `web/`.
 - Publicado con **GitHub Pages** (2026-10-02). `.github/workflows/deploy.yml` construye y publica solo
   cada vez que se sube un cambio a `main` (tarda cerca de un minuto).

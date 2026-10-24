@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col gap-7 md:flex-row md:items-center md:justify-between md:gap-12">
           <a href="#inicio" className="flex-shrink-0 text-foreground transition-opacity hover:opacity-70">
             {/* El margen inferior deja pasar la J, que baja de la línea */}
-            <span className="mb-[1.5em] block text-[1.5rem] md:text-[1.75rem]">
+            <span className="mb-[1.9em] mt-[0.5em] block text-[1.5rem] md:text-[1.75rem]">
               <Wordmark className="text-[1em]" />
             </span>
             <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">

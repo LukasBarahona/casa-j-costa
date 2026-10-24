@@ -116,7 +116,7 @@ const HeroScene: React.FC = () => {
         {/* Sello: termina centrado sobre el borde de la franja */}
         <div style={{ top: `${BAND}svh` }} className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
           <motion.div style={{ y: sealY, scale: sealScale }} className="will-change-transform">
-            <Seal className="shadow-[0_0_0_3px_rgba(248,245,241,0.9)]" />
+            <Seal />
           </motion.div>
         </div>
       </div>
@@ -131,7 +131,7 @@ const HeroStatic: React.FC = () => (
       <HeroImage />
     </div>
     <div className="page flex flex-col items-center pb-16 text-center">
-      <Seal className="-mt-[clamp(56px,min(9.25vw,13.5svh),134px)] shadow-[0_0_0_3px_rgba(248,245,241,0.9)]" />
+      <Seal className="-mt-[clamp(56px,min(9.25vw,13.5svh),134px)]" />
       <div className="mt-4">
         <HeroText />
       </div>
