@@ -168,6 +168,11 @@ correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada 
 - **Fotos** (originales en `Pagina_Web/Imagenes_2026-10-24/`): El Jota con el retrato nuevo en blanco y negro
   (`anfitrion-jota.webp`, `banda-jota.webp`); Detalles → acercamiento de la mesa con la balanza (`col-detalles.webp`);
   Matrimonios → foto del anillo (`col-matrimonios.webp`).
+- **Ajustes tras la revisión**: el retrato del Jota lleva aire arriba (se extendió el fondo gris de la pared) para que
+  se vea el pelo completo; original con aire en `Pagina_Web/Imagenes_2026-10-24/jota-retrato-con-aire-arriba.png`.
+  **Paleta**: el verde de marca pasa a ser el del logo, **#596D52** (antes #526E4E), y los verdes derivados se
+  recalcularon desde él: bosque #41503B · profundo #2D3729 · salvia #ACB6A6 · niebla #E4E8DF (también el pie,
+  el filete ornamental, las listas desplegables, las alianzas y la imagen para compartir).
 
 ## Publicación
 

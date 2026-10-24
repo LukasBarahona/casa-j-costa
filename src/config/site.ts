@@ -152,7 +152,8 @@ export const hostChapter: Chapter = {
   ],
   image: img('banda-jota.webp'),
   imageAlt: 'El Jota, anfitrión de Casa J Costa, riendo',
-  imagePosition: '50% 25%',
+  // La foto lleva aire arriba: se ve el pelo completo también en la franja del teléfono.
+  imagePosition: '50% 30%',
   portrait: img('anfitrion-jota.webp'),
   swipeHint: 'Desliza para ver más detalles',
   columns: [

@@ -132,7 +132,7 @@ const Select: React.FC<SelectProps> = ({
         onKeyDown={handleKeyDown}
         className={cn(
           'field flex items-center justify-between gap-3 text-left',
-          open && 'border-[#596C52] bg-papel',
+          open && 'border-[#596D52] bg-papel',
           !value && 'text-muted-foreground'
         )}
       >
@@ -140,7 +140,7 @@ const Select: React.FC<SelectProps> = ({
         <ChevronDown
           size={17}
           aria-hidden="true"
-          className={cn('flex-shrink-0 text-[#596C52] transition-transform duration-300 ease-out', open && 'rotate-180')}
+          className={cn('flex-shrink-0 text-[#596D52] transition-transform duration-300 ease-out', open && 'rotate-180')}
         />
       </button>
 
@@ -155,7 +155,7 @@ const Select: React.FC<SelectProps> = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.2, ease: EASE_OUT }}
-            className="absolute inset-x-0 top-full z-30 mt-2 max-h-64 origin-top overflow-y-auto rounded-2xl border border-[#596C52]/15 bg-marfil p-1.5 shadow-[0_18px_40px_-18px_rgba(42,57,39,0.4)]"
+            className="absolute inset-x-0 top-full z-30 mt-2 max-h-64 origin-top overflow-y-auto rounded-2xl border border-[#596D52]/15 bg-marfil p-1.5 shadow-[0_18px_40px_-18px_rgba(42,57,39,0.4)]"
           >
             {options.map((option, index) => {
               const selected = option === value;
@@ -172,8 +172,8 @@ const Select: React.FC<SelectProps> = ({
                   onClick={() => choose(index)}
                   className={cn(
                     'flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-base text-foreground transition-colors duration-150 md:text-sm',
-                    highlighted && 'bg-[#596C52] text-white',
-                    selected && !highlighted && 'font-medium text-[#596C52]'
+                    highlighted && 'bg-[#596D52] text-white',
+                    selected && !highlighted && 'font-medium text-[#596D52]'
                   )}
                 >
                   {option}
