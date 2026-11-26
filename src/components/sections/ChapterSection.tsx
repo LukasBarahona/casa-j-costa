@@ -225,7 +225,7 @@ const ChapterStatic: React.FC<ChapterProps> = ({ chapter, softTop }) => (
       </Reveal>
     </div>
 
-    <ul className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-[var(--gutter)] md:mt-16 md:grid md:grid-cols-4 md:gap-0 md:overflow-visible md:px-0">
+    <ul className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain px-[var(--gutter)] md:mt-16 md:grid md:grid-cols-4 md:gap-0 md:overflow-visible md:px-0">
       {chapter.columns.map((column, index) => (
         <li key={column.title} className="w-[68%] max-w-[300px] flex-shrink-0 snap-center md:w-auto md:max-w-none">
           <Reveal delay={index * 0.06} className="flex h-full flex-col">

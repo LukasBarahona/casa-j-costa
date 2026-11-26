@@ -139,7 +139,7 @@ correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada 
   (#596C52 al 25%), listas `allianceGroups` en `site.ts`. Reseñas: las 2 reales de Google, fijas, con "4,8 ★ en Google".
 - Cotiza: textos nuevos, solo WhatsApp (botón centrado; `site.email` vacío), opciones nuevas de evento y modalidad,
   menús solo con nombre, listas desplegables propias (`ui/Select.tsx`, accesibles con teclado).
-- Redes: Instagram → instagram.com/del_jota; TikTok, LinkedIn y correo se ven sin enlace. Dirección subrayada como enlace a Maps.
+- Redes: Instagram → instagram.com/casajcosta.cl; TikTok, LinkedIn y correo se ven sin enlace. Dirección subrayada como enlace a Maps.
 - Justificado (`.prose-justify`, `.prose-justify-center`) en párrafos largos (desde la V4.1, también en teléfono).
 
 ### V4.1 — 2026-10-17
@@ -191,7 +191,7 @@ correo `contacto@casajcosta.cl`, enlaces de redes (apuntan a la portada de cada 
 
 0. **Textos de los capítulos** (V3): redactados desde las notas de la maqueta; revisar. Confirmar licencia de las fotos de banco.
 1. ~~WhatsApp real~~ ✅ `56979878599` (V3.1). Falta el correo real (`site.email`, hoy vacío: el sitio no muestra correo).
-2. Instagram (`site.instagram`).
+2. ~~Instagram~~ ✅ instagram.com/casajcosta.cl (2026-11-26).
 3. Nombre, relato y retrato del dueño (`host`, `public/imagenes/anfitrion.webp`, cuadrada).
 4. Platos y valor por persona de cada menú.
 5. **Alianzas**: nombres y logos (`partners`). Hoy se muestran cuadros "Próximamente".
