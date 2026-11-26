@@ -23,7 +23,7 @@ export const site = {
   email: '',
   // Perfiles del centro de eventos (URL completa). Vacío = el ícono se ve, pero sin enlace.
   social: {
-    instagram: 'https://www.instagram.com/del_jota/',
+    instagram: 'https://www.instagram.com/casajcosta.cl/',
     tiktok: '',
     linkedin: '',
   },
